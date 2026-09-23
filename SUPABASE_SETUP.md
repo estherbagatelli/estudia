@@ -91,7 +91,7 @@ supabase db reset                 # aplica migrations + seed no banco LOCAL
    (assim o cadastro entra direto sem verificar o e-mail).
 3. **Login com Google** — **[PAINEL]**:
    - Crie um OAuth Client no Google Cloud Console
-     (https://console.cloud.google.com/apis/credentials), tipo *Web*.
+     (https://console.cloud.google.com/apis/credentials), tipo _Web_.
    - Em **Authorized redirect URI**, use:
      `https://SEU-REF.supabase.co/auth/v1/callback`
    - Copie **Client ID** e **Client Secret** para
@@ -145,18 +145,18 @@ npm run build                     # build de produção (já passa)
 
 ## Comandos — resumo
 
-| Objetivo | Comando |
-|---|---|
-| Instalar deps | `npm install` |
-| Login CLI | `supabase login` |
-| Linkar projeto | `supabase link --project-ref SEU-REF` |
-| Aplicar migrations (remoto) | `npm run db:push` |
-| Subir stack local | `npm run supabase:start` |
-| Reset local (migrations+seed) | `npm run db:reset` |
-| Gerar tipos TS | `npm run gen:types` |
-| Rodar app | `npm run dev` |
-| Typecheck | `npm run typecheck` |
-| Build | `npm run build` |
+| Objetivo                      | Comando                               |
+| ----------------------------- | ------------------------------------- |
+| Instalar deps                 | `npm install`                         |
+| Login CLI                     | `supabase login`                      |
+| Linkar projeto                | `supabase link --project-ref SEU-REF` |
+| Aplicar migrations (remoto)   | `npm run db:push`                     |
+| Subir stack local             | `npm run supabase:start`              |
+| Reset local (migrations+seed) | `npm run db:reset`                    |
+| Gerar tipos TS                | `npm run gen:types`                   |
+| Rodar app                     | `npm run dev`                         |
+| Typecheck                     | `npm run typecheck`                   |
+| Build                         | `npm run build`                       |
 
 ---
 

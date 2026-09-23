@@ -42,7 +42,7 @@ export function getSupabase(): SupabaseClient<Database> {
         autoRefreshToken: isBrowser,
         detectSessionInUrl: isBrowser,
         storage: isBrowser ? window.localStorage : memoryStorage,
-        storageKey: "estherplanner.auth",
+        storageKey: "estudia.auth",
         // Implicit flow: the magic-link e-mail delivers the session in the URL
         // itself, so clicking the link from any browser/device (e.g. the iOS
         // Mail app opening a fresh Safari view) establishes the session.

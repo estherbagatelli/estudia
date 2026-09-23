@@ -1,0 +1,63 @@
+# Donos de arquivo — Fase 2
+#
+# O GitHub usa este arquivo para pedir revisão automaticamente a quem é dono
+# do que foi alterado. Ele também serve como a lista oficial de "de quem é
+# cada arquivo", que está explicada em docs/DIVISAO-POR-PESSOA.md.
+#
+# ATENÇÃO — PREENCHER ANTES DE USAR:
+# Troque cada @usuario-... pelo nome de usuário real da pessoa no GitHub.
+# Enquanto estiver com os nomes de exemplo, o GitHub simplesmente ignora as
+# linhas (não quebra nada, só não pede revisão sozinho).
+#
+# Todas as pessoas precisam ter acesso de escrita ao repositório para
+# aparecerem aqui.
+
+# Padrão: qualquer arquivo não listado abaixo vai para a dona do projeto.
+*                                   @usuario-esther
+
+# Pessoa 1 — Caio · Login e Cadastro
+/src/components/auth/               @usuario-caio
+/src/contexts/AuthContext.tsx       @usuario-caio
+/src/services/auth.service.ts       @usuario-caio
+/src/routes/entrar.tsx              @usuario-caio
+/src/routes/cadastro.tsx            @usuario-caio
+/src/routes/auth.reset.tsx          @usuario-caio
+
+# Pessoa 2 — Lara · Temas e personalização
+/src/styles.css                     @usuario-lara
+/src/contexts/ThemeContext.tsx      @usuario-lara
+/src/components/ThemeSelector.tsx   @usuario-lara
+/src/hooks/useProfile.ts            @usuario-lara
+
+# Pessoa 3 — Érika · Estudos
+/src/routes/estudos.tsx             @usuario-erika
+/src/hooks/useEstudos.ts            @usuario-erika
+
+# Pessoa 4 — Laysa · Tarefas
+/src/routes/tarefas.tsx             @usuario-laysa
+/src/hooks/useTasks.ts              @usuario-laysa
+
+# Pessoa 5 — Gabi · Hobbies, Treino, Mercado, Dieta, Financeiro
+/src/routes/hobbies.tsx             @usuario-gabi
+/src/routes/treino.tsx              @usuario-gabi
+/src/routes/mercado.tsx             @usuario-gabi
+/src/routes/dieta.tsx               @usuario-gabi
+/src/routes/financeiro.tsx          @usuario-gabi
+/src/hooks/useHobbies.ts            @usuario-gabi
+/src/hooks/useTreino.ts             @usuario-gabi
+/src/hooks/useShopping.ts           @usuario-gabi
+/src/hooks/useDieta.ts              @usuario-gabi
+/src/hooks/useFinanceiro.ts         @usuario-gabi
+
+# Pessoa 6 — Esther · UX/UI, Landing e integração
+/src/routes/__root.tsx              @usuario-esther
+/src/routes/index.tsx               @usuario-esther
+/src/routes/inicio.tsx              @usuario-esther
+/src/routes/landing.tsx             @usuario-esther
+/src/components/AppShell.tsx        @usuario-esther
+/docs/                              @usuario-esther
+/.github/                           @usuario-esther
+
+# Arquivos gerados — ninguém edita na mão (ver docs/CONFLITOS.md)
+/src/types/database.types.ts        @usuario-esther
+/src/routeTree.gen.ts               @usuario-esther

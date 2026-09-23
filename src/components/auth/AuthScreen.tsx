@@ -5,7 +5,8 @@ import { useInstallPrompt } from "@/hooks/useInstallPrompt";
 
 function friendlyError(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
-  if (/rate|too many|seconds/i.test(msg)) return "Aguarde alguns segundos antes de pedir outro link.";
+  if (/rate|too many|seconds/i.test(msg))
+    return "Aguarde alguns segundos antes de pedir outro link.";
   if (/email/i.test(msg) && /valid/i.test(msg)) return "E-mail inválido.";
   return msg;
 }
@@ -57,7 +58,7 @@ export function AuthScreen() {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="font-script text-6xl leading-none text-foreground">Esther's</div>
+          <div className="font-script text-6xl leading-none text-foreground">Estudia</div>
           <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-2">
             Planner · 2026
           </div>
@@ -69,18 +70,26 @@ export function AuthScreen() {
               <MailCheck className="h-10 w-10 text-gold mx-auto mb-4" strokeWidth={1.25} />
               <h1 className="font-display text-2xl text-gold mb-2">Confira seu e-mail</h1>
               <p className="text-sm text-muted-foreground">
-                Enviamos um link de acesso para <span className="text-foreground">{email.trim()}</span>.
-                Abra o e-mail e clique em <span className="text-gold">Entrar</span> para acessar o planner.
+                Enviamos um link de acesso para{" "}
+                <span className="text-foreground">{email.trim()}</span>. Abra o e-mail e clique em{" "}
+                <span className="text-gold">Entrar</span> para acessar o planner.
               </p>
               <p className="text-xs text-muted-foreground mt-3">
                 Não recebeu? Veja o spam ou peça outro link.
               </p>
               <div className="mt-6 flex flex-col gap-2 text-center text-xs text-muted-foreground">
-                <button onClick={() => send()} disabled={busy} className="hover:text-gold transition disabled:opacity-50">
+                <button
+                  onClick={() => send()}
+                  disabled={busy}
+                  className="hover:text-gold transition disabled:opacity-50"
+                >
                   {busy ? "Reenviando…" : "Reenviar link"}
                 </button>
                 <button
-                  onClick={() => { setSent(false); setError(null); }}
+                  onClick={() => {
+                    setSent(false);
+                    setError(null);
+                  }}
                   className="hover:text-gold transition flex items-center justify-center gap-1"
                 >
                   <ArrowLeft className="h-3 w-3" /> Usar outro e-mail
@@ -132,7 +141,8 @@ export function AuthScreen() {
                 <p className="mt-3 text-xs text-muted-foreground text-center leading-relaxed">
                   {isIOS ? (
                     <>
-                      No iPhone: toque em <Share className="inline h-3.5 w-3.5 mx-0.5 align-text-bottom" />
+                      No iPhone: toque em{" "}
+                      <Share className="inline h-3.5 w-3.5 mx-0.5 align-text-bottom" />
                       <span className="text-foreground">Compartilhar</span> e depois em{" "}
                       <span className="text-foreground">"Adicionar à Tela de Início"</span>.
                     </>
@@ -149,7 +159,9 @@ export function AuthScreen() {
           )}
         </div>
 
-        <p className="font-script text-2xl text-center text-foreground/70 mt-8">All in God's Hands</p>
+        <p className="font-script text-2xl text-center text-foreground/70 mt-8">
+          All in God's Hands
+        </p>
       </div>
     </div>
   );

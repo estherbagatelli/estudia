@@ -47,11 +47,18 @@ export function useFinanceiro() {
   });
   const removeCategory = useMutation({
     mutationFn: (id: string) => catsRepo.remove(id),
-    onSettled: () => { settleC(); settleE(); },
+    onSettled: () => {
+      settleC();
+      settleE();
+    },
   });
   const addExpense = useMutation({
     mutationFn: (v: { categoryId: string; description: string; amount: number }) =>
-      expensesRepo.insert({ category_id: v.categoryId, description: v.description, amount: v.amount }),
+      expensesRepo.insert({
+        category_id: v.categoryId,
+        description: v.description,
+        amount: v.amount,
+      }),
     onSettled: settleE,
   });
   const removeExpense = useMutation({
@@ -68,7 +75,8 @@ export function useFinanceiro() {
     expensesOf: (categoryId: string): FinanceExpense[] =>
       expenses.filter((e) => e.category_id === categoryId),
     totalBy,
-    addCategory: (name: string) => addCategory.mutate({ name, position: (catsQuery.data ?? []).length }),
+    addCategory: (name: string) =>
+      addCategory.mutate({ name, position: (catsQuery.data ?? []).length }),
     editCategory: (id: string, patch: CategoryPatch) => editCategory.mutate({ id, patch }),
     removeCategory: (id: string) => removeCategory.mutate(id),
     addExpense: (categoryId: string, description: string, amount: number) =>

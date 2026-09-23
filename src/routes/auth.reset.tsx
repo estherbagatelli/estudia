@@ -4,7 +4,7 @@ import { Lock, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export const Route = createFileRoute("/auth/reset")({
-  head: () => ({ meta: [{ title: "Nova senha — Esther's Planner" }] }),
+  head: () => ({ meta: [{ title: "Nova senha — Estudia" }] }),
   component: ResetPage,
 });
 
@@ -38,7 +38,7 @@ function ResetPage() {
     <div className="min-h-screen flex items-center justify-center px-4 text-foreground">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="font-script text-5xl">Esther's</div>
+          <div className="font-script text-5xl">Estudia</div>
           <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-2">
             Planner · 2026
           </div>

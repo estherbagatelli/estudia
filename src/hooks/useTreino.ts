@@ -46,12 +46,21 @@ export function useTreino() {
   });
   const removeWorkout = useMutation({
     mutationFn: (id: string) => workoutsRepo.remove(id),
-    onSettled: () => { settleW(); settleE(); },
+    onSettled: () => {
+      settleW();
+      settleE();
+    },
   });
 
   const addExercise = useMutation({
     mutationFn: (v: { workoutId: string; name: string; position: number }) =>
-      exercisesRepo.insert({ workout_id: v.workoutId, name: v.name, sets: 3, reps: "10", position: v.position }),
+      exercisesRepo.insert({
+        workout_id: v.workoutId,
+        name: v.name,
+        sets: 3,
+        reps: "10",
+        position: v.position,
+      }),
     onSettled: settleE,
   });
   const editExercise = useMutation({
@@ -117,7 +126,11 @@ export function useTreino() {
       addWorkout.mutate({ name, focus, position: (workoutsQuery.data ?? []).length }),
     removeWorkout: (id: string) => removeWorkout.mutate(id),
     addExercise: (workoutId: string, name: string) =>
-      addExercise.mutate({ workoutId, name, position: exercises.filter((e) => e.workout_id === workoutId).length }),
+      addExercise.mutate({
+        workoutId,
+        name,
+        position: exercises.filter((e) => e.workout_id === workoutId).length,
+      }),
     editExercise: (id: string, patch: ExercisePatch) => editExercise.mutate({ id, patch }),
     toggleExercise: (ex: WorkoutExercise) => toggleExercise.mutate(ex),
     removeExercise: (id: string) => removeExercise.mutate(id),

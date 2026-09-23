@@ -6,7 +6,7 @@ import { useEstudos } from "@/hooks/useEstudos";
 import type { StudyTrack, StudyTopic } from "@/types/models";
 
 export const Route = createFileRoute("/estudos")({
-  head: () => ({ meta: [{ title: "Estudos — Esther's Planner" }] }),
+  head: () => ({ meta: [{ title: "Estudos — Estudia" }] }),
   component: EstudosPage,
 });
 
@@ -64,7 +64,15 @@ function EstudosPage() {
 }
 
 function TrackCard({
-  track, topics, pressing, onPressStart, onPressEnd, onAdd, onToggle, onEdit, onRemove,
+  track,
+  topics,
+  pressing,
+  onPressStart,
+  onPressEnd,
+  onAdd,
+  onToggle,
+  onEdit,
+  onRemove,
 }: {
   track: StudyTrack;
   topics: StudyTopic[];
@@ -104,13 +112,17 @@ function TrackCard({
       >
         {track.name}
       </h2>
-      <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-5">{track.subtitle}</p>
+      <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-5">
+        {track.subtitle}
+      </p>
 
       <div className="space-y-2">
         {topics.length > 0 && (
           <div className="flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-silver/70 mb-1">
             <span>Progresso</span>
-            <span className="text-gold">{done}/{topics.length}</span>
+            <span className="text-gold">
+              {done}/{topics.length}
+            </span>
           </div>
         )}
         <ul className="space-y-1.5">
@@ -118,7 +130,9 @@ function TrackCard({
             <li
               key={t.id}
               className={`group flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${
-                t.is_done ? "border-wine/40 bg-wine/10" : "border-[oklch(0.85_0.008_250/0.12)] bg-black/30"
+                t.is_done
+                  ? "border-wine/40 bg-wine/10"
+                  : "border-[oklch(0.85_0.008_250/0.12)] bg-black/30"
               }`}
             >
               {editingId === t.id ? (
@@ -130,8 +144,12 @@ function TrackCard({
                     onKeyDown={(e) => e.key === "Enter" && saveEdit()}
                     className="flex-1 bg-transparent outline-none border-b border-gold/40 pb-0.5"
                   />
-                  <button onClick={saveEdit} className="text-gold"><Check className="h-4 w-4" strokeWidth={1.5} /></button>
-                  <button onClick={() => setEditingId(null)} className="text-muted-foreground"><X className="h-4 w-4" strokeWidth={1.5} /></button>
+                  <button onClick={saveEdit} className="text-gold">
+                    <Check className="h-4 w-4" strokeWidth={1.5} />
+                  </button>
+                  <button onClick={() => setEditingId(null)} className="text-muted-foreground">
+                    <X className="h-4 w-4" strokeWidth={1.5} />
+                  </button>
                 </>
               ) : (
                 <>
@@ -144,11 +162,26 @@ function TrackCard({
                   >
                     {t.is_done && <Check className="h-3 w-3 text-silver" strokeWidth={2.5} />}
                   </button>
-                  <span className={`flex-1 ${t.is_done ? "line-through text-silver/50" : "text-foreground/85"}`}>{t.title}</span>
-                  <button onClick={() => { setEditingId(t.id); setDraft(t.title); }} className="opacity-60 group-hover:opacity-100 text-gold transition" aria-label="Editar">
+                  <span
+                    className={`flex-1 ${t.is_done ? "line-through text-silver/50" : "text-foreground/85"}`}
+                  >
+                    {t.title}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setEditingId(t.id);
+                      setDraft(t.title);
+                    }}
+                    className="opacity-60 group-hover:opacity-100 text-gold transition"
+                    aria-label="Editar"
+                  >
                     <Pencil className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>
-                  <button onClick={() => onRemove(t.id)} className="opacity-60 group-hover:opacity-100 text-darkred transition" aria-label="Remover">
+                  <button
+                    onClick={() => onRemove(t.id)}
+                    className="opacity-60 group-hover:opacity-100 text-darkred transition"
+                    aria-label="Remover"
+                  >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>
                 </>
@@ -164,7 +197,10 @@ function TrackCard({
             placeholder="Novo tópico"
             className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold"
           />
-          <button onClick={add} className="rounded-md border border-gold/40 text-gold px-3 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1">
+          <button
+            onClick={add}
+            className="rounded-md border border-gold/40 text-gold px-3 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1"
+          >
             <Plus className="h-4 w-4" strokeWidth={1.5} /> Add
           </button>
         </div>

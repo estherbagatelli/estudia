@@ -54,11 +54,26 @@ export function useDieta() {
   });
   const removeDay = useMutation({
     mutationFn: (id: string) => daysRepo.remove(id),
-    onSettled: () => { settleD(); settleM(); },
+    onSettled: () => {
+      settleD();
+      settleM();
+    },
   });
   const addMeal = useMutation({
-    mutationFn: (v: { dayId: string; kind: MealKind; description: string; calories: number | null; position: number }) =>
-      mealsRepo.insert({ day_id: v.dayId, kind: v.kind, description: v.description, calories: v.calories, position: v.position }),
+    mutationFn: (v: {
+      dayId: string;
+      kind: MealKind;
+      description: string;
+      calories: number | null;
+      position: number;
+    }) =>
+      mealsRepo.insert({
+        day_id: v.dayId,
+        kind: v.kind,
+        description: v.description,
+        calories: v.calories,
+        position: v.position,
+      }),
     onSettled: settleM,
   });
   const editMeal = useMutation({
@@ -77,7 +92,13 @@ export function useDieta() {
     addDay: (name: string) => addDay.mutate({ name, position: (daysQuery.data ?? []).length }),
     removeDay: (id: string) => removeDay.mutate(id),
     addMeal: (dayId: string, kind: MealKind, description: string, calories: number | null) =>
-      addMeal.mutate({ dayId, kind, description, calories, position: meals.filter((m) => m.day_id === dayId).length }),
+      addMeal.mutate({
+        dayId,
+        kind,
+        description,
+        calories,
+        position: meals.filter((m) => m.day_id === dayId).length,
+      }),
     editMeal: (id: string, patch: MealPatch) => editMeal.mutate({ id, patch }),
     removeMeal: (id: string) => removeMeal.mutate(id),
   };

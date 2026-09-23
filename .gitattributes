@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Quebra de linha — o grupo trabalha em Windows e em Mac/Linux ao mesmo tempo.
+# Sem isto, o Windows grava CRLF, o Mac grava LF, e o Git enxerga o ARQUIVO
+# INTEIRO como alterado. Resultado: conflito em cima de conflito, em código
+# que ninguém mexeu. Esta linha padroniza tudo em LF dentro do repositório.
+# ---------------------------------------------------------------------------
+* text=auto eol=lf
+
+# Binários — nunca converter.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.woff  binary
+*.woff2 binary
+
+# Arquivos gerados automaticamente. Marcados para que o GitHub não os mostre
+# no diff do Pull Request (eles poluem a revisão e ninguém deve revisá-los).
+src/routeTree.gen.ts   linguist-generated=true
+src/types/database.types.ts linguist-generated=true
+package-lock.json      linguist-generated=true

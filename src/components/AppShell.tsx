@@ -1,5 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, BookOpen, Heart, Dumbbell, ShoppingCart, Apple, Wallet, CheckSquare, LogOut } from "lucide-react";
+import {
+  Home,
+  BookOpen,
+  Heart,
+  Dumbbell,
+  ShoppingCart,
+  Apple,
+  Wallet,
+  CheckSquare,
+  LogOut,
+} from "lucide-react";
 import tigerAsset from "@/assets/tiger.png.asset.json";
 import type { ReactNode } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,7 +25,15 @@ const NAV = [
   { to: "/tarefas", label: "Tarefas", icon: CheckSquare },
 ] as const;
 
-export function AppShell({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+export function AppShell({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  children: ReactNode;
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, signOut } = useAuth();
 
@@ -45,8 +63,10 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
         {/* Sidebar (desktop) */}
         <aside className="hidden md:flex w-64 shrink-0 flex-col gap-2 border-r border-magenta/25 bg-black/50 backdrop-blur-md p-6">
           <div className="mb-6">
-            <div className="font-script text-4xl leading-none text-foreground">Esther's</div>
-            <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-1">Planner · 2026</div>
+            <div className="font-script text-4xl leading-none text-foreground">Estudia</div>
+            <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-1">
+              Planner · 2026
+            </div>
           </div>
           <nav className="flex flex-col gap-1">
             {NAV.map((item) => {
@@ -71,7 +91,10 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
           <div className="mt-auto pt-6">
             {user && (
               <div className="mb-4 flex items-center justify-between gap-2 rounded-lg border border-magenta/20 bg-black/30 px-3 py-2">
-                <span className="truncate text-xs text-muted-foreground" title={user.email ?? undefined}>
+                <span
+                  className="truncate text-xs text-muted-foreground"
+                  title={user.email ?? undefined}
+                >
                   {user.email}
                 </span>
                 <button
@@ -95,8 +118,10 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
           <header className="px-6 md:px-10 pt-8 md:pt-10">
             <div className="md:hidden mb-2 flex items-start justify-between">
               <div>
-                <div className="font-script text-3xl">Esther's</div>
-                <div className="text-[10px] tracking-[0.4em] text-magenta uppercase">Planner · 2026</div>
+                <div className="font-script text-3xl">Estudia</div>
+                <div className="text-[10px] tracking-[0.4em] text-magenta uppercase">
+                  Planner · 2026
+                </div>
               </div>
               {user && (
                 <button
@@ -110,7 +135,9 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
             </div>
             <h1 className="font-script text-5xl md:text-6xl text-foreground">{title}</h1>
             {subtitle && (
-              <p className="mt-2 text-sm text-muted-foreground font-display tracking-wide">{subtitle}</p>
+              <p className="mt-2 text-sm text-muted-foreground font-display tracking-wide">
+                {subtitle}
+              </p>
             )}
             <div className="gold-divider mt-6" />
           </header>

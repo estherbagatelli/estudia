@@ -80,14 +80,14 @@
   --foreground: oklch(0.96 0.005 80);
   --card: oklch(0.11 0.008 30 / 70%);
   --card-foreground: oklch(0.96 0.005 80);
-  --popover: oklch(0.10 0.008 30);
+  --popover: oklch(0.1 0.008 30);
   --popover-foreground: oklch(0.96 0.005 80);
   --primary: oklch(0.55 0.22 5);
-  --primary-foreground: oklch(0.10 0.01 30);
+  --primary-foreground: oklch(0.1 0.01 30);
   --secondary: oklch(0.18 0.01 30);
   --secondary-foreground: oklch(0.96 0.005 80);
   --muted: oklch(0.15 0.008 30);
-  --muted-foreground: oklch(0.70 0.02 60);
+  --muted-foreground: oklch(0.7 0.02 60);
   --accent: oklch(0.65 0.27 5);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.55 0.24 15);
@@ -96,8 +96,8 @@
   --input: oklch(0.88 0.01 250 / 25%);
   --ring: oklch(0.65 0.27 5 / 60%);
 
-  --gold: oklch(0.90 0.012 250);
-  --silver: oklch(0.90 0.012 250);
+  --gold: oklch(0.9 0.012 250);
+  --silver: oklch(0.9 0.012 250);
   --wine: oklch(0.42 0.18 8);
   --darkred: oklch(0.36 0.14 12);
   --magenta: oklch(0.65 0.27 5);
@@ -106,7 +106,7 @@
   --sidebar: oklch(0.08 0.005 30);
   --sidebar-foreground: oklch(0.96 0.005 80);
   --sidebar-primary: oklch(0.65 0.27 5);
-  --sidebar-primary-foreground: oklch(0.10 0.01 30);
+  --sidebar-primary-foreground: oklch(0.1 0.01 30);
   --sidebar-accent: oklch(0.15 0.008 30);
   --sidebar-accent-foreground: oklch(0.96 0.005 80);
   --sidebar-border: oklch(0.55 0.22 5 / 25%);
@@ -128,39 +128,91 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  html, body, #root { min-height: 100vh; }
+  html,
+  body,
+  #root {
+    min-height: 100vh;
+  }
 
   /* When installed (standalone), push content below the status bar / notch. */
   @supports (padding: env(safe-area-inset-top)) {
     @media (display-mode: standalone) {
-      body { padding-top: env(safe-area-inset-top); }
+      body {
+        padding-top: env(safe-area-inset-top);
+      }
     }
   }
 }
 
-@utility font-script { font-family: var(--font-script); font-weight: 400; }
-@utility font-display { font-family: var(--font-display); }
-@utility text-gold { color: var(--color-gold); }
-@utility text-magenta { color: var(--color-magenta); }
-@utility text-wine { color: var(--color-wine); }
-@utility text-darkred { color: var(--color-darkred); }
-@utility text-silver { color: var(--color-silver); }
-@utility text-pink { color: var(--color-pink); }
-@utility bg-gold { background-color: var(--color-gold); }
-@utility bg-magenta { background-color: var(--color-magenta); }
-@utility bg-wine { background-color: var(--color-wine); }
-@utility bg-darkred { background-color: var(--color-darkred); }
-@utility bg-silver { background-color: var(--color-silver); }
-@utility bg-pink { background-color: var(--color-pink); }
-@utility border-gold { border-color: var(--color-gold); }
-@utility border-magenta { border-color: var(--color-magenta); }
-@utility border-wine { border-color: var(--color-wine); }
-@utility border-silver { border-color: var(--color-silver); }
-@utility border-pink { border-color: var(--color-pink); }
+@utility font-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+}
+@utility font-display {
+  font-family: var(--font-display);
+}
+@utility text-gold {
+  color: var(--color-gold);
+}
+@utility text-magenta {
+  color: var(--color-magenta);
+}
+@utility text-wine {
+  color: var(--color-wine);
+}
+@utility text-darkred {
+  color: var(--color-darkred);
+}
+@utility text-silver {
+  color: var(--color-silver);
+}
+@utility text-pink {
+  color: var(--color-pink);
+}
+@utility bg-gold {
+  background-color: var(--color-gold);
+}
+@utility bg-magenta {
+  background-color: var(--color-magenta);
+}
+@utility bg-wine {
+  background-color: var(--color-wine);
+}
+@utility bg-darkred {
+  background-color: var(--color-darkred);
+}
+@utility bg-silver {
+  background-color: var(--color-silver);
+}
+@utility bg-pink {
+  background-color: var(--color-pink);
+}
+@utility border-gold {
+  border-color: var(--color-gold);
+}
+@utility border-magenta {
+  border-color: var(--color-magenta);
+}
+@utility border-wine {
+  border-color: var(--color-wine);
+}
+@utility border-silver {
+  border-color: var(--color-silver);
+}
+@utility border-pink {
+  border-color: var(--color-pink);
+}
 
 @utility gold-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-magenta), var(--color-silver), var(--color-magenta), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-magenta),
+    var(--color-silver),
+    var(--color-magenta),
+    transparent
+  );
   opacity: 0.65;
 }
 

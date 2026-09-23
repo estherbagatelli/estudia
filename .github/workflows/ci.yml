@@ -1,0 +1,30 @@
+name: CI
+
+# Roda em todo Pull Request e em tudo que entra no main.
+# Serve para uma coisa só: nenhum merge quebrado vira problema das seis pessoas.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verificar:
+    name: Tipos e padrão de código
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Conferir os tipos
+        run: npx tsc --noEmit
+
+      - name: Conferir o padrão de código
+        run: npm run lint

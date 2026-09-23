@@ -22,8 +22,7 @@ export function useTasks() {
   });
   useRealtimeTable("tasks", userId, [key]);
 
-  const patch = (fn: (p: Task[]) => Task[]) =>
-    qc.setQueryData<Task[]>(key, (p) => fn(p ?? []));
+  const patch = (fn: (p: Task[]) => Task[]) => qc.setQueryData<Task[]>(key, (p) => fn(p ?? []));
   const settle = () => qc.invalidateQueries({ queryKey: key });
 
   const add = useMutation({

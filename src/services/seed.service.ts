@@ -1,11 +1,5 @@
 import { repo } from "@/repositories/base.repository";
-import {
-  SEED_QUOTES,
-  SEED_STUDY,
-  SEED_WORKOUTS,
-  SEED_DIET,
-  SEED_FINANCE,
-} from "@/lib/seed-data";
+import { SEED_QUOTES, SEED_STUDY, SEED_WORKOUTS, SEED_DIET, SEED_FINANCE } from "@/lib/seed-data";
 
 /**
  * Semeia o conteúdo inicial do planner no primeiro login de cada usuário.

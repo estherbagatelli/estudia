@@ -6,7 +6,7 @@ import { useHobbies, HOBBY_KINDS } from "@/hooks/useHobbies";
 import type { HobbyItem, HobbyKind } from "@/types/models";
 
 export const Route = createFileRoute("/hobbies")({
-  head: () => ({ meta: [{ title: "Hobbies — Esther's Planner" }] }),
+  head: () => ({ meta: [{ title: "Hobbies — Estudia" }] }),
   component: HobbiesPage,
 });
 
@@ -24,14 +24,28 @@ function HobbiesPage() {
   return (
     <AppShell title="Hobbies" subtitle="Metas do ano · checklist pessoal">
       <div className="glass-card p-5 mb-6 flex flex-col md:flex-row gap-2">
-        <input value={title} onChange={(e) => setTitle(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} placeholder="Título"
-          className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold" />
-        <select value={kind} onChange={(e) => setKind(e.target.value as HobbyKind)}
-          className="rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold">
-          {HOBBY_KINDS.map((c) => <option key={c.kind} value={c.kind}>{c.label}</option>)}
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && add()}
+          placeholder="Título"
+          className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold"
+        />
+        <select
+          value={kind}
+          onChange={(e) => setKind(e.target.value as HobbyKind)}
+          className="rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold"
+        >
+          {HOBBY_KINDS.map((c) => (
+            <option key={c.kind} value={c.kind}>
+              {c.label}
+            </option>
+          ))}
         </select>
-        <button onClick={add}
-          className="rounded-md border border-gold/40 text-gold px-4 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1 justify-center">
+        <button
+          onClick={add}
+          className="rounded-md border border-gold/40 text-gold px-4 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1 justify-center"
+        >
           <Plus className="h-4 w-4" /> Adicionar
         </button>
       </div>
@@ -53,14 +67,20 @@ function HobbiesPage() {
                   </span>
                 </div>
                 {items.length === 0 ? (
-                  <p className="text-sm text-muted-foreground italic font-display">Nada por aqui ainda.</p>
+                  <p className="text-sm text-muted-foreground italic font-display">
+                    Nada por aqui ainda.
+                  </p>
                 ) : (
                   <ul className="space-y-2">
                     {items.map((it) => (
-                      <HobbyRow key={it.id} item={it} withProgress={c.kind === "serie" || c.kind === "anime"}
+                      <HobbyRow
+                        key={it.id}
+                        item={it}
+                        withProgress={c.kind === "serie" || c.kind === "anime"}
                         onToggle={() => hobbies.toggle(it)}
                         onRemove={() => hobbies.remove(it.id)}
-                        onProgress={(s, e) => hobbies.setProgress(it.id, s, e)} />
+                        onProgress={(s, e) => hobbies.setProgress(it.id, s, e)}
+                      />
                     ))}
                   </ul>
                 )}
@@ -74,7 +94,11 @@ function HobbiesPage() {
 }
 
 function HobbyRow({
-  item, withProgress, onToggle, onRemove, onProgress,
+  item,
+  withProgress,
+  onToggle,
+  onRemove,
+  onProgress,
 }: {
   item: HobbyItem;
   withProgress: boolean;
@@ -86,24 +110,41 @@ function HobbyRow({
   const [episode, setEpisode] = useState(item.episode?.toString() ?? "");
 
   const commit = () =>
-    onProgress(
-      season.trim() ? Number(season) : null,
-      episode.trim() ? Number(episode) : null,
-    );
+    onProgress(season.trim() ? Number(season) : null, episode.trim() ? Number(episode) : null);
 
   return (
     <li className="flex items-center gap-2 border border-[oklch(0.85_0.008_250/0.12)] rounded-md bg-black/30 px-3 py-2">
-      <button onClick={onToggle}
-        className={`h-5 w-5 rounded border flex items-center justify-center transition ${item.is_done ? "bg-gold border-gold" : "border-gold/40"}`}>
-        {item.is_done && <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />}
+      <button
+        onClick={onToggle}
+        className={`h-5 w-5 rounded border flex items-center justify-center transition ${item.is_done ? "bg-gold border-gold" : "border-gold/40"}`}
+      >
+        {item.is_done && (
+          <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />
+        )}
       </button>
-      <span className={`flex-1 text-sm ${item.is_done ? "line-through text-muted-foreground" : ""}`}>{item.title}</span>
+      <span
+        className={`flex-1 text-sm ${item.is_done ? "line-through text-muted-foreground" : ""}`}
+      >
+        {item.title}
+      </span>
       {withProgress && !item.is_done && (
         <>
-          <input value={season} onChange={(e) => setSeason(e.target.value.replace(/\D/g, ""))} onBlur={commit} placeholder="Temp." inputMode="numeric"
-            className="w-14 rounded bg-black/40 border border-gold/20 px-2 py-1 text-xs outline-none focus:border-gold text-center" />
-          <input value={episode} onChange={(e) => setEpisode(e.target.value.replace(/\D/g, ""))} onBlur={commit} placeholder="Ep." inputMode="numeric"
-            className="w-14 rounded bg-black/40 border border-gold/20 px-2 py-1 text-xs outline-none focus:border-gold text-center" />
+          <input
+            value={season}
+            onChange={(e) => setSeason(e.target.value.replace(/\D/g, ""))}
+            onBlur={commit}
+            placeholder="Temp."
+            inputMode="numeric"
+            className="w-14 rounded bg-black/40 border border-gold/20 px-2 py-1 text-xs outline-none focus:border-gold text-center"
+          />
+          <input
+            value={episode}
+            onChange={(e) => setEpisode(e.target.value.replace(/\D/g, ""))}
+            onBlur={commit}
+            placeholder="Ep."
+            inputMode="numeric"
+            className="w-14 rounded bg-black/40 border border-gold/20 px-2 py-1 text-xs outline-none focus:border-gold text-center"
+          />
         </>
       )}
       <button onClick={onRemove} className="text-magenta opacity-70 hover:opacity-100">

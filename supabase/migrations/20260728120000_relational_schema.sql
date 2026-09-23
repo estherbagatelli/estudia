@@ -1,5 +1,5 @@
 -- ============================================================================
--- Esther's Planner — Esquema RELACIONAL (Opção A)
+-- Estudia — Esquema relacional
 -- Reset do schema anterior (KV/híbrido) + modelo relacional completo.
 -- Idempotente: pode ser colado no SQL Editor quantas vezes precisar.
 -- ============================================================================
@@ -59,7 +59,7 @@ create type public.meal_kind as enum (
 -- ============================================================================
 create table public.profiles (
   id           uuid primary key references auth.users(id) on delete cascade,
-  display_name text not null default 'Esther',
+  display_name text not null default 'Estudante',
   avatar_url   text,
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
@@ -75,7 +75,7 @@ begin
     coalesce(
       new.raw_user_meta_data ->> 'full_name',
       new.raw_user_meta_data ->> 'name',
-      'Esther'
+      'Estudante'
     )
   )
   on conflict (id) do nothing;
