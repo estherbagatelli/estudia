@@ -28,7 +28,7 @@ minha máquina funciona".
 ## 2. Mapa de risco deste projeto
 
 Foram levantados os pontos em que duas pessoas realmente encostam na mesma
-coisa durante a Fase 2. São dez. Para cada um já existe uma regra decidida.
+coisa durante a Fase 2. São onze. Para cada um já existe uma regra decidida.
 
 | #   | Onde                                         | Quem se cruza            | Por quê                                                     | Regra                                                                                                                |
 | --- | -------------------------------------------- | ------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
