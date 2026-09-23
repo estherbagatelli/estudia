@@ -1,0 +1,878 @@
+<!--
+  Fonte do PDF "Estudia — Fase 2 — Divisão do Trabalho", o resumo de uma
+  página só... (8, na verdade) que foi enviado ao grupo.
+
+  É um resumo autocontido dos documentos desta pasta. Se o plano mudar,
+  edite aqui e gere o PDF de novo com o Chrome, sem instalar nada:
+
+    chrome --headless --disable-gpu --no-pdf-header-footer \
+           --print-to-pdf="Estudia - Fase 2 - Divisao do Trabalho.pdf" \
+           docs/divisao-fase-2-para-o-grupo.html
+
+  No Windows, o Chrome costuma estar em
+  C:\Program Files\Google\Chrome\Application\chrome.exe
+-->
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Estudia — Fase 2: divisão do trabalho</title>
+    <style>
+      :root {
+        --tinta: #1a1418;
+        --suave: #5d5560;
+        --magenta: #b4185d;
+        --ouro: #9a6b12;
+        --linha: #e2dde0;
+        --fundo-suave: #faf7f8;
+      }
+
+      @page {
+        size: A4;
+        margin: 16mm 15mm 18mm 15mm;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.55;
+        color: var(--tinta);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      p {
+        margin: 0 0 8pt;
+      }
+
+      strong {
+        font-weight: 600;
+      }
+
+      /* ---------- capa ---------- */
+      .capa {
+        padding: 34mm 0 0;
+        text-align: center;
+        page-break-after: always;
+      }
+      .capa .marca {
+        font-size: 46pt;
+        font-weight: 300;
+        letter-spacing: -1.5pt;
+        color: var(--tinta);
+      }
+      .capa .regua {
+        width: 90pt;
+        height: 3pt;
+        margin: 10pt auto 16pt;
+        background: linear-gradient(90deg, var(--magenta), var(--ouro));
+        border-radius: 2pt;
+      }
+      .capa .lema {
+        font-size: 13pt;
+        color: var(--suave);
+        margin-bottom: 40pt;
+      }
+      .capa h1 {
+        font-size: 24pt;
+        font-weight: 600;
+        margin-bottom: 8pt;
+      }
+      .capa .sub {
+        font-size: 11pt;
+        color: var(--suave);
+        margin-bottom: 34pt;
+      }
+      .capa .grupos {
+        display: flex;
+        gap: 10pt;
+        justify-content: center;
+        margin-bottom: 34pt;
+      }
+      .capa .grupo {
+        border: 1pt solid var(--linha);
+        border-radius: 6pt;
+        padding: 10pt 14pt;
+        min-width: 110pt;
+        background: var(--fundo-suave);
+      }
+      .capa .grupo .rot {
+        font-size: 7.5pt;
+        letter-spacing: 1.6pt;
+        text-transform: uppercase;
+        color: var(--magenta);
+        font-weight: 600;
+      }
+      .capa .grupo .nomes {
+        font-size: 11pt;
+        margin-top: 3pt;
+      }
+      .capa .rodape {
+        font-size: 9pt;
+        color: var(--suave);
+      }
+
+      /* ---------- seções ---------- */
+      .secao {
+        page-break-inside: avoid;
+        margin-bottom: 18pt;
+      }
+      h2 {
+        font-size: 15pt;
+        font-weight: 600;
+        padding-bottom: 5pt;
+        margin-bottom: 11pt;
+        border-bottom: 2pt solid var(--magenta);
+      }
+      h2 .num {
+        color: var(--magenta);
+        margin-right: 7pt;
+      }
+      h3 {
+        font-size: 11pt;
+        font-weight: 600;
+        margin: 13pt 0 6pt;
+      }
+
+      /* ---------- tabelas ---------- */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        margin: 8pt 0 12pt;
+      }
+      th {
+        background: var(--fundo-suave);
+        text-align: left;
+        font-weight: 600;
+        font-size: 8pt;
+        letter-spacing: 0.4pt;
+        text-transform: uppercase;
+        color: var(--suave);
+        padding: 6pt 7pt;
+        border-bottom: 1.2pt solid var(--linha);
+      }
+      td {
+        padding: 6pt 7pt;
+        border-bottom: 0.7pt solid var(--linha);
+        vertical-align: top;
+      }
+      tr {
+        page-break-inside: avoid;
+      }
+      .nome {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* ---------- destaques ---------- */
+      .aviso {
+        border-left: 3pt solid var(--ouro);
+        background: #fdfaf2;
+        padding: 9pt 12pt;
+        margin: 10pt 0;
+        page-break-inside: avoid;
+      }
+      .aviso .titulo {
+        font-weight: 600;
+        margin-bottom: 3pt;
+      }
+      .chave {
+        border: 1pt solid var(--linha);
+        border-radius: 5pt;
+        padding: 9pt 12pt;
+        margin-bottom: 8pt;
+        page-break-inside: avoid;
+      }
+      .chave .cab {
+        font-weight: 600;
+        color: var(--magenta);
+        margin-bottom: 3pt;
+      }
+
+      /* ---------- fluxo de etapas ---------- */
+      .fluxo {
+        border: 1pt solid var(--linha);
+        border-radius: 6pt;
+        overflow: hidden;
+        margin: 10pt 0 14pt;
+      }
+      .etapa {
+        display: flex;
+        border-bottom: 1pt solid var(--linha);
+        page-break-inside: avoid;
+      }
+      .etapa:last-child {
+        border-bottom: none;
+      }
+      .etapa .faixa {
+        width: 64pt;
+        flex: 0 0 64pt;
+        background: var(--fundo-suave);
+        padding: 9pt 8pt;
+        border-right: 1pt solid var(--linha);
+        text-align: center;
+      }
+      .etapa .faixa .n {
+        font-size: 15pt;
+        font-weight: 600;
+        color: var(--magenta);
+        line-height: 1;
+      }
+      .etapa .faixa .dias {
+        font-size: 7.5pt;
+        color: var(--suave);
+        margin-top: 2pt;
+      }
+      .etapa .corpo {
+        padding: 9pt 12pt;
+        flex: 1;
+      }
+      .etapa .corpo .tit {
+        font-weight: 600;
+        margin-bottom: 2pt;
+      }
+      .etapa .corpo .quem {
+        font-size: 8.5pt;
+        color: var(--magenta);
+        font-weight: 600;
+        margin-bottom: 4pt;
+      }
+      .etapa .corpo .desc {
+        font-size: 9pt;
+        color: var(--suave);
+      }
+
+      /* ---------- fichas ---------- */
+      .ficha {
+        border: 1pt solid var(--linha);
+        border-left: 3.5pt solid var(--magenta);
+        border-radius: 5pt;
+        padding: 11pt 13pt;
+        margin-bottom: 11pt;
+        page-break-inside: avoid;
+      }
+      .ficha .cab {
+        display: flex;
+        align-items: baseline;
+        gap: 8pt;
+        margin-bottom: 7pt;
+        padding-bottom: 5pt;
+        border-bottom: 0.7pt solid var(--linha);
+      }
+      .ficha .cab .quem {
+        font-size: 13pt;
+        font-weight: 600;
+      }
+      .ficha .cab .papel {
+        font-size: 9pt;
+        color: var(--suave);
+      }
+      .ficha .cab .etq {
+        margin-left: auto;
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 0.8pt;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--magenta);
+        padding: 2.5pt 7pt;
+        border-radius: 9pt;
+        white-space: nowrap;
+      }
+      .ficha ul {
+        margin: 3pt 0 7pt;
+        padding-left: 15pt;
+      }
+      .ficha li {
+        margin-bottom: 2.5pt;
+      }
+      .rot {
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 1pt;
+        text-transform: uppercase;
+        color: var(--ouro);
+        margin-top: 7pt;
+        margin-bottom: 2pt;
+      }
+      code {
+        font-family: "Consolas", "SF Mono", monospace;
+        font-size: 8.5pt;
+        background: var(--fundo-suave);
+        padding: 1pt 3pt;
+        border-radius: 2.5pt;
+      }
+      .quebra {
+        page-break-before: always;
+      }
+      .nota-rodape {
+        margin-top: 16pt;
+        padding-top: 8pt;
+        border-top: 0.7pt solid var(--linha);
+        font-size: 8.5pt;
+        color: var(--suave);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ================= CAPA ================= -->
+    <section class="capa">
+      <div class="marca">Estudia</div>
+      <div class="regua"></div>
+      <div class="lema">Seu semestre, no seu ritmo.</div>
+
+      <h1>Divisão do trabalho e ordem de execução</h1>
+      <div class="sub">Projeto Integrador II &middot; Fase 2 &middot; Implementação</div>
+
+      <div class="grupos">
+        <div class="grupo">
+          <div class="rot">Grupo 1</div>
+          <div class="nomes">Caio e Lara</div>
+        </div>
+        <div class="grupo">
+          <div class="rot">Grupo 2</div>
+          <div class="nomes">Érika e Laysa</div>
+        </div>
+        <div class="grupo">
+          <div class="rot">Grupo 3</div>
+          <div class="nomes">Gabi e Esther</div>
+        </div>
+      </div>
+
+      <div class="rodape">
+        Documento montado a partir dos seis relatórios de pesquisa dos dias 1&ndash;3
+      </div>
+    </section>
+
+    <!-- ================= 1 ================= -->
+    <section class="secao">
+      <h2><span class="num">1.</span>O que já está pronto</h2>
+      <p>
+        O repositório do Estudia já existe, já compila e já está documentado. Ninguém precisa
+        montar nada do zero — é só clonar e começar pela sua parte.
+      </p>
+      <table>
+        <tr>
+          <td class="nome">Código</td>
+          <td>
+            As 8 categorias funcionando: Início, Estudos, Hobbies, Treino, Mercado, Dieta,
+            Financeiro e Tarefas.
+          </td>
+        </tr>
+        <tr>
+          <td class="nome">Login</td>
+          <td>
+            Autenticação pronta no banco. Cada usuário enxerga <strong>apenas os próprios
+            dados</strong> — isso já está implementado.
+          </td>
+        </tr>
+        <tr>
+          <td class="nome">Banco</td>
+          <td>
+            Tabelas relacionais para todas as áreas. As matérias deixaram de ser uma lista fixa
+            escrita no código: agora o usuário cria as dele.
+          </td>
+        </tr>
+        <tr>
+          <td class="nome">Documentação</td>
+          <td>
+            Na pasta <code>docs/</code>: o plano completo, a ficha de cada pessoa, o guia de Git e
+            o mapa de conflitos.
+          </td>
+        </tr>
+      </table>
+
+      <div class="aviso">
+        <div class="titulo">Antes do Dia 6: o banco precisa estar configurado</div>
+        O sistema <strong>não abre</strong> sem as chaves do banco — o login é do Supabase e todas
+        as telas leem e gravam lá. A recomendação é <strong>um único projeto Supabase
+        compartilhado</strong> pelos seis: cada pessoa entra com o próprio e-mail e vê só os
+        próprios dados, e cada mudança no banco é aplicada uma vez só, não seis. O passo a passo
+        está no <code>SETUP.md</code>.
+      </div>
+    </section>
+
+    <!-- ================= 2 ================= -->
+    <section class="secao">
+      <h2><span class="num">2.</span>Por que existe uma ordem</h2>
+      <p>
+        Somos seis pessoas em seis máquinas, no mesmo código. Existem dois tipos de trabalho aqui,
+        e eles se comportam de forma bem diferente:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 26%">Tipo</th>
+            <th style="width: 34%">Exemplo</th>
+            <th>Quando pode ser feito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nome">Trabalho de canto</td>
+            <td>Gabi mexendo na tela de Hobbies</td>
+            <td>a qualquer momento, em paralelo — risco quase zero</td>
+          </tr>
+          <tr>
+            <td class="nome">Trabalho de base</td>
+            <td>Lara mexendo no sistema de cores</td>
+            <td>precisa ir primeiro e sozinho — atinge todo mundo</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        O erro clássico de projeto em grupo é tratar os dois igual: todo mundo começa junto e, no
+        dia 10, descobre-se que metade das telas foi feita de um jeito que não funciona com o que a
+        outra metade construiu.
+      </p>
+      <p>
+        <strong>A ordem abaixo não é preferência — ela saiu do código.</strong> São três
+        &ldquo;chaves&rdquo; que destravam o resto.
+      </p>
+    </section>
+
+    <!-- ================= 3 ================= -->
+    <section class="secao">
+      <h2><span class="num">3.</span>As três chaves</h2>
+
+      <div class="chave">
+        <div class="cab">Chave 1 &middot; As cores — Lara</div>
+        O código usa <strong>217 vezes</strong> nomes de cor como <code>text-magenta</code> e
+        <code>border-gold</code>. Os 5 temas funcionam <strong>trocando o valor desses nomes</strong>
+        — então as telas mudam de cor sozinhas. Mas se Érika, Laysa e Gabi fizerem telas novas antes
+        disso existir, elas vão escrever cor na mão sem saber que não pode, e as telas delas ficam
+        travadas numa cor só. O conserto seria retrabalho em três pessoas ao mesmo tempo.
+      </div>
+
+      <div class="chave">
+        <div class="cab">Chave 2 &middot; O vocabulário acadêmico — Érika e Laysa</div>
+        As palavras <strong>prova</strong>, <strong>trabalho</strong> e <strong>atividade</strong>
+        aparecem nos dois relatórios: no da Érika como tipo de conteúdo da matéria, no da Laysa como
+        categoria de tarefa. Se cada uma criar a sua lista, o sistema fica com dois vocabulários para
+        a mesma coisa — e a página Início, que junta &ldquo;progresso da matéria&rdquo; com
+        &ldquo;prova amanhã&rdquo;, não consegue. <strong>Meia hora de conversa antes de
+        programar</strong> resolve.
+      </div>
+
+      <div class="chave">
+        <div class="cab">Chave 3 &middot; O mapa de rotas — Caio e Esther</div>
+        Hoje o app inteiro fica atrás do login. A Landing Page precisa ser pública. Se os dois
+        mexerem no roteamento sem combinar, um derruba o do outro. Os endereços já estão definidos:
+        <code>/</code> landing, <code>/entrar</code>, <code>/cadastro</code>,
+        <code>/inicio</code> e as oito abas.
+      </div>
+    </section>
+
+    <!-- ================= 4 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">4.</span>A ordem das etapas</h2>
+
+      <div class="fluxo">
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">0</div>
+            <div class="dias">pronta</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Fundação</div>
+            <div class="quem">Já entregue</div>
+            <div class="desc">
+              Repositório, banco, documentação e as regras de trabalho. Feito por uma pessoa só, de
+              propósito: mexe em todos os arquivos ao mesmo tempo.
+            </div>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">1</div>
+            <div class="dias">dias 6–7</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Identidade e aparência</div>
+            <div class="quem">Caio &nbsp;&#9679;&nbsp; Lara &nbsp;&#9679;&nbsp; Esther (em paralelo)</div>
+            <div class="desc">
+              Caio: telas de Login e Cadastro. Lara: os 5 temas e o nome do usuário. Esther: Landing
+              Page e menu do celular. <strong>Esta etapa destrava todas as outras.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">2</div>
+            <div class="dias">dias 8–10</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Núcleo acadêmico e demais categorias</div>
+            <div class="quem">Érika &nbsp;&#9679;&nbsp; Laysa &nbsp;&#9679;&nbsp; Gabi (em paralelo)</div>
+            <div class="desc">
+              Érika: Estudos. Laysa: Tarefas. Gabi: Hobbies, Treino, Mercado, Dieta e Financeiro.
+              Érika e Laysa combinam o vocabulário antes de abrir o editor.
+            </div>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">3</div>
+            <div class="dias">dias 10–11</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Experiência e acabamento</div>
+            <div class="quem">Esther</div>
+            <div class="desc">
+              Página Início, estados vazios, mensagens de sucesso, padronização visual e
+              responsividade. <strong>Por último porque toca no arquivo de todo mundo.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">4</div>
+            <div class="dias">dias 12–13</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Testes</div>
+            <div class="quem">Todos</div>
+            <div class="desc">
+              Cada pessoa testa a área de <strong>outra</strong> — quem escreveu já sabe onde não
+              clicar.
+            </div>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <div class="faixa">
+            <div class="n">5</div>
+            <div class="dias">dias 14–15</div>
+          </div>
+          <div class="corpo">
+            <div class="tit">Fechamento</div>
+            <div class="quem">Todos</div>
+            <div class="desc">
+              Correção de bugs, padronização final, documentação do que foi feito e registro do que
+              fica para a Fase 3.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aviso">
+        <div class="titulo">Gabi pode começar mais cedo</div>
+        Os arquivos dela não são tocados por mais ninguém na Fase 2 inteira. Ela pode entrar junto
+        com a Etapa 1, desde que não escreva cor na mão.
+      </div>
+    </section>
+
+    <!-- ================= 5 ================= -->
+    <section class="quebra">
+      <h2><span class="num">5.</span>A ficha de cada pessoa</h2>
+
+      <!-- CAIO -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Caio</span>
+          <span class="papel">Pessoa 1 &middot; Grupo 1</span>
+          <span class="etq">Etapa 1</span>
+        </div>
+        <strong>Login e Cadastro</strong>
+        <ul>
+          <li>Tela de <strong>Login</strong>: e-mail e senha.</li>
+          <li>Tela de <strong>Cadastro</strong>: nome completo, e-mail, senha e confirmar senha.</li>
+          <li>Botão <strong>Sair</strong> continuando a funcionar.</li>
+          <li>O nome digitado no cadastro precisa chegar no perfil do usuário.</li>
+        </ul>
+        <div class="rot">A parte difícil já está pronta</div>
+        As funções <code>signUp</code>, <code>signInWithPassword</code> e <code>signOut</code> já
+        existem. E há um gatilho no banco que copia o nome para o perfil sozinho — se você passar o
+        nome no cadastro, ele já aparece. <strong>Seu trabalho é a interface.</strong>
+        <div class="rot">Não entra nesta fase</div>
+        Login com Google, recuperação de senha elaborada, autenticação de dois fatores.
+        <div class="rot">Pronto quando</div>
+        Criar conta com nome e senha, sair, entrar de novo, e o nome aparecer no perfil.
+      </div>
+
+      <!-- LARA -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Lara</span>
+          <span class="papel">Pessoa 2 &middot; Grupo 1</span>
+          <span class="etq">Etapa 1</span>
+        </div>
+        <strong>Temas e personalização</strong>
+        <ul>
+          <li>Seletor com <strong>5 temas</strong>: Rosa (atual), Verde-água, Roxo, Azul, Vermelho.</li>
+          <li>O tema continua aplicado ao navegar e ao recarregar a página.</li>
+          <li>O tema fica salvo no perfil, não só no navegador.</li>
+          <li>Nome do usuário disponível para as outras telas usarem.</li>
+        </ul>
+        <div class="rot">O segredo</div>
+        <strong>Não troque os nomes das cores.</strong> Um tema é só um bloco que redefine os
+        valores de <code>magenta</code>, <code>gold</code>, <code>wine</code>, <code>pink</code> e
+        <code>darkred</code>. Como todas as telas já usam esses nomes, elas mudam sozinhas — você
+        não precisa abrir a tela de ninguém. Só existe uma limpeza no caminho: <strong>29 cores
+        escritas na mão</strong> que ainda precisam virar token.
+        <div class="rot">Não entra nesta fase</div>
+        A roda de cores livre da pesquisa. Faça os 5 temas primeiro — a Etapa 2 inteira depende de
+        você. A roda entra só se sobrar tempo.
+        <div class="rot">Pronto quando</div>
+        Trocar o tema, as 8 telas mudarem de cor, recarregar e continuar; e nenhum texto ficar
+        ilegível em nenhum dos 5 temas.
+      </div>
+
+      <!-- ÉRIKA -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Érika</span>
+          <span class="papel">Pessoa 3 &middot; Grupo 2</span>
+          <span class="etq">Etapa 2</span>
+        </div>
+        <strong>Aba Estudos</strong>
+        <ul>
+          <li>Usuário informa <strong>curso</strong> e <strong>período/semestre</strong>.</li>
+          <li>Usuário <strong>cria, edita e remove matérias</strong> — só o nome é obrigatório.</li>
+          <li>
+            Cada conteúdo tem um <strong>tipo</strong>: conteúdo, estudo, revisão, atividade,
+            trabalho ou prova.
+          </li>
+          <li><strong>Progresso por matéria</strong>: &ldquo;Banco de Dados — 7/10 — 70%&rdquo;.</li>
+        </ul>
+        <div class="rot">Metade do caminho já foi andada</div>
+        As matérias já deixaram de ser lista fixa no código — as tabelas existem e o gancho de
+        Estudos já adiciona, edita e remove conteúdos. Falta criar e editar <strong>matéria</strong>,
+        os tipos e o progresso.
+        <div class="rot">Onde a sua parte termina</div>
+        Você entrega a tela <strong>funcionando</strong>; a Esther padroniza o visual na Etapa 3.
+        Não capriche no acabamento — capriche em o dado estar certo.
+        <div class="rot">Pronto quando</div>
+        Criar matéria com curso e período, adicionar conteúdos de tipos diferentes, ver
+        &ldquo;7/10 — 70%&rdquo;, e tudo continuar lá depois de sair e entrar.
+      </div>
+
+      <!-- LAYSA -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Laysa</span>
+          <span class="papel">Pessoa 4 &middot; Grupo 2</span>
+          <span class="etq">Etapa 2</span>
+        </div>
+        <strong>Tarefas e rotina acadêmica</strong>
+        <ul>
+          <li>Tarefa com título, categoria, matéria, data, <strong>prioridade</strong> e <strong>status</strong>.</li>
+          <li>Lista <strong>ordenada por prazo</strong>, com as atrasadas em destaque.</li>
+          <li>Filtro <strong>acadêmicas &times; pessoais</strong>.</li>
+          <li>Marcar como concluída, editar e ver as concluídas.</li>
+          <li>Os dados para a Início mostrar &ldquo;Prova amanhã&rdquo; e &ldquo;2 tarefas pendentes&rdquo;.</li>
+        </ul>
+        <div class="rot">Combine com a Érika antes de programar</div>
+        A sua coluna de tipo usa <strong>o mesmo vocabulário</strong> que ela cria. A mudança de
+        banco dela entra primeiro. Decidam juntas também se tarefa pode ficar sem data.
+        <div class="rot">Onde a sua parte termina</div>
+        Garanta que os seis dados existam e estejam certos. O arranjo visual final é da Esther, na
+        Etapa 3.
+        <div class="rot">Não entra nesta fase</div>
+        Calendário completo, notificações, lembretes por e-mail.
+        <div class="rot">Pronto quando</div>
+        Criar tarefa com prazo e prioridade, ver a atrasada destacada, filtrar acadêmicas e
+        pessoais, e ligar uma tarefa a uma matéria da Érika.
+      </div>
+
+      <!-- GABI -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Gabi</span>
+          <span class="papel">Pessoa 5 &middot; Grupo 3</span>
+          <span class="etq">Etapa 2</span>
+        </div>
+        <strong>Hobbies, Treino, Mercado, Dieta e Financeiro</strong>
+        <p style="margin: 4pt 0 6pt">
+          Na ordem de prioridade do seu próprio relatório. <strong>Faça os quatro de prioridade
+          Alta primeiro.</strong>
+        </p>
+        <table style="margin: 4pt 0 8pt">
+          <thead>
+            <tr>
+              <th style="width: 18%">Prioridade</th>
+              <th>O que fazer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="nome">Alta</td>
+              <td>
+                Entrada no Financeiro (bolsa, estágio) &middot; Progresso nos Hobbies &middot; Metas
+                por data &middot; Dado de treinos concluídos
+              </td>
+            </tr>
+            <tr>
+              <td class="nome">Média</td>
+              <td>
+                Total de entradas e gastos &middot; Categoria no Mercado &middot; Gêneros e tipos nos
+                hobbies &middot; Tempo de descanso no treino
+              </td>
+            </tr>
+            <tr>
+              <td class="nome">Baixa</td>
+              <td>Classificação por estrelas — fica para a Fase 3 sem culpa</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="rot">Dois avisos que economizam o seu tempo</div>
+        <strong>Treinos concluídos já tem a tabela pronta</strong> — falta só a interface, não crie
+        tabela nova. E <strong>temporada e episódio nos Hobbies já existem</strong> e já aparecem na
+        tela; o que falta é o progresso e a meta.
+        <div class="rot">Sobre a Dieta</div>
+        Seu relatório concluiu que não havia melhoria notória para o contexto estudantil —
+        concordamos. <strong>Você não precisa mexer na Dieta.</strong> Ela só recebe o padrão visual,
+        que é trabalho da Esther.
+        <div class="rot">Você é o escopo mais tranquilo do projeto</div>
+        Nenhum outro integrante encosta nos seus arquivos durante a Fase 2 inteira.
+      </div>
+
+      <!-- ESTHER -->
+      <div class="ficha">
+        <div class="cab">
+          <span class="quem">Esther</span>
+          <span class="papel">Pessoa 6 &middot; Grupo 3</span>
+          <span class="etq">Etapas 1 e 3</span>
+        </div>
+        <strong>UX/UI e Landing Page</strong>
+        <div class="rot">Parte A — Etapa 1</div>
+        Landing Page com &ldquo;Estudia — Seu semestre, no seu ritmo.&rdquo; e os botões
+        <strong>Criar minha conta</strong> e <strong>Entrar</strong>. Menu compacto no celular,
+        mantendo as 8 categorias.
+        <div class="rot">Parte B — Etapa 3</div>
+        <ul>
+          <li>
+            <strong>Início</strong>: &ldquo;Olá, [Nome]!&rdquo; e os cards na ordem
+            <strong>1º Próximos prazos</strong>, <strong>2º Estudos</strong>, <strong>3º Rotina</strong>.
+          </li>
+          <li>
+            <strong>Estados vazios</strong> em todas as áreas — ex.: &ldquo;Você ainda não adicionou
+            nenhuma matéria.&rdquo;
+          </li>
+          <li>
+            <strong>Mensagens de sucesso</strong>: Adicionado com sucesso! &middot; Tarefa concluída!
+            &middot; Item removido. &middot; Tema atualizado.
+          </li>
+          <li>
+            <strong>Acabamento visual</strong> de Estudos e Tarefas: card de matéria com progresso e
+            os 6 tipos com etiqueta própria.
+          </li>
+          <li><strong>Padronização</strong> de botões e cards, e <strong>responsividade</strong>.</li>
+        </ul>
+        <div class="rot">Por que a Parte B é a última</div>
+        É a única que encosta no arquivo de todo mundo. Se acontecesse antes, viraria conflito com
+        cinco pessoas ao mesmo tempo.
+      </div>
+    </section>
+
+    <!-- ================= 6 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">6.</span>As seis regras que evitam quase todo conflito</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td class="nome" style="width: 8%">1</td>
+            <td>
+              <strong>Ninguém faz commit direto no <code>main</code>.</strong> Tudo entra por Pull
+              Request, com uma aprovação.
+            </td>
+          </tr>
+          <tr>
+            <td class="nome">2</td>
+            <td>
+              <strong>Uma branch por tarefa, e ela vive poucos dias.</strong> Branch parada duas
+              semanas é conflito garantido.
+            </td>
+          </tr>
+          <tr>
+            <td class="nome">3</td>
+            <td>
+              <strong>Atualize o código todo dia de manhã</strong>, antes de escrever qualquer
+              linha.
+            </td>
+          </tr>
+          <tr>
+            <td class="nome">4</td>
+            <td>
+              <strong>Respeite a lista de arquivos da sua ficha.</strong> É daí que vem 90% da paz.
+            </td>
+          </tr>
+          <tr>
+            <td class="nome">5</td>
+            <td>
+              <strong>Nunca escreva cor na mão.</strong> Só os nomes prontos. Cor escrita na mão não
+              muda de tema.
+            </td>
+          </tr>
+          <tr>
+            <td class="nome">6</td>
+            <td>
+              <strong>Avisou no grupo, não é problema; não avisou, é.</strong> Mudança no banco,
+              biblioteca nova e mexida em arquivo compartilhado sempre vêm com aviso.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Quem revisa quem</h3>
+      <p>
+        Revisão cruzada entre grupos, nunca dentro da própria dupla — assim todo mundo acaba
+        conhecendo uma área que não é a sua, o que importa nos dias de teste.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Quem abriu</th>
+            <th>Quem revisa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Grupo 1 — Caio e Lara</td>
+            <td>Grupo 2 — Érika e Laysa</td>
+          </tr>
+          <tr>
+            <td>Grupo 2 — Érika e Laysa</td>
+            <td>Grupo 3 — Gabi e Esther</td>
+          </tr>
+          <tr>
+            <td>Grupo 3 — Gabi e Esther</td>
+            <td>Grupo 1 — Caio e Lara</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="aviso">
+        <div class="titulo">Deu conflito? Não é urgente e nada foi perdido</div>
+        O Git guarda as duas versões. Dá para cancelar e voltar exatamente para onde você estava. As
+        receitas de cada tipo de conflito estão em <code>docs/CONFLITOS.md</code> — e o mais
+        importante: <strong>chame alguém antes de tentar comandos novos</strong>. A maior parte dos
+        trabalhos perdidos em projeto de faculdade acontece na tentativa de consertar sozinho, com
+        comando copiado da internet.
+      </div>
+
+      <div class="nota-rodape">
+        Estudia &middot; Projeto Integrador II &middot; Fase 2 &mdash; a documentação completa está
+        na pasta <code>docs/</code> do repositório
+      </div>
+    </section>
+  </body>
+</html>
