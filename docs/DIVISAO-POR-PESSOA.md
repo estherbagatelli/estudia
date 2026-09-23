@@ -223,13 +223,26 @@ testar contraste um por um.
 - Usuário informa **curso** e **período/semestre**.
 - Usuário **cria, edita e remove matérias** (o nome basta; o resto é opcional).
 - Cada conteúdo de uma matéria tem um **tipo**: conteúdo, estudo, revisão,
-  atividade, trabalho ou prova — com etiqueta ou ícone distinto.
+  atividade, trabalho ou prova — cada um já aparecendo com etiqueta própria.
 - **Progresso por matéria**: "Banco de Dados — 7/10 conteúdos — 70%".
+
+> **Onde a sua parte termina e a da Esther começa.** O relatório de UX/UI diz:
+> _"A estrutura funcional será definida pela Pessoa 3. Na parte de UX/UI,
+> apresentar as informações de forma clara."_ Na prática:
+>
+> - **Você (Etapa 2):** cria o dado, o cálculo do progresso e uma tela que
+>   funciona — com a etiqueta de cada tipo já visível, ainda que simples.
+> - **Esther (Etapa 3):** padroniza o visual do card de matéria e das etiquetas
+>   para ficarem iguais aos das outras telas.
+>
+> Ou seja: **não capriche no acabamento**, porque ele vai ser refeito de
+> propósito. Capriche em o dado estar certo.
 
 ### Não entra nesta fase
 
 Plataforma de aulas, upload de PDF, vídeo, chat, professores. Metas de estudo
-por semana ficam para o fim, se sobrar tempo.
+por semana ficam para o fim, se sobrar tempo. E a **padronização visual final**
+dos cards e etiquetas, que é da Esther na Etapa 3.
 
 ### Arquivos seus
 
@@ -337,9 +350,20 @@ crie uma tela por tipo** — é a mesma lista, com etiquetas diferentes.
 - Os dados que a página Início precisa para "Prova amanhã", "Trabalho em 3
   dias", "2 tarefas pendentes".
 
+> **Onde a sua parte termina e a da Esther começa.** Vale o mesmo combinado da
+> Érika: você entrega a tela **funcionando**, com todos os campos visíveis;
+> a Esther padroniza o visual da linha de tarefa na Etapa 3, para chegar no
+> formato do relatório dela —
+> _"Trabalho de Banco de Dados · Acadêmica · Banco de Dados · 24/09 · Alta ·
+> Pendente"_.
+>
+> Garanta que **os seis dados existam e estejam certos**. O arranjo visual
+> final não é seu.
+
 ### Não entra nesta fase
 
-Calendário completo, notificações, lembretes por e-mail, tarefas recorrentes.
+Calendário completo, notificações, lembretes por e-mail, tarefas recorrentes. E
+a padronização visual final da linha de tarefa, que é da Esther na Etapa 3.
 
 ### Arquivos seus
 
@@ -564,8 +588,22 @@ Arquivos novos ou só seus, então não conflita com ninguém:
 
 - **Mensagens de sucesso**: "Adicionado com sucesso!", "Tarefa concluída!",
   "Item removido.", "Tema atualizado."
+- **Ajuste visual da aba Estudos** (item 4 do seu relatório): padronizar o card
+  de matéria — nome + progresso, no formato "Banco de Dados — 7/10 conteúdos —
+  70%" — e dar identidade visual distinta aos seis tipos (Conteúdo, Estudo,
+  Revisão, Atividade, Trabalho, Prova) por etiqueta ou ícone. **Sem criar tela
+  separada por tipo.**
+- **Ajuste visual da aba Tarefas** (item 5): deixar cada tarefa no formato
+  "Trabalho de Banco de Dados · Acadêmica · Banco de Dados · 24/09 · Alta ·
+  Pendente", com as atrasadas em destaque.
 - **Padronização** de botões, etiquetas, cards e espaçamentos.
 - **Responsividade**: uma coluna no celular, nada cortado, nada fora da tela.
+
+> Os dois ajustes visuais acima acontecem **depois** que Érika e Laysa
+> entregarem. Elas montam a tela funcionando com todos os campos; você dá o
+> acabamento e faz Estudos e Tarefas ficarem visualmente iguais ao resto do
+> app. Combine com cada uma **antes de abrir o Pull Request** — é o risco nº 11
+> em [CONFLITOS.md](CONFLITOS.md).
 
 ### Não entra nesta fase
 

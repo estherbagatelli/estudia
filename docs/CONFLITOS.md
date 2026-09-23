@@ -30,22 +30,47 @@ minha máquina funciona".
 Foram levantados os pontos em que duas pessoas realmente encostam na mesma
 coisa durante a Fase 2. São dez. Para cada um já existe uma regra decidida.
 
-| #   | Onde                                         | Quem se cruza            | Por quê                                            | Regra                                                                                                                |
-| --- | -------------------------------------------- | ------------------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 1   | `src/styles.css`                             | Lara × Esther            | Lara define os temas, Esther padroniza componentes | **Lara entra primeiro.** O arquivo tem seções marcadas por comentário; cada uma mexe só na sua                       |
-| 2   | `src/routes/index.tsx` (Início)              | Esther × Érika × Laysa   | a Início mostra dados de Estudos e Tarefas         | **Érika e Laysa não abrem esse arquivo.** Elas exportam `useResumoEstudos()` e `useProximosPrazos()`; Esther consome |
-| 3   | `src/routes/__root.tsx`                      | Caio × Esther            | login protege o app × landing precisa ser pública  | **Esther é a dona.** Caio pede a mudança por issue                                                                   |
-| 4   | `supabase/migrations/`                       | todos                    | duas migrations mexendo na mesma tabela            | números **pré-alocados** (ver seção 3). Nunca editar migration já enviada                                            |
-| 5   | `src/types/database.types.ts`                | todos                    | arquivo gerado a partir do banco                   | **ninguém edita na mão.** Esther regenera depois de cada migration entrar                                            |
-| 6   | `src/routeTree.gen.ts`                       | Caio × Esther            | gerado toda vez que alguém cria uma rota           | conflito? apaga e regenera. Receita 4.2                                                                              |
-| 7   | `package-lock.json`                          | quem instalar biblioteca | lockfile gigante                                   | **evite instalar coisa nova.** Se precisar, avise no grupo antes. Receita 4.3                                        |
-| 8   | `src/components/AppShell.tsx`                | Esther × Lara            | menu × botão de trocar tema                        | Esther deixa um espaço reservado e comentado; Lara encaixa o componente dela ali                                     |
-| 9   | Vocabulário acadêmico (`prova`, `trabalho`…) | Érika × Laysa            | o mesmo conceito nas duas áreas                    | **um contrato escrito antes de programar**, registrado em [DECISOES.md](DECISOES.md)                                 |
-| 10  | Quebra de linha (CRLF × LF)                  | Windows × Mac            | o Git enxerga o arquivo inteiro como alterado      | já resolvido no `.gitattributes` da fundação — **ninguém precisa fazer nada**                                        |
+| #   | Onde                                         | Quem se cruza            | Por quê                                                     | Regra                                                                                                                |
+| --- | -------------------------------------------- | ------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 1   | `src/styles.css`                             | Lara × Esther            | Lara define os temas, Esther padroniza componentes          | **Lara entra primeiro.** O arquivo tem seções marcadas por comentário; cada uma mexe só na sua                       |
+| 2   | `src/routes/index.tsx` (Início)              | Esther × Érika × Laysa   | a Início mostra dados de Estudos e Tarefas                  | **Érika e Laysa não abrem esse arquivo.** Elas exportam `useResumoEstudos()` e `useProximosPrazos()`; Esther consome |
+| 3   | `src/routes/__root.tsx`                      | Caio × Esther            | login protege o app × landing precisa ser pública           | **Esther é a dona.** Caio pede a mudança por issue                                                                   |
+| 4   | `supabase/migrations/`                       | todos                    | duas migrations mexendo na mesma tabela                     | números **pré-alocados** (ver seção 3). Nunca editar migration já enviada                                            |
+| 5   | `src/types/database.types.ts`                | todos                    | arquivo gerado a partir do banco                            | **ninguém edita na mão.** Esther regenera depois de cada migration entrar                                            |
+| 6   | `src/routeTree.gen.ts`                       | Caio × Esther            | gerado toda vez que alguém cria uma rota                    | conflito? apaga e regenera. Receita 4.2                                                                              |
+| 7   | `package-lock.json`                          | quem instalar biblioteca | lockfile gigante                                            | **evite instalar coisa nova.** Se precisar, avise no grupo antes. Receita 4.3                                        |
+| 8   | `src/components/AppShell.tsx`                | Esther × Lara            | menu × botão de trocar tema                                 | Esther deixa um espaço reservado e comentado; Lara encaixa o componente dela ali                                     |
+| 9   | Vocabulário acadêmico (`prova`, `trabalho`…) | Érika × Laysa            | o mesmo conceito nas duas áreas                             | **um contrato escrito antes de programar**, registrado em [DECISOES.md](DECISOES.md)                                 |
+| 10  | Quebra de linha (CRLF × LF)                  | Windows × Mac            | o Git enxerga o arquivo inteiro como alterado               | já resolvido no `.gitattributes` da fundação — **ninguém precisa fazer nada**                                        |
+| 11  | `src/routes/estudos.tsx` e `tarefas.tsx`     | Érika/Laysa × Esther     | estrutura funcional (Etapa 2) × acabamento visual (Etapa 3) | **Esther entra depois**, em PR pequeno e só de visual, combinado com a dona do arquivo. Ver detalhe abaixo           |
 
 > O nº 10 já mordeu este projeto: antes da correção, o lint acusava **5.266
 > erros**, dos quais 4.914 eram só quebra de linha. Se alguém desfizer o
 > `.gitattributes`, o problema volta inteiro.
+
+### Detalhe do risco nº 11 — quem faz o visual de Estudos e Tarefas
+
+Esse é o único ponto do projeto em que **duas pessoas precisam mesmo editar o
+mesmo arquivo**, e ele vem do próprio relatório de UX/UI: _"A estrutura
+funcional será definida pela Pessoa 3. Na parte de UX/UI, apresentar as
+informações de forma clara."_
+
+A divisão é por **momento**, não por pedaço do arquivo:
+
+| Quando  | Quem          | O que faz                                                                          |
+| ------- | ------------- | ---------------------------------------------------------------------------------- |
+| Etapa 2 | Érika / Laysa | monta a tela funcionando, com todos os campos visíveis — etiqueta simples já serve |
+| Etapa 3 | Esther        | padroniza o card de matéria, as etiquetas dos 6 tipos e a linha de tarefa          |
+
+Três regras para isso não virar briga:
+
+1. **Érika e Laysa não caprichem no acabamento.** Ele vai ser refeito de
+   propósito. O que importa na Etapa 2 é o dado estar certo.
+2. **Esther não muda comportamento.** O PR dela nesses dois arquivos é só
+   visual: classe, espaçamento, ordem dos elementos. Se ela precisar mudar
+   lógica, pede para a dona.
+3. **Um PR por arquivo, pequeno**, e com a dona do arquivo como revisora — não
+   o rodízio normal. Quem escreveu a lógica é quem percebe se algo quebrou.
 
 ---
 

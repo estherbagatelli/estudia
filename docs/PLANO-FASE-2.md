@@ -182,8 +182,9 @@ ver essa prova na aba Tarefas ordenada por prazo, e ver o progresso da matéria.
 **Esther, sozinha.**
 
 Início novo (Olá + nome, próximos prazos no topo, resumo de Estudos, e Treino e
-Dieta mantidos), estados vazios, mensagens de sucesso, padronização de botões e
-cards, responsividade.
+Dieta mantidos), estados vazios, mensagens de sucesso, **acabamento visual das
+abas Estudos e Tarefas** (cards de matéria, etiquetas dos 6 tipos, linha de
+tarefa), padronização de botões e cards, responsividade.
 
 **Por que por último:** é a única etapa que **toca no arquivo de todo mundo**.
 Se acontecesse antes, viraria conflito com cinco pessoas ao mesmo tempo.
