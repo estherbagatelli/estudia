@@ -1,0 +1,18 @@
+-- ============================================================================
+-- Seed data (optional).
+-- ----------------------------------------------------------------------------
+-- Seeds run with `supabase db reset` on the LOCAL database only.
+--
+-- Every row in this app is owned by a real auth user, and users are created
+-- through the auth flow (Google / email signup) — not by this file. There is
+-- therefore no global data to seed: a brand-new user starts with the default
+-- content defined in the React app (which the app itself writes to Supabase on
+-- first run via the localStorage -> Supabase migration + defaults).
+--
+-- Keep this file as the place to add local test fixtures if you later create a
+-- test user. Example (uncomment and set a real auth user id):
+--
+-- insert into public.categories (user_id, name, kind, position) values
+--   ('00000000-0000-0000-0000-000000000000', 'Despesas Estágio', 'finance', 0),
+--   ('00000000-0000-0000-0000-000000000000', 'Dinheiro Pai',    'finance', 1),
+--   ('00000000-0000-0000-0000-000000000000', 'Despesas Mãe',    'finance', 2);

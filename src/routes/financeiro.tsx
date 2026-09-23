@@ -1,0 +1,202 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { AppShell } from "@/components/AppShell";
+import { useCloudState } from "@/hooks/useCloudState";
+import { useEffect, useState } from "react";
+import { Plus, Trash2, Pencil, Check, X } from "lucide-react";
+
+export const Route = createFileRoute("/financeiro")({
+  head: () => ({ meta: [{ title: "Financeiro — Esther's Planner" }] }),
+  component: FinanceiroPage,
+});
+
+type Category = { id: string; label: string };
+type Expense = { id: string; name: string; value: number; cat: string };
+
+const DEFAULT_CATS: Category[] = [
+  { id: "estagio", label: "Despesas Estágio" },
+  { id: "pai", label: "Dinheiro Pai" },
+  { id: "mae", label: "Despesas Mãe" },
+];
+
+function brl(n: number) {
+  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function FinanceiroPage() {
+  const [cats, setCats] = useCloudState<Category[]>("fin.cats.v1", DEFAULT_CATS);
+  const [budgets, setBudgets] = useCloudState<Record<string, number>>("fin.budgets.v1", { estagio: 0, pai: 0, mae: 0 });
+  const [expenses, setExpenses] = useCloudState<Expense[]>("fin.expenses.v1", []);
+
+  // Ensure defaults are migrated for users who already had v1 data
+  useEffect(() => {
+    const ids = new Set(cats.map((c) => c.id));
+    const missing = DEFAULT_CATS.filter((d) => !ids.has(d.id));
+    if (missing.length && cats.length < DEFAULT_CATS.length) {
+      setCats([...cats, ...missing]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [name, setName] = useState("");
+  const [value, setValue] = useState("");
+  const [cat, setCat] = useState<string>(cats[0]?.id ?? "estagio");
+  const [editingBudget, setEditingBudget] = useState<string | null>(null);
+  const [budgetDraft, setBudgetDraft] = useState("");
+  const [editingName, setEditingName] = useState<string | null>(null);
+  const [nameDraft, setNameDraft] = useState("");
+  const [newCatLabel, setNewCatLabel] = useState("");
+
+  const add = () => {
+    const v = parseFloat(value.replace(",", "."));
+    if (!name.trim() || !v || v <= 0) return;
+    setExpenses([...expenses, { id: crypto.randomUUID(), name: name.trim(), value: v, cat }]);
+    setName(""); setValue("");
+  };
+  const remove = (id: string) => setExpenses(expenses.filter((e) => e.id !== id));
+  const totalBy = (c: string) => expenses.filter((e) => e.cat === c).reduce((s, e) => s + e.value, 0);
+
+  const saveBudget = () => {
+    if (!editingBudget) return;
+    const v = parseFloat(budgetDraft.replace(",", ".")) || 0;
+    setBudgets({ ...budgets, [editingBudget]: v });
+    setEditingBudget(null); setBudgetDraft("");
+  };
+
+  const saveName = () => {
+    if (!editingName) return;
+    const lbl = nameDraft.trim();
+    if (!lbl) { setEditingName(null); return; }
+    setCats(cats.map((c) => c.id === editingName ? { ...c, label: lbl } : c));
+    setEditingName(null); setNameDraft("");
+  };
+
+  const addCategory = () => {
+    const lbl = newCatLabel.trim();
+    if (!lbl) return;
+    const id = `cat-${crypto.randomUUID().slice(0, 8)}`;
+    setCats([...cats, { id, label: lbl }]);
+    setBudgets({ ...budgets, [id]: 0 });
+    setNewCatLabel("");
+  };
+
+  const removeCategory = (id: string) => {
+    if (!confirm(`Apagar a categoria e todos os gastos vinculados?`)) return;
+    setCats(cats.filter((c) => c.id !== id));
+    setExpenses(expenses.filter((e) => e.cat !== id));
+    const { [id]: _drop, ...rest } = budgets;
+    setBudgets(rest);
+    if (cat === id) setCat(cats[0]?.id ?? "");
+  };
+
+  return (
+    <AppShell title="Financeiro" subtitle="Controle de despesas">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 mb-6">
+        {cats.map((category) => {
+          const c = category.id;
+          const spent = totalBy(c);
+          const bud = budgets[c] ?? 0;
+          const remaining = bud - spent;
+          const pct = bud > 0 ? Math.min(100, (spent / bud) * 100) : 0;
+          return (
+            <section key={c} className="glass-card p-6">
+              <div className="flex items-baseline justify-between mb-4">
+                {editingName === c ? (
+                  <div className="flex items-center gap-1 flex-1">
+                    <input autoFocus value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} onKeyDown={(e) => e.key === "Enter" && saveName()}
+                      className="flex-1 bg-transparent border-b border-gold/40 outline-none font-display text-2xl text-gold py-1" />
+                    <button onClick={saveName} className="text-gold"><Check className="h-4 w-4" /></button>
+                    <button onClick={() => setEditingName(null)} className="text-muted-foreground"><X className="h-4 w-4" /></button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 flex-1">
+                    <h2 className="font-display text-2xl text-gold">{category.label}</h2>
+                    <button onClick={() => { setEditingName(c); setNameDraft(category.label); }}
+                      className="text-gold/70 hover:text-gold" aria-label="Editar nome">
+                      <Pencil className="h-3 w-3" strokeWidth={1.5} />
+                    </button>
+                    <button onClick={() => removeCategory(c)} className="text-darkred/70 hover:text-darkred" aria-label="Apagar categoria">
+                      <Trash2 className="h-3 w-3" strokeWidth={1.5} />
+                    </button>
+                  </div>
+                )}
+                {editingBudget === c ? (
+                  <div className="flex items-center gap-1">
+                    <input value={budgetDraft} onChange={(e) => setBudgetDraft(e.target.value)} onKeyDown={(e) => e.key === "Enter" && saveBudget()}
+                      placeholder="Saldo" className="w-28 bg-transparent border-b border-gold/40 outline-none text-sm py-1 text-right" />
+                    <button onClick={saveBudget} className="text-gold"><Check className="h-4 w-4" /></button>
+                    <button onClick={() => setEditingBudget(null)} className="text-muted-foreground"><X className="h-4 w-4" /></button>
+                  </div>
+                ) : (
+                  <button onClick={() => { setEditingBudget(c); setBudgetDraft(String(bud)); }}
+                    className="text-xs text-muted-foreground hover:text-gold flex items-center gap-1">
+                    <Pencil className="h-3 w-3" /> Saldo
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-3 gap-3 text-center mb-4">
+                <div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground">Saldo</div>
+                  <div className="font-display text-base mt-1">{brl(bud)}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-magenta">Gasto</div>
+                  <div className="font-display text-base mt-1 text-magenta">{brl(spent)}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-gold">Disponível</div>
+                  <div className="font-display text-base mt-1 text-gold">{brl(remaining)}</div>
+                </div>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-[oklch(0.85_0.008_250)] to-[oklch(0.34_0.10_15)] transition-all" style={{ width: `${pct}%` }} />
+              </div>
+
+              <ul className="mt-5 space-y-1.5">
+                {expenses.filter((e) => e.cat === c).map((e) => (
+                  <li key={e.id} className="flex items-center gap-2 text-sm border border-[oklch(0.85_0.008_250/0.1)] bg-black/30 rounded-md px-3 py-2">
+                    <span className="flex-1 text-foreground/85">{e.name}</span>
+                    <span className="text-magenta font-mono text-xs">{brl(e.value)}</span>
+                    <button onClick={() => remove(e.id)} className="text-magenta opacity-70 hover:opacity-100">
+                      <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
+                    </button>
+                  </li>
+                ))}
+                {expenses.filter((e) => e.cat === c).length === 0 && (
+                  <li className="text-xs italic text-muted-foreground text-center py-3">Sem gastos.</li>
+                )}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+
+      <section className="glass-card p-4 mb-6 flex flex-col md:flex-row gap-2">
+        <input value={newCatLabel} onChange={(e) => setNewCatLabel(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addCategory()}
+          placeholder="Nova categoria (ex: Despesas Casa)"
+          className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold" />
+        <button onClick={addCategory}
+          className="rounded-md border border-gold/40 text-gold px-4 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1 justify-center">
+          <Plus className="h-4 w-4" /> Criar categoria
+        </button>
+      </section>
+
+      <section className="glass-card p-6">
+        <h3 className="font-display text-lg text-gold mb-4">Adicionar gasto</h3>
+        <div className="flex flex-col md:flex-row gap-2">
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Descrição"
+            className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold" />
+          <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Valor (R$)" inputMode="decimal"
+            className="md:w-32 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold" />
+          <select value={cat} onChange={(e) => setCat(e.target.value)}
+            className="rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold">
+            {cats.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+          </select>
+          <button onClick={add} className="rounded-md border border-gold/40 text-gold px-4 py-2 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center gap-1 justify-center">
+            <Plus className="h-4 w-4" /> Adicionar
+          </button>
+        </div>
+      </section>
+    </AppShell>
+  );
+}
