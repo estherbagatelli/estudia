@@ -360,10 +360,16 @@
 
     <!-- ================= 1 ================= -->
     <section class="secao">
-      <h2><span class="num">1.</span>O que já está pronto</h2>
+      <h2><span class="num">1.</span>O ponto de partida</h2>
       <p>
-        O repositório do Estudia já existe, já compila e já está documentado. Ninguém precisa
-        montar nada do zero — é só clonar e começar pela sua parte.
+        O Estudia parte de um planner pessoal que <strong>já existia antes de a Fase 2
+        começar</strong> — o mesmo sistema que cada um analisou na pesquisa dos dias 1&ndash;3. Ele
+        foi copiado para um repositório novo, adaptado para o contexto universitário e documentado.
+      </p>
+      <p>
+        <strong>Nada da Fase 2 está implementado.</strong> A lista abaixo é a <strong>herança</strong>:
+        o que já funcionava antes e que agora serve de base, de padrão e de exemplo. Não é trabalho
+        adiantado de ninguém — é de onde a gente parte, para não começar do zero.
       </p>
       <table>
         <tr>
@@ -394,6 +400,106 @@
             o mapa de conflitos.
           </td>
         </tr>
+      </table>
+
+      <p>
+        Ou seja: a linguagem, as bibliotecas e o padrão de como se escreve uma tela neste projeto já
+        estão definidos. <strong>Ninguém precisa escolher tecnologia nem inventar estrutura</strong>
+        — é só seguir o que já está lá e se inspirar nas telas existentes.
+      </p>
+
+      <h3>E o que é trabalho de vocês?</h3>
+      <p>
+        <strong>Todo mundo escreve código de verdade — não só a parte visual.</strong> Este projeto
+        não tem um servidor separado, mas isso não quer dizer que não tenha parte operacional: ela
+        mora em duas camadas, e cada pessoa mexe nas três.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%">Camada</th>
+            <th style="width: 30%">Onde fica</th>
+            <th>O que é</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nome">Banco</td>
+            <td><code>supabase/migrations/</code></td>
+            <td>tabelas e colunas, em SQL — por isso cada pessoa tem uma migration só dela</td>
+          </tr>
+          <tr>
+            <td class="nome">Regra de negócio</td>
+            <td><code>src/hooks/</code></td>
+            <td>cálculos, ordenação, filtros, validação — <strong>é a parte operacional</strong></td>
+          </tr>
+          <tr>
+            <td class="nome">Tela</td>
+            <td><code>src/routes/</code></td>
+            <td>o visual, que só existe depois que as duas de cima existem</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="aviso">
+        <div class="titulo">Exemplo: o que a Laysa vai escrever</div>
+        A tabela de tarefas hoje tem só <code>título</code>, <code>feita</code> e <code>data</code>.
+        Ela precisa <strong>criar no banco</strong> prioridade, status, tipo, acadêmica/pessoal e a
+        ligação com a matéria. Depois, no arquivo de regra — que hoje tem
+        <strong>62 linhas</strong> e faz apenas adicionar, marcar e apagar — ela escreve a ordenação
+        por prazo com desempate por prioridade, o cálculo de atraso, a classificação de urgência, os
+        filtros e a função que transforma datas em frases como &ldquo;Prova amanhã&rdquo;.
+        <strong>Nada disso é visual.</strong> Só depois ela refaz a tela, que hoje tem 84 linhas e é
+        uma lista com caixinha de marcar.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 15%">Pessoa</th>
+            <th style="width: 27%">No banco</th>
+            <th style="width: 30%">Na regra de negócio</th>
+            <th>Na tela</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nome">Caio</td>
+            <td>— (autenticação já existe)</td>
+            <td>expor cadastro e login</td>
+            <td><strong>2 telas novas, do zero</strong></td>
+          </tr>
+          <tr>
+            <td class="nome">Lara</td>
+            <td>coluna de tema no perfil</td>
+            <td>troca de tema + gravar no perfil</td>
+            <td>seletor + 5 blocos de estilo</td>
+          </tr>
+          <tr>
+            <td class="nome">Érika</td>
+            <td>curso, período, tipo de conteúdo</td>
+            <td>criar/editar matéria + cálculo de progresso</td>
+            <td>reescreve Estudos</td>
+          </tr>
+          <tr>
+            <td class="nome">Laysa</td>
+            <td>5 colunas novas</td>
+            <td>ordenação, urgência, filtros, prazos</td>
+            <td>reescreve Tarefas</td>
+          </tr>
+          <tr>
+            <td class="nome">Gabi</td>
+            <td>colunas em 4 tabelas</td>
+            <td>entradas, progresso, metas, sessões</td>
+            <td>4 telas alteradas</td>
+          </tr>
+          <tr>
+            <td class="nome">Esther</td>
+            <td>—</td>
+            <td>consumir o que os outros exportarem</td>
+            <td>landing, Início, padronização</td>
+          </tr>
+        </tbody>
       </table>
 
       <div class="aviso">
@@ -489,10 +595,11 @@
           </div>
           <div class="corpo">
             <div class="tit">Fundação</div>
-            <div class="quem">Já entregue</div>
+            <div class="quem">Já entregue &mdash; só infraestrutura</div>
             <div class="desc">
-              Repositório, banco, documentação e as regras de trabalho. Feito por uma pessoa só, de
-              propósito: mexe em todos os arquivos ao mesmo tempo.
+              Repositório, banco, documentação e regras de trabalho. <strong>Nenhuma funcionalidade
+              da Fase 2.</strong> Feito por uma pessoa só, de propósito: mexe em todos os arquivos ao
+              mesmo tempo.
             </div>
           </div>
         </div>
@@ -653,13 +760,15 @@
           </li>
           <li><strong>Progresso por matéria</strong>: &ldquo;Banco de Dados — 7/10 — 70%&rdquo;.</li>
         </ul>
-        <div class="rot">Metade do caminho já foi andada</div>
-        As matérias já deixaram de ser lista fixa no código — as tabelas existem e o gancho de
-        Estudos já adiciona, edita e remove conteúdos. Falta criar e editar <strong>matéria</strong>,
-        os tipos e o progresso.
+        <div class="rot">De onde você parte</div>
+        As tabelas de matéria e conteúdo já existem, e o gancho de Estudos já adiciona, edita e
+        remove conteúdos — use como modelo. <strong>O que é seu:</strong> criar as colunas de curso,
+        período e tipo no banco; escrever o criar/editar/remover de <strong>matéria</strong> e o
+        cálculo de progresso; e reescrever a tela.
         <div class="rot">Onde a sua parte termina</div>
-        Você entrega a tela <strong>funcionando</strong>; a Esther padroniza o visual na Etapa 3.
-        Não capriche no acabamento — capriche em o dado estar certo.
+        Você entrega tudo <strong>funcionando</strong>, com as etiquetas dos 6 tipos já aparecendo. A
+        Esther, na Etapa 3, mexe só nos <strong>últimos 5%</strong> — espaçamento, cor e tamanho da
+        etiqueta — para Estudos ficar visualmente igual às outras telas.
         <div class="rot">Pronto quando</div>
         Criar matéria com curso e período, adicionar conteúdos de tipos diferentes, ver
         &ldquo;7/10 — 70%&rdquo;, e tudo continuar lá depois de sair e entrar.
@@ -684,8 +793,9 @@
         A sua coluna de tipo usa <strong>o mesmo vocabulário</strong> que ela cria. A mudança de
         banco dela entra primeiro. Decidam juntas também se tarefa pode ficar sem data.
         <div class="rot">Onde a sua parte termina</div>
-        Garanta que os seis dados existam e estejam certos. O arranjo visual final é da Esther, na
-        Etapa 3.
+        Você entrega tudo funcionando: as colunas no banco, a lógica de ordenação e urgência, e a
+        tela mostrando os seis dados. A Esther, na Etapa 3, só uniformiza o
+        <strong>arranjo visual</strong> da linha de tarefa com o resto do app.
         <div class="rot">Não entra nesta fase</div>
         Calendário completo, notificações, lembretes por e-mail.
         <div class="rot">Pronto quando</div>
