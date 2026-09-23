@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { migrationService } from "@/services/migration.service";
+import { seedService } from "@/services/seed.service";
 import { AuthScreen } from "./AuthScreen";
 
 function Splash({ label }: { label: string }) {
@@ -30,9 +30,9 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     if (migratedFor.current === user.id) return;
     migratedFor.current = user.id;
     setMigrating(true);
-    migrationService
-      .run(user.id)
-      .catch((e) => console.error("[migration] failed:", e))
+    seedService
+      .run()
+      .catch((e) => console.error("[seed] failed:", e))
       .finally(() => setMigrating(false));
   }, [user]);
 

@@ -13,8 +13,8 @@ export function useRealtimeTable(
   invalidateKeys: readonly (readonly unknown[])[],
 ) {
   const queryClient = useQueryClient();
-  // Unique per hook instance: a page can mount several useCloudState hooks,
-  // and two channels sharing the same topic name collide and throw on
+  // Unique per hook instance: a page can mount several data hooks on the same
+  // table, and two channels sharing the same topic name collide and throw on
   // subscribe. useId keeps every subscription's topic distinct.
   const instanceId = useId();
 
@@ -29,7 +29,7 @@ export function useRealtimeTable(
           event: "*",
           schema: "public",
           table,
-          filter: `user_id=eq.${userId}`,
+          filter: `owner_id=eq.${userId}`,
         },
         () => {
           for (const key of invalidateKeys) {

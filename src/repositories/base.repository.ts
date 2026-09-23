@@ -1,103 +1,68 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Database } from "@/types/database.types";
 
-type PublicTables = Database["public"]["Tables"];
-type TableName = keyof PublicTables;
+type TableName = keyof Database["public"]["Tables"];
+type Row<K extends TableName> = Database["public"]["Tables"][K]["Row"];
+type Ins<K extends TableName> = Database["public"]["Tables"][K]["Insert"];
+type Upd<K extends TableName> = Database["public"]["Tables"][K]["Update"];
 
 /**
- * Generic, soft-delete-aware repository over a single table.
+ * Typed CRUD helper for a single table.
  *
- * All reads exclude rows where `deleted_at is not null`. `remove()` performs a
- * soft delete (sets `deleted_at`). RLS guarantees a user only ever sees/edits
- * their own rows, but we still scope by `user_id` explicitly for clarity and
- * to keep realtime/optimistic caches partitioned per user.
+ * Ownership is handled by the database: `owner_id` defaults to `auth.uid()` on
+ * insert and RLS scopes every read/write to the current user — so callers pass
+ * only business fields, never the owner. No soft delete (hard `delete`).
  *
- * The `as any` casts are confined to this file: Supabase cannot infer a table
- * name that is only known via a generic. Every public method returns fully
- * typed Row/Insert/Update shapes, so callers stay `any`-free.
+ * The `as any` casts are confined here (Supabase can't type a table name known
+ * only via a generic); every method returns fully typed Rows.
  */
-export class BaseRepository<T extends TableName> {
-  constructor(
-    protected readonly table: T,
-    /** Owner column. `profiles` is keyed by `id`; everything else by `user_id`. */
-    protected readonly ownerColumn: "user_id" | "id" = "user_id",
-  ) {}
-
-  // Supabase cannot type a table name that is only known via a generic, so the
-  // builder is intentionally untyped here. Every public method re-applies the
-  // correct Row/Insert/Update types, keeping callers fully `any`-free.
+export function repo<K extends TableName>(table: K) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected get db(): any {
-    return supabase.from(this.table as never);
-  }
+  const db = () => supabase.from(table as any) as any;
 
-  /** List active rows for a user, optionally ordered. */
-  async list(
-    userId: string,
-    opts?: { orderBy?: string; ascending?: boolean },
-  ): Promise<PublicTables[T]["Row"][]> {
-    let query = this.db
-      .select("*")
-      .eq(this.ownerColumn, userId)
-      .is("deleted_at", null);
+  return {
+    async list(orderBy = "position", ascending = true): Promise<Row<K>[]> {
+      const { data, error } = await db().select("*").order(orderBy, { ascending });
+      if (error) throw error;
+      return (data ?? []) as Row<K>[];
+    },
 
-    if (opts?.orderBy) {
-      query = query.order(opts.orderBy, { ascending: opts.ascending ?? true });
-    }
+    async listWhere(
+      column: string,
+      value: string,
+      orderBy = "position",
+      ascending = true,
+    ): Promise<Row<K>[]> {
+      const { data, error } = await db()
+        .select("*")
+        .eq(column, value)
+        .order(orderBy, { ascending });
+      if (error) throw error;
+      return (data ?? []) as Row<K>[];
+    },
 
-    const { data, error } = await query;
-    if (error) throw error;
-    return (data ?? []) as PublicTables[T]["Row"][];
-  }
+    async insert(values: Ins<K>): Promise<Row<K>> {
+      const { data, error } = await db().insert(values).select("*").single();
+      if (error) throw error;
+      return data as Row<K>;
+    },
 
-  async getById(id: string): Promise<PublicTables[T]["Row"] | null> {
-    const { data, error } = await this.db
-      .select("*")
-      .eq("id", id)
-      .is("deleted_at", null)
-      .maybeSingle();
-    if (error) throw error;
-    return (data ?? null) as PublicTables[T]["Row"] | null;
-  }
+    async insertMany(values: Ins<K>[]): Promise<Row<K>[]> {
+      if (values.length === 0) return [];
+      const { data, error } = await db().insert(values).select("*");
+      if (error) throw error;
+      return (data ?? []) as Row<K>[];
+    },
 
-  async create(
-    payload: PublicTables[T]["Insert"],
-  ): Promise<PublicTables[T]["Row"]> {
-    const { data, error } = await this.db
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .insert(payload as any)
-      .select("*")
-      .single();
-    if (error) throw error;
-    return data as PublicTables[T]["Row"];
-  }
+    async update(id: string, patch: Upd<K>): Promise<Row<K>> {
+      const { data, error } = await db().update(patch).eq("id", id).select("*").single();
+      if (error) throw error;
+      return data as Row<K>;
+    },
 
-  async update(
-    id: string,
-    patch: PublicTables[T]["Update"],
-  ): Promise<PublicTables[T]["Row"]> {
-    const { data, error } = await this.db
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .update(patch as any)
-      .eq("id", id)
-      .select("*")
-      .single();
-    if (error) throw error;
-    return data as PublicTables[T]["Row"];
-  }
-
-  /** Soft delete: mark the row deleted rather than removing it. */
-  async remove(id: string): Promise<void> {
-    const { error } = await this.db
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .update({ deleted_at: new Date().toISOString() } as any)
-      .eq("id", id);
-    if (error) throw error;
-  }
-
-  /** Permanently delete (rarely needed; prefer `remove`). */
-  async hardDelete(id: string): Promise<void> {
-    const { error } = await this.db.delete().eq("id", id);
-    if (error) throw error;
-  }
+    async remove(id: string): Promise<void> {
+      const { error } = await db().delete().eq("id", id);
+      if (error) throw error;
+    },
+  };
 }

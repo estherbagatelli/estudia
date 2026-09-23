@@ -1,26 +1,18 @@
-/**
- * App-facing domain types, derived from the generated database types.
- * Import these throughout the app instead of reaching into database.types.
- */
-import type { Tables, TablesInsert, TablesUpdate } from "./database.types";
+import type { Tables } from "./database.types";
 
 export type Profile = Tables<"profiles">;
-export type Category = Tables<"categories">;
-export type Task = Tables<"tasks">;
-export type Subtask = Tables<"subtasks">;
-export type Habit = Tables<"habits">;
-export type HabitLog = Tables<"habit_logs">;
-export type Goal = Tables<"goals">;
-export type GoalProgress = Tables<"goal_progress">;
-export type Note = Tables<"notes">;
-export type CalendarEvent = Tables<"calendar_events">;
-export type ShoppingList = Tables<"shopping_lists">;
+export type Quote = Tables<"quotes">;
+export type StudyTrack = Tables<"study_tracks">;
+export type StudyTopic = Tables<"study_topics">;
+export type HobbyItem = Tables<"hobby_items">;
+export type Workout = Tables<"workouts">;
+export type WorkoutExercise = Tables<"workout_exercises">;
+export type WorkoutSession = Tables<"workout_sessions">;
 export type ShoppingItem = Tables<"shopping_items">;
-export type PlannerSetting = Tables<"planner_settings">;
-export type Attachment = Tables<"attachments">;
-export type MoodLog = Tables<"mood_logs">;
+export type DietDay = Tables<"diet_days">;
+export type DietMeal = Tables<"diet_meals">;
+export type FinanceCategory = Tables<"finance_categories">;
+export type FinanceExpense = Tables<"finance_expenses">;
+export type Task = Tables<"tasks">;
 
-export type TaskInsert = TablesInsert<"tasks">;
-export type TaskUpdate = TablesUpdate<"tasks">;
-export type ShoppingItemInsert = TablesInsert<"shopping_items">;
-export type ShoppingItemUpdate = TablesUpdate<"shopping_items">;
+export type { HobbyKind, MealKind } from "./database.types";

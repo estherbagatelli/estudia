@@ -16,7 +16,8 @@ function MercadoPage() {
 
   const submit = () => {
     if (!name.trim()) return;
-    add(name.trim(), qty || "1");
+    const q = Math.max(1, parseInt(qty, 10) || 1);
+    add(name.trim(), q);
     setName(""); setQty("1");
   };
 
@@ -43,9 +44,9 @@ function MercadoPage() {
           <ul className="space-y-2">
             {items.map((it) => (
               <li key={it.id} className="flex items-center gap-3 border border-[oklch(0.85_0.008_250/0.12)] bg-black/30 rounded-md px-3 py-2.5">
-                <input type="checkbox" checked={it.checked} onChange={() => toggle(it)}
+                <input type="checkbox" checked={it.is_checked} onChange={() => toggle(it)}
                   className="h-4 w-4 accent-[oklch(0.85_0.008_250)]" />
-                <span className={`flex-1 text-sm ${it.checked ? "line-through text-muted-foreground" : ""}`}>{it.name}</span>
+                <span className={`flex-1 text-sm ${it.is_checked ? "line-through text-muted-foreground" : ""}`}>{it.name}</span>
                 <span className="text-xs text-gold font-mono">×{it.quantity}</span>
                 <button onClick={() => remove(it.id)} className="text-magenta opacity-70 hover:opacity-100">
                   <Trash2 className="h-4 w-4" strokeWidth={1.5} />

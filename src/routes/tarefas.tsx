@@ -19,7 +19,7 @@ function TarefasPage() {
     setText("");
   };
 
-  const remaining = tasks.filter((t) => !t.done).length;
+  const remaining = tasks.filter((t) => !t.is_done).length;
 
   return (
     <AppShell title="Tarefas" subtitle={`${remaining} pendente${remaining === 1 ? "" : "s"}`}>
@@ -44,10 +44,10 @@ function TarefasPage() {
             {tasks.map((t) => (
               <li key={t.id} className="flex items-center gap-3 border border-[oklch(0.85_0.008_250/0.12)] bg-black/30 rounded-md px-3 py-2.5">
                 <button onClick={() => toggle(t)}
-                  className={`h-5 w-5 rounded border flex items-center justify-center transition ${t.done ? "bg-gold border-gold" : "border-gold/40"}`}>
-                  {t.done && <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />}
+                  className={`h-5 w-5 rounded border flex items-center justify-center transition ${t.is_done ? "bg-gold border-gold" : "border-gold/40"}`}>
+                  {t.is_done && <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />}
                 </button>
-                <span className={`flex-1 text-sm ${t.done ? "line-through text-muted-foreground" : ""}`}>{t.title}</span>
+                <span className={`flex-1 text-sm ${t.is_done ? "line-through text-muted-foreground" : ""}`}>{t.title}</span>
                 <button onClick={() => remove(t.id)} className="text-magenta opacity-70 hover:opacity-100">
                   <Trash2 className="h-4 w-4" strokeWidth={1.5} />
                 </button>
