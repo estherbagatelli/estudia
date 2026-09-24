@@ -30,20 +30,31 @@ Grupos: **1** Caio e Lara · **2** Érika e Laysa · **3** Gabi e Esther.
 **É a sua primeira vez no projeto?** Leia nesta ordem:
 
 1. **[SETUP.md](SETUP.md)** — pôr o projeto para rodar na sua máquina.
-2. **[docs/ARQUITETURA.md](docs/ARQUITETURA.md)** — como o código funciona, em
+2. **[docs/TECNOLOGIAS.md](docs/TECNOLOGIAS.md)** — quais linguagens e
+   bibliotecas usar, e o que **não** instalar.
+3. **[docs/ARQUITETURA.md](docs/ARQUITETURA.md)** — como o código funciona, em
    10 minutos.
-3. **[docs/DIVISAO-POR-PESSOA.md](docs/DIVISAO-POR-PESSOA.md)** — a sua ficha:
-   o que entregar, quais arquivos são seus, quais são proibidos.
-4. **[docs/GUIA-GIT.md](docs/GUIA-GIT.md)** — a rotina do dia a dia.
+4. **[docs/passo-a-passo/](docs/passo-a-passo/)** — ⭐ **o seu roteiro**: o que
+   entregar, em que ordem mexer no código, e onde parar para chamar a Esther.
+5. **[docs/GUIA-GIT.md](docs/GUIA-GIT.md)** — a rotina do dia a dia.
 
 **Já conhece o projeto?**
 
 - **[docs/PLANO-FASE-2.md](docs/PLANO-FASE-2.md)** — a ordem das etapas e por
   que ela é essa.
+- **[docs/DIVISAO-POR-PESSOA.md](docs/DIVISAO-POR-PESSOA.md)** — a ficha
+  resumida de cada pessoa, com arquivos seus e proibidos.
+- **[docs/BANCO-DE-DADOS.md](docs/BANCO-DE-DADOS.md)** — ninguém aplica
+  migration sozinho; aqui está o procedimento.
 - **[docs/CONFLITOS.md](docs/CONFLITOS.md)** — deu conflito? a receita está
   aqui.
 - **[docs/DECISOES.md](docs/DECISOES.md)** — por que as coisas estão do jeito
   que estão.
+
+> **Nada da Fase 2 está implementado.** O que está no repositório é o planner
+> que já existia antes de a fase começar — ele é a base, o padrão e o exemplo.
+> A implementação é toda de vocês; cada pessoa escreve nas três camadas
+> (banco, regra de negócio e tela).
 
 ---
 
