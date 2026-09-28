@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Estudia — Relatório Fase 2</title>
+    <style>
+      :root {
+        --tinta: #16121a;
+        --suave: #5f5766;
+        --linha: #e4dfe4;
+        --fundo-suave: #faf8fa;
+        --g1: #d81b74;
+        --g2: #0f8f86;
+        --g3: #e0761c;
+        --ok: #1a7f4b;
+        --andamento: #b8860b;
+      }
+      @page {
+        size: A4;
+        margin: 16mm 15mm 18mm 15mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+        font-size: 9.5pt;
+        line-height: 1.55;
+        color: var(--tinta);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        line-height: 1.2;
+        margin: 0;
+      }
+      p {
+        margin: 0 0 7pt;
+      }
+      ul {
+        margin: 4pt 0 8pt;
+        padding-left: 15pt;
+      }
+      li {
+        margin-bottom: 2.5pt;
+      }
+
+      /* ---------- capa ---------- */
+      .capa {
+        padding: 38mm 0 0;
+        text-align: center;
+        page-break-after: always;
+      }
+      .capa .contexto {
+        font-size: 10pt;
+        color: var(--suave);
+        font-style: italic;
+        margin-bottom: 14pt;
+      }
+      .capa .marca {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 48pt;
+        font-weight: 300;
+        letter-spacing: -1pt;
+        color: var(--tinta);
+      }
+      .capa .relatorio {
+        font-size: 15pt;
+        font-weight: 600;
+        margin-top: 6pt;
+        color: var(--g1);
+      }
+      .capa .regua {
+        width: 110pt;
+        height: 3.5pt;
+        margin: 16pt auto 16pt;
+        background: linear-gradient(90deg, var(--g1), var(--g3), var(--g2));
+        border-radius: 2pt;
+      }
+      .capa .lema {
+        font-size: 11.5pt;
+        color: var(--suave);
+        margin-bottom: 30pt;
+      }
+      .capa h1 {
+        font-size: 20pt;
+        font-weight: 600;
+        margin-bottom: 26pt;
+      }
+      .capa .equipe {
+        display: flex;
+        gap: 9pt;
+        justify-content: center;
+        margin-bottom: 28pt;
+      }
+      .capa .dupla {
+        border: 1pt solid var(--linha);
+        border-top: 3pt solid var(--g1);
+        border-radius: 5pt;
+        padding: 9pt 13pt;
+        min-width: 112pt;
+        background: var(--fundo-suave);
+      }
+      .capa .dupla.d2 {
+        border-top-color: var(--g2);
+      }
+      .capa .dupla.d3 {
+        border-top-color: var(--g3);
+      }
+      .capa .dupla .rot {
+        font-size: 7pt;
+        letter-spacing: 1.5pt;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: var(--g1);
+      }
+      .capa .dupla.d2 .rot {
+        color: var(--g2);
+      }
+      .capa .dupla.d3 .rot {
+        color: var(--g3);
+      }
+      .capa .dupla .nomes {
+        font-size: 10.5pt;
+        margin-top: 3pt;
+      }
+      .capa .situacao {
+        display: inline-block;
+        border: 1pt solid var(--linha);
+        border-radius: 20pt;
+        padding: 7pt 18pt;
+        font-size: 9.5pt;
+        background: #f3fbf6;
+        border-color: #bfe3cf;
+      }
+      .capa .situacao b {
+        color: var(--ok);
+      }
+
+      /* ---------- estrutura ---------- */
+      .secao {
+        margin-bottom: 16pt;
+      }
+      h2 {
+        font-size: 14.5pt;
+        font-weight: 600;
+        padding-bottom: 5pt;
+        margin-bottom: 10pt;
+        border-bottom: 2pt solid var(--tinta);
+      }
+      h3 {
+        font-size: 11.5pt;
+        font-weight: 600;
+        margin: 12pt 0 5pt;
+      }
+      .quebra {
+        page-break-before: always;
+      }
+      .evita {
+        page-break-inside: avoid;
+      }
+
+      /* ---------- grupos ---------- */
+      .grupo-cab {
+        margin: 0 0 10pt;
+        padding-top: 6pt;
+        border-top: 3pt solid var(--g1);
+      }
+      .grupo-cab.g2 {
+        border-top-color: var(--g2);
+      }
+      .grupo-cab.g3 {
+        border-top-color: var(--g3);
+      }
+      .grupo-cab .rot {
+        font-size: 7.5pt;
+        letter-spacing: 1.6pt;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: var(--g1);
+      }
+      .grupo-cab.g2 .rot {
+        color: var(--g2);
+      }
+      .grupo-cab.g3 .rot {
+        color: var(--g3);
+      }
+      .grupo-cab h2 {
+        border: none;
+        padding: 0;
+        margin: 2pt 0 2pt;
+        font-size: 16pt;
+      }
+      .grupo-cab .sub {
+        font-size: 9pt;
+        color: var(--suave);
+      }
+
+      .pessoa {
+        border: 1pt solid var(--linha);
+        border-left: 3.5pt solid var(--g1);
+        border-radius: 5pt;
+        padding: 11pt 13pt;
+        margin-bottom: 11pt;
+        page-break-inside: avoid;
+      }
+      .pessoa.g2 {
+        border-left-color: var(--g2);
+      }
+      .pessoa.g3 {
+        border-left-color: var(--g3);
+      }
+      .pessoa .cab {
+        display: flex;
+        align-items: baseline;
+        gap: 8pt;
+        margin-bottom: 7pt;
+        padding-bottom: 5pt;
+        border-bottom: 0.7pt solid var(--linha);
+      }
+      .pessoa .cab .nome {
+        font-size: 14pt;
+        font-weight: 600;
+      }
+      .pessoa .cab .papel {
+        font-size: 8pt;
+        letter-spacing: 1.2pt;
+        text-transform: uppercase;
+        color: var(--suave);
+      }
+      .pessoa .cab .selo {
+        margin-left: auto;
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 0.6pt;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--ok);
+        padding: 2.5pt 8pt;
+        border-radius: 9pt;
+        white-space: nowrap;
+      }
+      .rot-i {
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 1pt;
+        text-transform: uppercase;
+        color: var(--suave);
+        margin: 8pt 0 2pt;
+      }
+      .pilulas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4pt;
+        margin: 4pt 0 6pt;
+      }
+      .pilula {
+        border: 1pt solid var(--linha);
+        border-radius: 12pt;
+        padding: 2pt 9pt;
+        font-size: 8.5pt;
+        background: var(--fundo-suave);
+      }
+      .nao {
+        border-left: 3pt solid var(--g3);
+        background: #fffaf3;
+        padding: 7pt 11pt;
+        margin: 8pt 0 0;
+        font-size: 9pt;
+      }
+      .nao b {
+        color: var(--g3);
+      }
+
+      /* ---------- tabelas ---------- */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        margin: 7pt 0 11pt;
+      }
+      th {
+        background: var(--fundo-suave);
+        text-align: left;
+        font-weight: 600;
+        font-size: 7.5pt;
+        letter-spacing: 0.5pt;
+        text-transform: uppercase;
+        color: var(--suave);
+        padding: 6pt 7pt;
+        border-bottom: 1.2pt solid var(--linha);
+      }
+      td {
+        padding: 5.5pt 7pt;
+        border-bottom: 0.7pt solid var(--linha);
+        vertical-align: top;
+      }
+      tr {
+        page-break-inside: avoid;
+      }
+      .n {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* ---------- checklist ---------- */
+      .fase {
+        border: 1pt solid var(--linha);
+        border-radius: 6pt;
+        margin-bottom: 11pt;
+        overflow: hidden;
+        page-break-inside: avoid;
+      }
+      .fase .topo {
+        display: flex;
+        align-items: center;
+        gap: 9pt;
+        padding: 8pt 12pt;
+        background: var(--fundo-suave);
+        border-bottom: 1pt solid var(--linha);
+      }
+      .fase .topo .dias {
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 1pt;
+        text-transform: uppercase;
+        color: var(--suave);
+      }
+      .fase .topo .tit {
+        font-size: 11.5pt;
+        font-weight: 600;
+      }
+      .fase .topo .estado {
+        margin-left: auto;
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 0.6pt;
+        text-transform: uppercase;
+        padding: 2.5pt 9pt;
+        border-radius: 9pt;
+        color: #fff;
+        white-space: nowrap;
+      }
+      .e-ok {
+        background: var(--ok);
+      }
+      .e-and {
+        background: var(--andamento);
+      }
+      .e-pend {
+        background: #8d8792;
+      }
+      .fase .corpo {
+        padding: 9pt 12pt;
+      }
+      .item {
+        display: flex;
+        gap: 7pt;
+        margin-bottom: 4pt;
+        align-items: baseline;
+      }
+      .marca {
+        font-weight: 700;
+        width: 12pt;
+        flex: 0 0 12pt;
+        text-align: center;
+      }
+      .m-ok {
+        color: var(--ok);
+      }
+      .m-and {
+        color: var(--andamento);
+      }
+      .m-pend {
+        color: #a9a3ae;
+      }
+      .legenda {
+        display: flex;
+        gap: 14pt;
+        font-size: 8.5pt;
+        color: var(--suave);
+        margin: 8pt 0 12pt;
+      }
+      .link {
+        font-family: "Consolas", monospace;
+        font-size: 8.5pt;
+        background: var(--fundo-suave);
+        padding: 1.5pt 4pt;
+        border-radius: 3pt;
+      }
+      .rodape {
+        margin-top: 18pt;
+        padding-top: 8pt;
+        border-top: 0.7pt solid var(--linha);
+        font-size: 8.5pt;
+        color: var(--suave);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===================== CAPA ===================== -->
+    <section class="capa">
+      <div class="contexto">Projeto Integrador II &middot; Fase 2</div>
+      <div class="marca">Estudia</div>
+      <div class="relatorio">Relatório Fase 2 Estudia</div>
+      <div class="regua"></div>
+      <div class="lema">Planner de rotina e estudos para universitários</div>
+
+      <h1>Divisão do trabalho e situação atual</h1>
+
+      <div class="equipe">
+        <div class="dupla">
+          <div class="rot">Grupo 1</div>
+          <div class="nomes">Caio e Lara</div>
+        </div>
+        <div class="dupla d2">
+          <div class="rot">Grupo 2</div>
+          <div class="nomes">Érika e Laysa</div>
+        </div>
+        <div class="dupla d3">
+          <div class="rot">Grupo 3</div>
+          <div class="nomes">Gabi e Esther</div>
+        </div>
+      </div>
+
+      <div class="situacao">
+        Pesquisas <b>concluídas</b> &middot; Implementação <b>em andamento</b>
+      </div>
+    </section>
+
+    <!-- ===================== OBJETIVO ===================== -->
+    <section class="secao">
+      <h2>Objetivo dos 15 dias</h2>
+      <p>
+        Partir do sistema atual do <strong>Esther's Planner</strong> — um planner pessoal já
+        existente — e transformá-lo em um planner voltado para <strong>estudantes e
+        universitários</strong>, com foco em <strong>personalização do usuário</strong> e
+        <strong>preparação da estrutura para o banco de dados da Fase 3</strong>.
+      </p>
+
+      <div class="rot-i">O sistema já possui as categorias</div>
+      <div class="pilulas">
+        <span class="pilula">Início</span><span class="pilula">Estudos</span>
+        <span class="pilula">Hobbies</span><span class="pilula">Treino</span>
+        <span class="pilula">Mercado</span><span class="pilula">Dieta</span>
+        <span class="pilula">Financeiro</span><span class="pilula">Tarefas</span>
+      </div>
+      <p>
+        A estrutura é <strong>mantida</strong>. São feitas apenas as melhorias que realmente fazem
+        sentido para estudantes.
+      </p>
+
+      <div class="nao">
+        <b>Escopo delimitado:</b> a Fase 2 não cria dezenas de funcionalidades novas. A regra
+        adotada pelo grupo foi: <em>se uma funcionalidade não contribui diretamente para
+        transformar o planner em uma ferramenta personalizável para estudantes, fica para
+        depois.</em>
+      </div>
+    </section>
+
+    <!-- ===================== GRUPO 1 ===================== -->
+    <section class="quebra">
+      <div class="grupo-cab">
+        <div class="rot">Grupo 1</div>
+        <h2>Login e Personalização do usuário</h2>
+        <div class="sub">Caio e Lara</div>
+      </div>
+
+      <div class="pessoa">
+        <div class="cab">
+          <span class="nome">Caio</span>
+          <span class="papel">Login e Cadastro</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          Pesquisou como transformar o sistema atual, que não possuía login, em um sistema onde
+          cada usuário tenha a própria conta.
+        </p>
+        <div class="rot-i">O que foi pesquisado e entregue</div>
+        <ul>
+          <li>Como implementar as telas de <strong>Login</strong> e <strong>Cadastro</strong>, com
+            proposta visual alinhada à identidade do planner.</li>
+          <li>Quais informações são realmente necessárias no cadastro: <strong>nome completo,
+            e-mail, senha e confirmação de senha</strong> — com a justificativa de que quanto
+            menos campos, menos dados a proteger.</li>
+          <li>O fluxo completo <strong>Cadastro → Login → Planner</strong>, documentado em
+            fluxograma.</li>
+          <li><strong>Como impedir que um usuário veja os dados de outro:</strong> a filtragem
+            precisa ocorrer no banco e no backend, com cada registro vinculado a um identificador
+            de usuário — e não apenas escondida na interface.</li>
+          <li>Como manter o usuário conectado após o login, por sessão/token armazenado no
+            dispositivo e revalidado ao reabrir a aplicação.</li>
+          <li>Como funciona o <strong>Sair/Logout</strong>: encerrar a sessão, remover o token e
+            redirecionar para o login.</li>
+          <li>Arquitetura futura com banco de dados (Aplicação → Backend/API → Banco), sem
+            desenvolver o banco agora.</li>
+        </ul>
+        <div class="nao">
+          <b>Fora do escopo:</b> redes sociais, login com Google, recuperação de senha complexa e
+          autenticação de dois fatores. A decisão foi entregar um login básico e funcional.
+        </div>
+      </div>
+
+      <div class="pessoa">
+        <div class="cab">
+          <span class="nome">Lara</span>
+          <span class="papel">Personalização e temas</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          Pesquisou como transformar o planner em um sistema personalizável por cada usuário.
+        </p>
+        <div class="rot-i">Cores do sistema — 5 temas</div>
+        <div class="pilulas">
+          <span class="pilula">Rosa — atual</span><span class="pilula">Verde-água</span>
+          <span class="pilula">Roxo</span><span class="pilula">Azul</span>
+          <span class="pilula">Vermelho</span>
+        </div>
+        <div class="rot-i">O que foi pesquisado e entregue</div>
+        <ul>
+          <li>Como construir um <strong>seletor de cores</strong>, incluindo a proposta de uma roda
+            de cores interativa em HTML, CSS e TypeScript, com conversão da posição do clique em
+            valores HSL, RGB ou HEX.</li>
+          <li>Quais elementos da interface devem mudar de cor: botões, menus, cabeçalho, destaques
+            e elementos de navegação.</li>
+          <li>A necessidade de <strong>verificar contraste</strong> para manter a legibilidade.</li>
+          <li>Como manter o tema ativo durante a navegação, com armazenamento local
+            (<code>localStorage</code>) e as alternativas equivalentes em aplicativos móveis.</li>
+          <li>Personalizações simples: nome do usuário na tela inicial, frase de boas-vindas e
+            escolha do que aparece em destaque.</li>
+        </ul>
+        <div class="nao">
+          <b>Fora do escopo:</b> temas infinitos, personalização completa de fontes, alteração de
+          layout inteiro e avatar complexo.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GRUPO 2 ===================== -->
+    <section class="quebra">
+      <div class="grupo-cab g2">
+        <div class="rot">Grupo 2</div>
+        <h2>Estudos e Organização acadêmica</h2>
+        <div class="sub">Érika e Laysa — a parte mais importante para o público-alvo</div>
+      </div>
+
+      <div class="pessoa g2">
+        <div class="cab">
+          <span class="nome">Érika</span>
+          <span class="papel">Aba Estudos</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          <strong>Ideia central:</strong> transformar a aba Estudos em um espaço de organização por
+          curso, período e matéria, permitindo que cada aluno adapte o planner à própria faculdade.
+        </p>
+        <div class="rot-i">As três melhorias propostas</div>
+        <ul>
+          <li>
+            <strong>Organizar por curso e matérias.</strong> Estrutura
+            <em>Curso → Período/Semestre → Matéria</em>, com matérias criadas, editadas, arquivadas
+            e removidas pelo próprio usuário conforme muda de semestre — substituindo as categorias
+            fixas "Faculdade" e "Estágio" que existiam no sistema.
+          </li>
+          <li>
+            <strong>Diferenciar os tipos de conteúdo acadêmico.</strong> Classificar cada item como
+            <em>conteúdo, estudo, revisão, atividade, trabalho ou prova</em>, cada um com ícone ou
+            identificação visual própria. Exemplo em Banco de Dados: "Álgebra Relacional" como
+            conteúdo, "Trabalho de SQL" como trabalho, "Prova C1" como prova.
+          </li>
+          <li>
+            <strong>Melhorar o acompanhamento do progresso.</strong> Progresso individual por
+            matéria em vez de um progresso geral — "Banco de Dados — 7 de 10 conteúdos concluídos
+            (70%)" — com os estados <em>não iniciado, estudando e concluído</em>.
+          </li>
+        </ul>
+        <p>
+          Propôs ainda manter o cadastro simples: para criar uma matéria, apenas o nome é
+          obrigatório; período, cor e meta são opcionais.
+        </p>
+        <div class="nao">
+          <b>Fora do escopo:</b> criar uma plataforma EAD. O planner não terá aulas, vídeos, PDFs,
+          chat nem professores.
+        </div>
+      </div>
+
+      <div class="pessoa g2">
+        <div class="cab">
+          <span class="nome">Laysa</span>
+          <span class="papel">Rotina acadêmica e Tarefas</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          <strong>Ideia central:</strong> provas, trabalhos e conteúdos de Estudos passam a ser
+          tarefas com data, e tanto a aba Tarefas quanto a página inicial usam esses mesmos dados —
+          assim o estudante não cadastra a mesma coisa duas vezes.
+        </p>
+        <div class="rot-i">O que foi pesquisado e entregue</div>
+        <ul>
+          <li><strong>Visualizar tarefas acadêmicas:</strong> filtro acadêmicas × pessoais, com cada
+            tarefa acadêmica ligada a uma matéria.</li>
+          <li><strong>Organizar prazos:</strong> campos de data de entrega, prioridade e status
+            (pendente, em andamento, concluída). Ordem padrão pela data mais próxima e, em caso de
+            empate, pela maior prioridade. Tarefas atrasadas ganham destaque.</li>
+          <li><strong>Destacar provas e trabalhos próximos</strong> com cor por urgência: vermelho
+            para hoje e amanhã, amarelo até sete dias, neutro depois disso.</li>
+          <li><strong>Página inicial:</strong> um card "Próximos prazos" que calcula os dias
+            restantes e exibe frases como "Prova amanhã", "Trabalho em 3 dias" e "2 tarefas
+            pendentes", mostrando os três itens mais urgentes.</li>
+          <li>Melhorias na aba Tarefas, que hoje apenas adiciona pendências: concluir, editar, ver
+            as concluídas, e manter o cadastro rápido com apenas o título obrigatório.</li>
+        </ul>
+        <div class="nao">
+          <b>Fora do escopo:</b> calendário completo neste momento — apenas registrado como possível
+          integração futura.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GRUPO 3 ===================== -->
+    <section class="quebra">
+      <div class="grupo-cab g3">
+        <div class="rot">Grupo 3</div>
+        <h2>Outras categorias e Experiência do usuário</h2>
+        <div class="sub">Gabi e Esther — sem criar abas novas</div>
+      </div>
+
+      <div class="pessoa g3">
+        <div class="cab">
+          <span class="nome">Gabi</span>
+          <span class="papel">Análise das categorias existentes</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          Analisou as abas <strong>Hobbies, Treino, Mercado, Dieta e Financeiro</strong>. Todas são
+          mantidas e nenhuma função é retirada. Para cada uma, levantou o que existe hoje e o que
+          pode ser melhorado, <strong>classificando cada melhoria por prioridade</strong>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 17%">Área</th>
+              <th style="width: 45%">Melhoria proposta</th>
+              <th style="width: 15%">Prioridade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="n" rowspan="5">Hobbies</td>
+              <td>Progresso: concluído, em andamento</td>
+              <td class="n">Alta</td>
+            </tr>
+            <tr>
+              <td>Metas por data</td>
+              <td class="n">Alta</td>
+            </tr>
+            <tr>
+              <td>Números de temporada e páginas de livro</td>
+              <td>Média</td>
+            </tr>
+            <tr>
+              <td>Subcategorias: gêneros e tipos</td>
+              <td>Média</td>
+            </tr>
+            <tr>
+              <td>Classificação por estrelas</td>
+              <td>Baixa</td>
+            </tr>
+            <tr>
+              <td class="n" rowspan="2">Treino</td>
+              <td>Dado de treinos concluídos</td>
+              <td class="n">Alta</td>
+            </tr>
+            <tr>
+              <td>Tempo de descanso nos treinos</td>
+              <td>Média</td>
+            </tr>
+            <tr>
+              <td class="n">Mercado</td>
+              <td>Categoria do item (ex.: padaria, limpeza), criada pelo usuário</td>
+              <td>Média</td>
+            </tr>
+            <tr>
+              <td class="n">Dieta</td>
+              <td>
+                <em>Nenhuma melhoria notória identificada para o contexto estudantil</em>
+              </td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="n" rowspan="2">Financeiro</td>
+              <td>Incluir <strong>entrada</strong> (bolsa, estágio, faculdade)</td>
+              <td class="n">Alta</td>
+            </tr>
+            <tr>
+              <td>Total de gastos e de entradas, independente de categoria</td>
+              <td>Média</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="nao">
+          <b>Conclusão da análise:</b> a missão não era criar cinco sistemas novos, e sim descobrir
+          quais abas realmente precisavam de pequenas adaptações. A resposta foi: quatro precisam,
+          e a Dieta não.
+        </div>
+      </div>
+
+      <div class="pessoa g3">
+        <div class="cab">
+          <span class="nome">Esther</span>
+          <span class="papel">UX/UI e Landing Page</span>
+          <span class="selo">Pesquisa concluída</span>
+        </div>
+        <p>
+          Analisou a experiência geral do usuário e propôs os ajustes necessários para adequar o
+          planner a estudantes, <strong>mantendo a identidade visual existente</strong>.
+        </p>
+        <div class="rot-i">O que foi pesquisado e entregue</div>
+        <ul>
+          <li><strong>Landing Page:</strong> criar uma primeira tela antes do acesso ao planner, com
+            "Estudia — Seu semestre, no seu ritmo.", os botões <em>Criar minha conta</em> e
+            <em>Entrar</em>, estabelecendo o fluxo Landing → Login/Cadastro → Planner.</li>
+          <li><strong>Navegação:</strong> manter as oito categorias; no celular, adaptar para um
+            menu compacto sem remover nenhuma.</li>
+          <li><strong>Página Início:</strong> substituir o nome fixo por "Olá, [Nome do usuário]!" e
+            reordenar os cards — 1º Próximos prazos, 2º Estudos, 3º Rotina.</li>
+          <li><strong>Estados vazios:</strong> definiu o texto exato para cada área, transformando
+            mensagens como "Nada por aqui" em orientações úteis.</li>
+          <li><strong>Feedback das ações:</strong> mensagens padronizadas ao adicionar, concluir,
+            excluir e alterar o tema.</li>
+          <li><strong>Responsividade e padronização:</strong> cards em uma coluna no celular, botões
+            adequados, textos sem cortes, e padronização de botões, etiquetas, cards e
+            espaçamentos.</li>
+          <li><strong>Integração:</strong> mapeou como cada área se conecta às demais, garantindo
+            que o tema, o nome do usuário e os dados acadêmicos apareçam de forma consistente.</li>
+        </ul>
+        <div class="nao">
+          <b>Fora do escopo:</b> redesenhar o sistema inteiro. A proposta melhora a experiência
+          mantendo a identidade que já existe.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="quebra secao">
+      <h2>Resumo da divisão</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 14%">Nome</th>
+            <th style="width: 13%">Grupo</th>
+            <th>Responsabilidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">Caio</td>
+            <td>Grupo 1</td>
+            <td>Login e Cadastro — pesquisa técnica e fluxo de autenticação.</td>
+          </tr>
+          <tr>
+            <td class="n">Lara</td>
+            <td>Grupo 1</td>
+            <td>Personalização — temas, cores e preferências do usuário.</td>
+          </tr>
+          <tr>
+            <td class="n">Érika</td>
+            <td>Grupo 2</td>
+            <td>Estudos — adaptação para diferentes cursos universitários.</td>
+          </tr>
+          <tr>
+            <td class="n">Laysa</td>
+            <td>Grupo 2</td>
+            <td>Rotina acadêmica e Tarefas — prazos, prioridades e integração com a rotina.</td>
+          </tr>
+          <tr>
+            <td class="n">Gabi</td>
+            <td>Grupo 3</td>
+            <td>Hobbies, Treino, Mercado, Dieta e Financeiro — análise e pequenas melhorias.</td>
+          </tr>
+          <tr>
+            <td class="n">Esther</td>
+            <td>Grupo 3</td>
+            <td>UX/UI e Landing Page — experiência, navegação, responsividade e apresentação.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Fase 3 — Banco de dados</h3>
+      <p>
+        O banco de dados não é o foco da Fase 2. Nesta fase o grupo apenas preparou a estrutura
+        necessária para que ele possa existir, mapeando o que será armazenado:
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <td class="n" style="width: 20%">Usuário</td>
+            <td>nome · e-mail · senha/autenticação · tema escolhido</td>
+          </tr>
+          <tr>
+            <td class="n">Estudos</td>
+            <td>curso · disciplinas · atividades · provas · progresso</td>
+          </tr>
+          <tr>
+            <td class="n">Tarefas</td>
+            <td>descrição · data · prioridade · status</td>
+          </tr>
+          <tr>
+            <td class="n">Personalização</td>
+            <td>tema · preferências do usuário</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ===================== CHECKLIST ===================== -->
+    <section class="quebra">
+      <h2>Checklist — o que já foi realizado</h2>
+      <div class="legenda">
+        <span><b class="m-ok">✔</b> concluído</span>
+        <span><b class="m-and">◐</b> em andamento</span>
+        <span><b class="m-pend">○</b> previsto</span>
+      </div>
+
+      <div class="fase">
+        <div class="topo">
+          <span class="dias">Dias 1–3</span>
+          <span class="tit">Pesquisa</span>
+          <span class="estado e-ok">Concluída</span>
+        </div>
+        <div class="corpo">
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Caio</b> — pesquisa de Login e Cadastro: telas, campos necessários, fluxo, isolamento de dados entre usuários, sessão e logout.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Lara</b> — pesquisa de Personalização: seletor de temas, aplicação das cores na interface, legibilidade e persistência da escolha.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Érika</b> — pesquisa da aba Estudos: organização por curso e matéria, tipos de conteúdo acadêmico e acompanhamento de progresso.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Laysa</b> — pesquisa de Rotina acadêmica e Tarefas: prazos, prioridade, status, urgência e resumo na página inicial.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Gabi</b> — análise das cinco categorias existentes, com melhorias classificadas por prioridade.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span><b>Esther</b> — pesquisa de UX/UI: Landing Page, navegação, estados vazios, feedback, responsividade e padronização.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Todas as entregas previstas foram cumpridas: problema encontrado, o que existe hoje, o que melhorar, propostas de solução e como implementar.</span></div>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="topo">
+          <span class="dias">Dias 4–5</span>
+          <span class="tit">Reunião e decisões em grupo</span>
+          <span class="estado e-ok">Concluída</span>
+        </div>
+        <div class="corpo">
+          <div class="item"><span class="marca m-ok">✔</span><span>Apresentação das seis pesquisas ao grupo.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Definição do que entra na Fase 2 e do que fica para depois, aplicando a regra de escopo acordada.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Definição da <b>ordem de execução</b> entre os grupos, a partir das dependências técnicas identificadas no código.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Delimitação do que será preparado para a Fase 3.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Decisões registradas em documento de acompanhamento, com a justificativa de cada uma.</span></div>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="topo">
+          <span class="dias">Dias 6–11</span>
+          <span class="tit">Implementação</span>
+          <span class="estado e-and">Em andamento</span>
+        </div>
+        <div class="corpo">
+          <div class="rot-i">Preparação do ambiente de trabalho — concluída</div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Repositório do projeto criado e publicado, com os <b>seis integrantes</b> como colaboradores.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Base do sistema preparada: identidade visual do Estudia e estrutura de dados organizada para receber as melhorias.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Documentação técnica escrita: guia de instalação, arquitetura do sistema, tecnologias adotadas e roteiro individual de cada integrante.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Regras de trabalho em equipe definidas: revisão obrigatória entre grupos, mapa de possíveis conflitos e divisão de responsabilidade por arquivo.</span></div>
+          <div class="item"><span class="marca m-ok">✔</span><span>Verificação automática de qualidade configurada — toda alteração é conferida antes de ser integrada ao projeto.</span></div>
+
+          <div class="rot-i">Etapa 1 — Identidade e aparência</div>
+          <div class="item"><span class="marca m-and">◐</span><span><b>Caio</b> — telas de Login e Cadastro.</span></div>
+          <div class="item"><span class="marca m-and">◐</span><span><b>Lara</b> — os cinco temas de cores e o nome do usuário no perfil.</span></div>
+          <div class="item"><span class="marca m-and">◐</span><span><b>Esther</b> — Landing Page e menu compacto para celular.</span></div>
+
+          <div class="rot-i">Etapa 2 — Núcleo acadêmico e demais categorias</div>
+          <div class="item"><span class="marca m-pend">○</span><span><b>Érika</b> — curso, período, matérias personalizadas, tipos de conteúdo e progresso por matéria.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span><b>Laysa</b> — prazo, prioridade, status, filtro acadêmica/pessoal e ligação com a matéria.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span><b>Gabi</b> — melhorias de prioridade Alta em Financeiro, Hobbies e Treino.</span></div>
+
+          <div class="rot-i">Etapa 3 — Experiência e acabamento</div>
+          <div class="item"><span class="marca m-pend">○</span><span><b>Esther</b> — página Início reorganizada, estados vazios, mensagens de feedback, padronização visual e responsividade.</span></div>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="topo">
+          <span class="dias">Dias 12–13</span>
+          <span class="tit">Testes</span>
+          <span class="estado e-pend">Previsto</span>
+        </div>
+        <div class="corpo">
+          <div class="item"><span class="marca m-pend">○</span><span>Cadastro, login, logout, navegação, temas, responsividade, adição e edição de informações, Tarefas, Estudos, categorias e experiência geral.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span>Teste com perfis diferentes de usuário: estudante de graduação, estudante que trabalha, estudante com muitas disciplinas e estudante que usa o planner apenas para organização pessoal.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span>Cada integrante testa a área de outro, e não a própria.</span></div>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="topo">
+          <span class="dias">Dias 14–15</span>
+          <span class="tit">Finalização</span>
+          <span class="estado e-pend">Previsto</span>
+        </div>
+        <div class="corpo">
+          <div class="item"><span class="marca m-pend">○</span><span>Correção de bugs e padronização final das telas.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span>Conferência de que todas as partes conversam entre si.</span></div>
+          <div class="item"><span class="marca m-pend">○</span><span>Documentação do que foi desenvolvido e registro do que ficou para a Fase 3.</span></div>
+        </div>
+      </div>
+
+      <h3>Situação resumida</h3>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Etapa</th>
+            <th style="width: 18%">Situação</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">Pesquisa (1–3)</td>
+            <td><b style="color: #1a7f4b">Concluída</b></td>
+            <td>Seis pesquisas entregues, uma por integrante.</td>
+          </tr>
+          <tr>
+            <td class="n">Reunião (4–5)</td>
+            <td><b style="color: #1a7f4b">Concluída</b></td>
+            <td>Escopo e ordem de execução definidos em grupo.</td>
+          </tr>
+          <tr>
+            <td class="n">Implementação (6–11)</td>
+            <td><b style="color: #b8860b">Em andamento</b></td>
+            <td>Ambiente e documentação prontos; front-end da Etapa 1 iniciado.</td>
+          </tr>
+          <tr>
+            <td class="n">Testes (12–13)</td>
+            <td>Previsto</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td class="n">Finalização (14–15)</td>
+            <td>Previsto</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Resultado esperado ao fim da Fase 2</h3>
+      <p>
+        O Estudia continuará sendo o mesmo planner, porém com <strong>(1)</strong> uma primeira
+        experiência adequada para novos usuários; <strong>(2)</strong> uma página inicial que
+        prioriza a rotina acadêmica; e <strong>(3)</strong> uma experiência visual e de navegação
+        consistente entre todas as áreas — deixando a estrutura preparada para o banco de dados da
+        Fase 3.
+      </p>
+
+      <div class="rodape">
+        Estudia &middot; Projeto Integrador II &middot; Fase 2 &middot; Relatório de andamento
+      </div>
+    </section>
+  </body>
+</html>
