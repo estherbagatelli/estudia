@@ -1,0 +1,28 @@
+{
+  // Extensões recomendadas do VS Code para este projeto.
+  //
+  // Ao abrir o Estudia, o VS Code mostra um aviso sugerindo instalar estas.
+  // Elas ficam na SUA máquina — não vão para o repositório e não afetam o
+  // trabalho de mais ninguém. Instalar é opcional, mas ajuda bastante.
+  //
+  // Para ver a lista: Ctrl+Shift+X e digite @recommended
+  "recommendations": [
+    // Aponta erro de padrão de código enquanto você digita — é o mesmo
+    // ESLint que roda no Pull Request. Instalando, você vê o problema antes
+    // de subir, em vez de descobrir quando o CI reclama.
+    "dbaeumer.vscode-eslint",
+
+    // Formata o arquivo sozinho ao salvar, no padrão do projeto.
+    // Evita Pull Request cheio de mudança de espaço em branco.
+    "esbenp.prettier-vscode",
+
+    // Autocompleta as classes do Tailwind e mostra a cor de cada token
+    // (text-magenta, border-gold...) num quadradinho ao lado. Ajuda muito
+    // no trabalho de temas e na padronização visual.
+    "bradlc.vscode-tailwindcss",
+
+    // Mostra o erro do TypeScript na própria linha, em vermelho, em vez de
+    // só um risquinho embaixo. Bom para quem está começando.
+    "usernamehw.errorlens"
+  ]
+}
