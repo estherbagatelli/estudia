@@ -82,6 +82,29 @@ Abre em `http://localhost:3000`.
 
 ---
 
+## Extensões recomendadas do VS Code
+
+Ao abrir o projeto, o VS Code sugere quatro extensões. **Instalar é opcional,
+mas ajuda bastante** — principalmente quem está começando com TypeScript.
+
+| Extensão                      | O que faz por você                                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **ESLint**                    | aponta o erro de padrão **enquanto você digita** — é o mesmo que roda no Pull Request, então você corrige antes de subir |
+| **Prettier**                  | formata o arquivo sozinho ao salvar, no padrão do projeto                                                                |
+| **Tailwind CSS IntelliSense** | autocompleta as classes e mostra a **cor de cada token** (`text-magenta`, `border-gold`…) num quadradinho ao lado        |
+| **Error Lens**                | mostra o erro do TypeScript na própria linha, em vermelho                                                                |
+
+Se o aviso não aparecer: `Ctrl+Shift+X` e digite **@recommended**.
+
+> Estas extensões ficam **na sua máquina**. Não vão para o repositório e não
+> afetam o trabalho de mais ninguém — então dá para instalar e desinstalar à
+> vontade, sem risco de conflito.
+>
+> Elas **não substituem** rodar `npx tsc --noEmit` e `npm run lint` antes do
+> Pull Request; só fazem você descobrir o problema mais cedo.
+
+---
+
 ## Como está organizado
 
 ```

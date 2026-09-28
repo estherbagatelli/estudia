@@ -35,8 +35,7 @@ Etapa:
 
 ## Revisão
 
-Quem revisa, conforme o rodízio em [docs/GUIA-GIT.md](../docs/GUIA-GIT.md):
+A Esther aprova todos os Pull Requests — o GitHub já pede a revisão dela
+automaticamente, você não precisa marcar ninguém.
 
-- Grupo 1 → revisado pelo Grupo 2
-- Grupo 2 → revisado pelo Grupo 3
-- Grupo 3 → revisado pelo Grupo 1
+Mande o link no grupo assim que abrir. E lembre: PR pequeno entra rápido.

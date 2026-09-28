@@ -162,7 +162,7 @@ Três regras:
 
 1. **Só visual** — classe, espaçamento, ordem dos elementos. Nada de lógica.
 2. **Um Pull Request por arquivo**, pequeno.
-3. **A dona do arquivo é a revisora** — não o rodízio normal.
+3. **Peça o olhar da dona do arquivo** antes de mergear — ela percebe se algo quebrou.
 
 O alvo, em Tarefas: `Trabalho de Banco de Dados · Acadêmica · Banco de Dados ·
 24/09 · Alta · Pendente`. Em Estudos: card de matéria com nome + progresso, e

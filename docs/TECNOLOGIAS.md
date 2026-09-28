@@ -75,6 +75,29 @@ precisar de algo diferente, envolva o componente ou passe `className`.
 | Cor escrita na mão (`#e91e63`)               | não muda junto com o tema                         | token (`text-magenta`)                       |
 | `<div onClick>` como botão                   | não funciona no teclado                           | `<Button>` ou `<button>`                     |
 
+### Duas coisas diferentes que se confundem
+
+|                 | Extensão do VS Code                     | Biblioteca do projeto                |
+| --------------- | --------------------------------------- | ------------------------------------ |
+| Onde mora       | só na **sua máquina**                   | dentro do projeto, no `package.json` |
+| Quem é afetado  | só você                                 | **as seis pessoas**                  |
+| Precisa avisar? | não                                     | **sim, sempre**                      |
+| Exemplo         | ESLint, Prettier, Tailwind IntelliSense | React, date-fns, sonner              |
+
+Instalar extensão do editor é livre e não causa conflito nenhum — as
+recomendadas estão no [README](../README.md). **Instalar biblioteca no projeto
+é outra história:** mexe no `package-lock.json`, que é de todo mundo.
+
+### E sobre trocar de framework
+
+O Estudia usa **React**. Angular, Vue e Svelte são **alternativas ao React**,
+não complementos — não dá para somar dois. Trocar significaria reescrever as 8
+telas e o login do zero, o que consumiria a Fase 2 inteira para chegar no mesmo
+resultado. Se alguém sugerir, a resposta é essa.
+
+> Vale a ressalva: **Angular usa TypeScript, mas TypeScript não precisa de
+> Angular.** Este projeto já é TypeScript — 87 arquivos, mais de 90% do código.
+
 ---
 
 ## 4. As cores — a regra mais importante
