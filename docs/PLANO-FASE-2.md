@@ -141,7 +141,7 @@ tempo, e seis pessoas fazendo isso junto é conflito garantido.
 | Preenchimento automático de dados desligado            | conta nova precisa começar vazia para os estados vazios existirem  |
 | CI de lint + typecheck no Pull Request                 | pega merge quebrado antes de virar problema de todo mundo          |
 
-### Etapa 1 — Identidade e aparência · Dias 6–7
+### Etapa 1 — Identidade e aparência · 29/09 a 04/10
 
 **Grupo 1 (Caio e Lara) + Esther em paralelo.**
 
@@ -157,7 +157,7 @@ são os que mexem em coisa que todo mundo usa depois.
 **Pronto quando:** dá para criar uma conta com nome e senha, sair, entrar de
 novo, trocar o tema, recarregar a página e o tema continuar aplicado.
 
-### Etapa 2 — Núcleo acadêmico e demais categorias · Dias 8–10
+### Etapa 2 — Núcleo acadêmico e demais categorias · 05/10 a 18/10
 
 **Grupo 2 (Érika e Laysa) + Gabi, os três em paralelo.**
 
@@ -177,7 +177,7 @@ que não escreva cor na mão.
 **Pronto quando:** dá para criar uma matéria, colocar uma prova com data nela,
 ver essa prova na aba Tarefas ordenada por prazo, e ver o progresso da matéria.
 
-### Etapa 3 — Experiência e acabamento · Dias 10–11
+### Etapa 3 — Experiência e acabamento · 19/10 a 25/10
 
 **Esther, sozinha.**
 
@@ -193,7 +193,7 @@ Se acontecesse antes, viraria conflito com cinco pessoas ao mesmo tempo.
 Elas entregam ganchos (`useResumoEstudos()`, `useProximosPrazos()`) e Esther
 apenas consome. Detalhado em [CONFLITOS.md](CONFLITOS.md), risco nº 2.
 
-### Etapa 4 — Testes · Dias 12–13
+### Etapa 4 — Testes · 26/10 a 31/10
 
 Todo mundo, com a lista do PDF: cadastro, login, logout, navegação, temas,
 responsividade, adição/edição, tarefas, estudos, categorias, experiência geral.
@@ -201,10 +201,43 @@ responsividade, adição/edição, tarefas, estudos, categorias, experiência ge
 Cada pessoa testa **a área de outra pessoa**, nunca a sua — quem escreveu já
 sabe onde não clicar. O rodízio de testes está em [GUIA-GIT.md](GUIA-GIT.md).
 
-### Etapa 5 — Fechamento · Dias 14–15
+### Etapa 5 — Fechamento · primeira semana de novembro
 
 Correção de bugs, padronização final e a documentação: o que foi feito, o que
 ficou para a Fase 3 e o registro das decisões em [DECISOES.md](DECISOES.md).
+
+---
+
+## 4.1 O calendário, de uma olhada só
+
+| Período                 | Etapa                             | Quem entrega                   |
+| ----------------------- | --------------------------------- | ------------------------------ |
+| **29/09 – 04/10**       | 1 · Identidade e aparência        | Caio · Lara · Esther (landing) |
+| **05/10 – 18/10**       | 2 · Núcleo acadêmico e categorias | Érika · Laysa · Gabi           |
+| **19/10 – 25/10**       | 3 · Experiência e acabamento      | Esther                         |
+| **26/10 – 31/10**       | 4 · Testes                        | todos                          |
+| **novembro, 1ª semana** | 5 · Fechamento                    | todos                          |
+
+### As janelas de revisão
+
+| Data                                          | Janela               |
+| --------------------------------------------- | -------------------- |
+| **sáb 03/10** (só sábado, semana curta)       | Etapa 1              |
+| qua 07/10 · sáb 10/10 · qua 14/10 · sáb 17/10 | Etapa 2              |
+| qua 21/10 · sáb 24/10                         | Etapa 3              |
+| qua 28/10 · sáb 31/10                         | correções dos testes |
+
+**Quarta à noite** e **sábado de manhã**. Tudo que estiver aberto até a janela é
+revisado nela; o que chegar depois fica para a próxima. Detalhes em
+[GUIA-GIT.md](GUIA-GIT.md), seção 5.
+
+> **Esta primeira semana tem só o sábado.** O projeto acabou de ser publicado e
+> não daria tempo de produzir nada até quarta. O ritmo de duas janelas começa
+> na semana de 05/10.
+
+> **A data que não pode escorregar é 04/10.** A Etapa 2 inteira depende dos
+> temas da Lara. Se a Etapa 1 atrasar uma semana, atrasam três pessoas de uma
+> vez — e os testes não cabem mais em outubro.
 
 ---
 

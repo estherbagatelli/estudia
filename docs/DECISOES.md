@@ -83,26 +83,52 @@ consegue nem começar.
 migrations de cada pessoa são pequenas (`add column`), e o modelo de dados
 completo continua sendo assunto da Fase 3.
 
-**Recomendação (a ser confirmada pelo grupo):** **um projeto Supabase
-compartilhado**, criado uma vez, com a URL e a chave pública distribuídas para
-os seis. Motivos:
+**Decidido: um projeto Supabase compartilhado pelos seis.** Criado uma vez, com
+a URL e a chave pública distribuídas para todos. Motivos:
 
-- As regras de acesso por usuário já existem: cada pessoa entra com o próprio
-  e-mail e **vê apenas os próprios dados**, mesmo compartilhando o banco. Isso
-  já está implementado e testado no schema.
-- Cada migration é aplicada **uma vez**, não seis.
-- Ninguém fica bloqueado esperando a própria configuração funcionar.
+- **A migration é aplicada uma vez, não seis.** É o motivo decisivo. Como a
+  Esther é quem aplica todas, com banco compartilhado ela aplica e acabou. Com
+  bancos separados, as outras cinco precisariam aplicar cada mudança na própria
+  máquina — e basta uma esquecer para passar horas presa num
+  `column does not exist` sem entender o motivo.
+- **Compartilhar o banco não é compartilhar os dados.** Cada pessoa entra com o
+  próprio e-mail e vê apenas os próprios dados. As regras de acesso por usuário
+  já existem no schema desde a primeira versão — é a resposta da pergunta 1.3
+  da pesquisa do Caio, já implementada.
+- **A Fase 3 começa com um banco real**, de um mês de uso, com seis contas e o
+  histórico de como ele cresceu. Material muito melhor do que seis bancos
+  vazios e diferentes entre si.
 
 A alternativa — cada pessoa com o seu projeto — dá isolamento total, mas custa
-seis configurações e seis aplicações de cada migration. Para 15 dias, é atrito
-demais.
+seis configurações e seis aplicações de cada migration, e a divergência entre
+os bancos é questão de tempo.
 
-**Custo do compartilhado:** se alguém aplicar uma migration e não subir o
-arquivo para o repositório, o banco fica à frente do código. Por isso a regra
-de avisar no grupo, em [CONFLITOS.md](CONFLITOS.md) seção 3.
+**Custo, e como está coberto:** se alguém rodar um comando errado, afeta os
+seis. Por isso a regra de que **ninguém aplica migration sozinho** — quem
+precisa de coluna nova escreve o `.sql` e a Esther aplica. Está em
+[BANCO-DE-DADOS.md](BANCO-DE-DADOS.md).
 
-**Status:** aguardando decisão do grupo. Ver [SETUP.md](../SETUP.md), que cobre
-os dois cenários.
+### Um segundo projeto, para testar
+
+O plano gratuito do Supabase permite dois projetos. A recomendação é ter:
+
+| Projeto         | Para quê                                                    |
+| --------------- | ----------------------------------------------------------- |
+| `estudia`       | o compartilhado, que os seis usam                           |
+| `estudia-teste` | da Esther, para testar migration arriscada antes de aplicar |
+
+Assim, uma mudança que possa quebrar é testada primeiro num banco onde quebrar
+não custa nada.
+
+### O que fica combinado para a Fase 3
+
+Na Fase 2 a divisão é: **as pessoas escrevem o `.sql`** (então aprendem e o
+trabalho consta como delas) e **a Esther aplica** (então nada quebra). Faz
+sentido porque as migrations são pequenas, do tipo `add column`.
+
+Na **Fase 3 o banco é a entrega avaliada** — lá a participação das outras cinco
+precisa ser maior, não por justiça, mas porque é o que a fase cobra. Fica
+registrado para não ser esquecido.
 
 ---
 
@@ -181,9 +207,11 @@ Fase 3.
 
 Anote aqui o que ainda precisa ser decidido, e mova para cima quando resolver.
 
-| #   | Pergunta                                                 | Quem decide   | Até quando        |
-| --- | -------------------------------------------------------- | ------------- | ----------------- |
-| A   | Supabase compartilhado ou um por pessoa? (ver decisão 3) | grupo         | Dia 6             |
-| B   | Tarefa pode ficar sem data de entrega?                   | Érika e Laysa | início da Etapa 2 |
-| C   | Os nomes exatos dos tipos de conteúdo e de status        | Érika e Laysa | início da Etapa 2 |
-| D   | Botão "carregar dados de exemplo" para a apresentação?   | grupo         | Etapa 5           |
+| #   | Pergunta                                               | Quem decide   | Até quando        |
+| --- | ------------------------------------------------------ | ------------- | ----------------- |
+| B   | Tarefa pode ficar sem data de entrega?                 | Érika e Laysa | início da Etapa 2 |
+| C   | Os nomes exatos dos tipos de conteúdo e de status      | Érika e Laysa | início da Etapa 2 |
+| D   | Botão "carregar dados de exemplo" para a apresentação? | grupo         | Etapa 5           |
+
+> A decisão **A** (Supabase compartilhado ou um por pessoa) foi resolvida — ver
+> a decisão 3 acima.

@@ -35,12 +35,12 @@ O `npm install` demora alguns minutos na primeira vez. É normal.
 >
 > O porquê disso está em [docs/DECISOES.md](docs/DECISOES.md), decisão 3.
 
-O grupo precisa escolher **um dos dois caminhos** abaixo. A recomendação é o
-caminho A.
+**O grupo decidiu usar um banco compartilhado.** Se você é uma das cinco
+pessoas, pule direto para "Quem recebe" — são duas linhas para colar e acabou.
 
-### Caminho A — um banco compartilhado pelo grupo (recomendado)
+### O banco do grupo é compartilhado
 
-Uma pessoa cria o projeto no Supabase e passa as chaves para as outras cinco.
+A Esther cria o projeto no Supabase e passa as chaves para as outras cinco.
 
 **Isso é seguro?** É. O banco tem regras de acesso por usuário: cada pessoa
 entra com o próprio e-mail e **enxerga apenas os próprios dados**, mesmo todo
@@ -83,13 +83,14 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOi...
 
 Pronto — você não precisa rodar migration nenhuma.
 
-### Caminho B — cada pessoa com o seu banco
-
-Mais isolado, porém mais trabalhoso: cada uma faz **todos** os passos do
-Caminho A, inclusive o `db push`, e refaz a cada migration nova que alguém
-subir.
-
-O guia detalhado está em [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
+> **E se eu quiser o meu próprio banco?** Não precisa, e é melhor não. Você
+> teria que aplicar toda migration que alguém subir, na sua máquina, sempre —
+> e esquecer uma vez significa passar horas presa num erro de coluna que não
+> existe. O motivo completo da decisão está em
+> [docs/DECISOES.md](docs/DECISOES.md), decisão 3.
+>
+> Quem precisar mesmo assim (ou quiser entender como o Supabase é montado)
+> encontra o guia completo em [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
 
 ---
 

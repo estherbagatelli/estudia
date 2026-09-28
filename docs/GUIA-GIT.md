@@ -105,12 +105,55 @@ automaticamente quando você abre o PR — você não precisa marcar ninguém.
 
 Por que uma pessoa só: ela é quem conhece o código inteiro, é quem aplica as
 mudanças no banco e é quem responde pela integração entre as áreas. Com seis
-pessoas mexendo em paralelo em 15 dias, uma única pessoa vendo tudo que entra é
-o que mantém o projeto coerente.
+pessoas mexendo em paralelo, uma única pessoa vendo tudo que entra é o que
+mantém o projeto coerente.
 
-> **O custo disso é a fila.** Se ela demorar, o seu PR espera. Então: mande o
-> link no grupo assim que abrir, e **abra PR pequeno** — um PR de 80 linhas ela
-> aprova entre uma aula e outra; um de 800 fica para a noite.
+### As duas janelas de revisão
+
+Para ninguém ficar esperando sem saber até quando, a revisão tem **hora
+marcada**:
+
+| Quando               | O quê                           |
+| -------------------- | ------------------------------- |
+| **Quarta, à noite**  | janela do meio da semana        |
+| **Sábado, de manhã** | janela principal — a mais longa |
+
+Tudo que estiver aberto até a janela é revisado nela. O que chegar depois fica
+para a próxima.
+
+> **Por que duas e não uma?** Com uma janela por semana, um PR que precise de
+> uma rodada de correção leva **duas semanas** para entrar. Com duas janelas,
+> leva três ou quatro dias. Como temos cerca de cinco semanas até os testes, a
+> diferença decide se dá tempo ou não.
+
+**O que isso muda para você:** não precisa cobrar nem ficar perguntando. Abra o
+PR, mande o link no grupo, e você já sabe quando terá resposta. E **abra PR
+pequeno** — um PR de 80 linhas passa na janela; um de 800 fica para a seguinte.
+
+### O que acontece na revisão
+
+```
+1. Você abre o PR e manda o link no grupo
+2. O CI confere sozinho os tipos e o padrão de código
+3. Na janela, a Esther revisa
+        ↓
+   ┌────┴────┐
+ está ok?   precisa mudar?
+   ↓            ↓
+ aprova e   ela comenta o que mudar
+ mergeia          ↓
+             VOCÊ corrige na sua branch
+                  ↓
+             volta para a próxima janela
+```
+
+**Quem corrige é quem escreveu.** A Esther aponta o que precisa mudar, mas não
+mexe no seu código — o trabalho continua sendo seu, e aparece como seu no
+histórico do projeto. Isso importa porque cada pessoa é avaliada pela própria
+contribuição.
+
+As únicas exceções são infraestrutura, conflito de merge que trave alguém, e os
+arquivos que já são dela.
 
 ### Enquanto o seu PR espera, não pare
 
@@ -141,9 +184,9 @@ Revisão não é lugar de discutir gosto pessoal. É lugar de achar o que quebra
 
 ---
 
-## 6. Rodízio de testes (dias 12–13)
+## 6. Rodízio de testes · 26/10 a 31/10
 
-Cada pessoa testa a área de **outra**, com a lista do PDF:
+Cada pessoa testa a área de **outra**, com a lista de itens da Fase 2:
 
 | Testa  | A área de                 |
 | ------ | ------------------------- |
@@ -154,7 +197,7 @@ Cada pessoa testa a área de **outra**, com a lista do PDF:
 | Gabi   | Login e Cadastro (Caio)   |
 | Esther | Temas (Lara)              |
 
-Testem também com perfis diferentes, como pede o PDF: estudante de graduação,
+Testem também com perfis diferentes: estudante de graduação,
 estudante que trabalha, estudante com muitas disciplinas, e estudante que usa o
 planner só para organização pessoal.
 
@@ -163,18 +206,21 @@ solta no grupo, que se perde.
 
 ---
 
-## 7. Configuração da `main` no GitHub
+## 7. O que a `main` já exige — não dá para burlar
 
-Para fazer valer a regra "ninguém commita direto no `main`", peça ao dono do
-repositório para ligar, em **Settings → Branches → Add rule**:
+A proteção já está ligada no GitHub. Na prática, isto é recusado pelo próprio
+site, não é só combinado:
 
-- Require a pull request before merging
-- Require approvals: **1**
-- Require status checks to pass: marque **CI**
+| Regra                        | O que significa                               |
+| ---------------------------- | --------------------------------------------- |
+| Pull Request obrigatório     | não dá para enviar direto para a `main`       |
+| Aprovação da Esther          | outra pessoa aprovando não libera             |
+| Verificação automática verde | PR com erro de tipo ou padrão não entra       |
+| Branch atualizada            | você precisa trazer a `main` antes de mergear |
+| Sem apagar histórico         | `push --force` é recusado                     |
 
-> Isso funciona em repositório **público** com conta gratuita. Em repositório
-> privado gratuito, essas regras não são aplicadas — aí o combinado vale por
-> disciplina do grupo.
+As duas últimas são rede de segurança: evitam que alguém apague, sem querer, o
+trabalho de outra pessoa.
 
 ---
 
