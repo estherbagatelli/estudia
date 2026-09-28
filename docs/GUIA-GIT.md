@@ -184,9 +184,9 @@ Revisão não é lugar de discutir gosto pessoal. É lugar de achar o que quebra
 
 ---
 
-## 6. Rodízio de testes (dias 12–13)
+## 6. Rodízio de testes · 26/10 a 31/10
 
-Cada pessoa testa a área de **outra**, com a lista do PDF:
+Cada pessoa testa a área de **outra**, com a lista de itens da Fase 2:
 
 | Testa  | A área de                 |
 | ------ | ------------------------- |
@@ -197,7 +197,7 @@ Cada pessoa testa a área de **outra**, com a lista do PDF:
 | Gabi   | Login e Cadastro (Caio)   |
 | Esther | Temas (Lara)              |
 
-Testem também com perfis diferentes, como pede o PDF: estudante de graduação,
+Testem também com perfis diferentes: estudante de graduação,
 estudante que trabalha, estudante com muitas disciplinas, e estudante que usa o
 planner só para organização pessoal.
 
@@ -206,18 +206,21 @@ solta no grupo, que se perde.
 
 ---
 
-## 7. Configuração da `main` no GitHub
+## 7. O que a `main` já exige — não dá para burlar
 
-Para fazer valer a regra "ninguém commita direto no `main`", peça ao dono do
-repositório para ligar, em **Settings → Branches → Add rule**:
+A proteção já está ligada no GitHub. Na prática, isto é recusado pelo próprio
+site, não é só combinado:
 
-- Require a pull request before merging
-- Require approvals: **1**
-- Require status checks to pass: marque **CI**
+| Regra                        | O que significa                               |
+| ---------------------------- | --------------------------------------------- |
+| Pull Request obrigatório     | não dá para enviar direto para a `main`       |
+| Aprovação da Esther          | outra pessoa aprovando não libera             |
+| Verificação automática verde | PR com erro de tipo ou padrão não entra       |
+| Branch atualizada            | você precisa trazer a `main` antes de mergear |
+| Sem apagar histórico         | `push --force` é recusado                     |
 
-> Isso funciona em repositório **público** com conta gratuita. Em repositório
-> privado gratuito, essas regras não são aplicadas — aí o combinado vale por
-> disciplina do grupo.
+As duas últimas são rede de segurança: evitam que alguém apague, sem querer, o
+trabalho de outra pessoa.
 
 ---
 
