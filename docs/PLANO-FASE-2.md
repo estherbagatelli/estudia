@@ -199,7 +199,7 @@ Todo mundo, com a lista do PDF: cadastro, login, logout, navegação, temas,
 responsividade, adição/edição, tarefas, estudos, categorias, experiência geral.
 
 Cada pessoa testa **a área de outra pessoa**, nunca a sua — quem escreveu já
-sabe onde não clicar. O rodízio está em [GUIA-GIT.md](GUIA-GIT.md).
+sabe onde não clicar. O rodízio de testes está em [GUIA-GIT.md](GUIA-GIT.md).
 
 ### Etapa 5 — Fechamento · Dias 14–15
 

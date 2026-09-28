@@ -69,8 +69,9 @@ Três regras para isso não virar briga:
 2. **Esther não muda comportamento.** O PR dela nesses dois arquivos é só
    visual: classe, espaçamento, ordem dos elementos. Se ela precisar mudar
    lógica, pede para a dona.
-3. **Um PR por arquivo, pequeno**, e com a dona do arquivo como revisora — não
-   o rodízio normal. Quem escreveu a lógica é quem percebe se algo quebrou.
+3. **Um PR por arquivo, pequeno.** Antes de mergear, peça o olhar da dona do
+   arquivo — ela é quem percebe se algo quebrou. A aprovação formal continua
+   sendo da Esther, mas aqui o comentário da dona vale mais que a aprovação.
 
 ---
 

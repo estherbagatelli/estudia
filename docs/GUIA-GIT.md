@@ -98,21 +98,37 @@ como pronto, confirme:
 
 ---
 
-## 5. Quem revisa quem
+## 5. Quem aprova
 
-Revisão **cruzada entre grupos**, nunca dentro da própria dupla. Dois motivos:
-quem está na mesma dupla já viu o código nascer e revisa no automático; e assim
-todo mundo acaba conhecendo uma área que não é a sua — o que importa nos dias
-12–13, quando cada um testa a área do outro.
+**A Esther aprova todos os Pull Requests.** O GitHub pede a revisão dela
+automaticamente quando você abre o PR — você não precisa marcar ninguém.
 
-| Quem abriu o PR        | Quem revisa            |
-| ---------------------- | ---------------------- |
-| Grupo 1 (Caio, Lara)   | Grupo 2 (Érika, Laysa) |
-| Grupo 2 (Érika, Laysa) | Grupo 3 (Gabi, Esther) |
-| Grupo 3 (Gabi, Esther) | Grupo 1 (Caio, Lara)   |
+Por que uma pessoa só: ela é quem conhece o código inteiro, é quem aplica as
+mudanças no banco e é quem responde pela integração entre as áreas. Com seis
+pessoas mexendo em paralelo em 15 dias, uma única pessoa vendo tudo que entra é
+o que mantém o projeto coerente.
 
-**Uma aprovação basta.** Se o revisor não responder em 24 h, qualquer outra
-pessoa do grupo pode aprovar — ninguém fica bloqueado esperando.
+> **O custo disso é a fila.** Se ela demorar, o seu PR espera. Então: mande o
+> link no grupo assim que abrir, e **abra PR pequeno** — um PR de 80 linhas ela
+> aprova entre uma aula e outra; um de 800 fica para a noite.
+
+### Enquanto o seu PR espera, não pare
+
+Crie a próxima branch **a partir da sua branch atual** e continue:
+
+```bash
+git checkout -b p3-erika/proxima-parte    # partindo da branch que está no PR
+```
+
+Quando o primeiro PR for aprovado e entrar, você atualiza a segunda branch com
+a `main` e segue. Assim a fila não vira tempo parado.
+
+### Ler o PR dos outros continua valendo
+
+Mesmo sem ser obrigatório, dê uma olhada no PR de quem está na área vizinha —
+principalmente Érika e Laysa, que dependem uma da outra. Comentar é livre;
+só a aprovação é que é da Esther. Isso também ajuda nos dias 12–13, quando cada
+um testa a área do outro.
 
 ### Como revisar sem travar o colega
 
