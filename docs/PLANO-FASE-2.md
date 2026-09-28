@@ -222,7 +222,7 @@ ficou para a Fase 3 e o registro das decisões em [DECISOES.md](DECISOES.md).
 
 | Data                                          | Janela               |
 | --------------------------------------------- | -------------------- |
-| qua 30/09 · sáb 03/10                         | Etapa 1              |
+| **sáb 03/10** (só sábado, semana curta)       | Etapa 1              |
 | qua 07/10 · sáb 10/10 · qua 14/10 · sáb 17/10 | Etapa 2              |
 | qua 21/10 · sáb 24/10                         | Etapa 3              |
 | qua 28/10 · sáb 31/10                         | correções dos testes |
@@ -230,6 +230,10 @@ ficou para a Fase 3 e o registro das decisões em [DECISOES.md](DECISOES.md).
 **Quarta à noite** e **sábado de manhã**. Tudo que estiver aberto até a janela é
 revisado nela; o que chegar depois fica para a próxima. Detalhes em
 [GUIA-GIT.md](GUIA-GIT.md), seção 5.
+
+> **Esta primeira semana tem só o sábado.** O projeto acabou de ser publicado e
+> não daria tempo de produzir nada até quarta. O ritmo de duas janelas começa
+> na semana de 05/10.
 
 > **A data que não pode escorregar é 04/10.** A Etapa 2 inteira depende dos
 > temas da Lara. Se a Etapa 1 atrasar uma semana, atrasam três pessoas de uma
