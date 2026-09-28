@@ -105,12 +105,55 @@ automaticamente quando você abre o PR — você não precisa marcar ninguém.
 
 Por que uma pessoa só: ela é quem conhece o código inteiro, é quem aplica as
 mudanças no banco e é quem responde pela integração entre as áreas. Com seis
-pessoas mexendo em paralelo em 15 dias, uma única pessoa vendo tudo que entra é
-o que mantém o projeto coerente.
+pessoas mexendo em paralelo, uma única pessoa vendo tudo que entra é o que
+mantém o projeto coerente.
 
-> **O custo disso é a fila.** Se ela demorar, o seu PR espera. Então: mande o
-> link no grupo assim que abrir, e **abra PR pequeno** — um PR de 80 linhas ela
-> aprova entre uma aula e outra; um de 800 fica para a noite.
+### As duas janelas de revisão
+
+Para ninguém ficar esperando sem saber até quando, a revisão tem **hora
+marcada**:
+
+| Quando               | O quê                           |
+| -------------------- | ------------------------------- |
+| **Terça, à noite**   | janela do meio da semana        |
+| **Sábado, de manhã** | janela principal — a mais longa |
+
+Tudo que estiver aberto até a janela é revisado nela. O que chegar depois fica
+para a próxima.
+
+> **Por que duas e não uma?** Com uma janela por semana, um PR que precise de
+> uma rodada de correção leva **duas semanas** para entrar. Com duas janelas,
+> leva três ou quatro dias. Como temos cerca de cinco semanas até os testes, a
+> diferença decide se dá tempo ou não.
+
+**O que isso muda para você:** não precisa cobrar nem ficar perguntando. Abra o
+PR, mande o link no grupo, e você já sabe quando terá resposta. E **abra PR
+pequeno** — um PR de 80 linhas passa na janela; um de 800 fica para a seguinte.
+
+### O que acontece na revisão
+
+```
+1. Você abre o PR e manda o link no grupo
+2. O CI confere sozinho os tipos e o padrão de código
+3. Na janela, a Esther revisa
+        ↓
+   ┌────┴────┐
+ está ok?   precisa mudar?
+   ↓            ↓
+ aprova e   ela comenta o que mudar
+ mergeia          ↓
+             VOCÊ corrige na sua branch
+                  ↓
+             volta para a próxima janela
+```
+
+**Quem corrige é quem escreveu.** A Esther aponta o que precisa mudar, mas não
+mexe no seu código — o trabalho continua sendo seu, e aparece como seu no
+histórico do projeto. Isso importa porque cada pessoa é avaliada pela própria
+contribuição.
+
+As únicas exceções são infraestrutura, conflito de merge que trave alguém, e os
+arquivos que já são dela.
 
 ### Enquanto o seu PR espera, não pare
 

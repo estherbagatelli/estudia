@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Estudia — Guia de trabalho</title>
+    <style>
+      :root {
+        --tinta: #16121a;
+        --suave: #5f5766;
+        --linha: #e4dfe4;
+        --fundo: #faf8fa;
+        --rosa: #c2185b;
+        --ouro: #9a6b12;
+        --verde: #1a7f4b;
+        --g1: #d81b74;
+        --g2: #0f8f86;
+        --g3: #e0761c;
+      }
+      @page {
+        size: A4;
+        margin: 15mm 14mm 16mm 14mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+        font-size: 9.5pt;
+        line-height: 1.55;
+        color: var(--tinta);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        line-height: 1.2;
+        margin: 0;
+      }
+      p {
+        margin: 0 0 7pt;
+      }
+      ul,
+      ol {
+        margin: 4pt 0 8pt;
+        padding-left: 16pt;
+      }
+      li {
+        margin-bottom: 3pt;
+      }
+      code {
+        font-family: Consolas, "SF Mono", monospace;
+        font-size: 8.5pt;
+        background: var(--fundo);
+        padding: 1pt 3.5pt;
+        border-radius: 3pt;
+      }
+      pre {
+        background: var(--fundo);
+        border: 1pt solid var(--linha);
+        border-radius: 4pt;
+        padding: 8pt 10pt;
+        font-family: Consolas, monospace;
+        font-size: 8.5pt;
+        line-height: 1.45;
+        margin: 6pt 0 10pt;
+        white-space: pre-wrap;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        font-size: 8.5pt;
+      }
+
+      /* capa */
+      .capa {
+        padding: 36mm 0 0;
+        text-align: center;
+        page-break-after: always;
+      }
+      .capa .marca {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 48pt;
+        font-weight: 300;
+        letter-spacing: -1pt;
+      }
+      .capa .sub {
+        font-size: 15pt;
+        font-weight: 600;
+        color: var(--rosa);
+        margin-top: 6pt;
+      }
+      .capa .regua {
+        width: 110pt;
+        height: 3.5pt;
+        margin: 16pt auto;
+        background: linear-gradient(90deg, var(--g1), var(--g3), var(--g2));
+        border-radius: 2pt;
+      }
+      .capa .lema {
+        font-size: 11pt;
+        color: var(--suave);
+        margin-bottom: 30pt;
+      }
+      .capa h1 {
+        font-size: 19pt;
+        font-weight: 600;
+        margin-bottom: 10pt;
+      }
+      .capa .para {
+        font-size: 10.5pt;
+        color: var(--suave);
+        margin-bottom: 32pt;
+      }
+      .capa .caixa {
+        display: inline-block;
+        text-align: left;
+        border: 1pt solid var(--linha);
+        border-radius: 6pt;
+        padding: 12pt 18pt;
+        background: var(--fundo);
+        font-size: 9.5pt;
+      }
+      .capa .caixa b {
+        color: var(--rosa);
+      }
+
+      h2 {
+        font-size: 14.5pt;
+        font-weight: 600;
+        padding-bottom: 5pt;
+        margin: 0 0 10pt;
+        border-bottom: 2pt solid var(--tinta);
+      }
+      h2 .num {
+        color: var(--rosa);
+        margin-right: 7pt;
+      }
+      h3 {
+        font-size: 11.5pt;
+        font-weight: 600;
+        margin: 13pt 0 5pt;
+      }
+      .secao {
+        margin-bottom: 15pt;
+      }
+      .quebra {
+        page-break-before: always;
+      }
+      .evita {
+        page-break-inside: avoid;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        margin: 7pt 0 11pt;
+      }
+      th {
+        background: var(--fundo);
+        text-align: left;
+        font-weight: 600;
+        font-size: 7.5pt;
+        letter-spacing: 0.5pt;
+        text-transform: uppercase;
+        color: var(--suave);
+        padding: 6pt 7pt;
+        border-bottom: 1.2pt solid var(--linha);
+      }
+      td {
+        padding: 5.5pt 7pt;
+        border-bottom: 0.7pt solid var(--linha);
+        vertical-align: top;
+      }
+      tr {
+        page-break-inside: avoid;
+      }
+      .n {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .aviso {
+        border-left: 3pt solid var(--ouro);
+        background: #fdfaf2;
+        padding: 8pt 12pt;
+        margin: 9pt 0;
+        page-break-inside: avoid;
+      }
+      .aviso .t {
+        font-weight: 600;
+        margin-bottom: 2pt;
+      }
+      .certo {
+        border-left: 3pt solid var(--verde);
+        background: #f3fbf6;
+        padding: 8pt 12pt;
+        margin: 9pt 0;
+        page-break-inside: avoid;
+      }
+      .certo .t {
+        font-weight: 600;
+        color: var(--verde);
+        margin-bottom: 2pt;
+      }
+
+      .ext {
+        border: 1pt solid var(--linha);
+        border-radius: 5pt;
+        padding: 10pt 12pt;
+        margin-bottom: 9pt;
+        page-break-inside: avoid;
+      }
+      .ext .cab {
+        display: flex;
+        align-items: baseline;
+        gap: 8pt;
+        margin-bottom: 4pt;
+      }
+      .ext .nome {
+        font-size: 12pt;
+        font-weight: 600;
+      }
+      .ext .quem {
+        margin-left: auto;
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 0.5pt;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--rosa);
+        padding: 2pt 8pt;
+        border-radius: 9pt;
+        white-space: nowrap;
+      }
+      .rot {
+        font-size: 7.5pt;
+        font-weight: 600;
+        letter-spacing: 1pt;
+        text-transform: uppercase;
+        color: var(--ouro);
+        margin: 7pt 0 2pt;
+      }
+
+      .pessoa {
+        border: 1pt solid var(--linha);
+        border-left: 3.5pt solid var(--g1);
+        border-radius: 5pt;
+        padding: 10pt 12pt;
+        margin-bottom: 9pt;
+        page-break-inside: avoid;
+      }
+      .pessoa.g2 {
+        border-left-color: var(--g2);
+      }
+      .pessoa.g3 {
+        border-left-color: var(--g3);
+      }
+      .pessoa .cab {
+        display: flex;
+        align-items: baseline;
+        gap: 8pt;
+        margin-bottom: 5pt;
+        padding-bottom: 4pt;
+        border-bottom: 0.7pt solid var(--linha);
+      }
+      .pessoa .nome {
+        font-size: 13pt;
+        font-weight: 600;
+      }
+      .pessoa .area {
+        font-size: 8.5pt;
+        color: var(--suave);
+      }
+      .pessoa .prazo {
+        margin-left: auto;
+        font-size: 8.5pt;
+        font-weight: 600;
+        color: var(--rosa);
+        white-space: nowrap;
+      }
+
+      .fluxo {
+        font-family: Consolas, monospace;
+        font-size: 8.5pt;
+        line-height: 1.5;
+        background: var(--fundo);
+        border: 1pt solid var(--linha);
+        border-radius: 4pt;
+        padding: 10pt 12pt;
+        margin: 8pt 0 10pt;
+        white-space: pre;
+        page-break-inside: avoid;
+      }
+      .rodape {
+        margin-top: 16pt;
+        padding-top: 8pt;
+        border-top: 0.7pt solid var(--linha);
+        font-size: 8.5pt;
+        color: var(--suave);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ================= CAPA ================= -->
+    <section class="capa">
+      <span class="marca">Estudia</span>
+      <div class="sub">Guia de trabalho</div>
+      <div class="regua"></div>
+      <div class="lema">Planner de rotina e estudos para universitários</div>
+
+      <h1>Como fazer a sua parte, sem dúvida nenhuma</h1>
+      <div class="para">
+        Preparar a máquina &middot; extensões &middot; o dia a dia &middot; prazos e revisão
+      </div>
+
+      <div class="caixa">
+        <b>Repositório:</b> github.com/estherbagatelli/estudia<br />
+        <b>Revisão:</b> terça à noite e sábado de manhã<br />
+        <b>Testes:</b> última semana de outubro
+      </div>
+    </section>
+
+    <!-- ================= 1 ================= -->
+    <section class="secao">
+      <h2><span class="num">1.</span>Preparar a sua máquina</h2>
+      <p>Uma vez só, no começo. Leva uns 15 minutos.</p>
+
+      <h3>Passo 1 — Aceitar o convite</h3>
+      <p>
+        Chegou um e-mail do GitHub convidando você para o repositório. <strong>Aceite</strong> —
+        sem isso você não consegue enviar o seu trabalho.
+      </p>
+
+      <h3>Passo 2 — Baixar o projeto</h3>
+      <pre><code>git clone https://github.com/estherbagatelli/estudia.git
+cd estudia
+npm install</code></pre>
+      <p>O <code>npm install</code> demora alguns minutos na primeira vez. É normal.</p>
+
+      <h3>Passo 3 — As chaves do banco</h3>
+      <p>
+        Peça as chaves no grupo, crie um arquivo chamado <code>.env</code> na pasta do projeto e
+        cole o que te mandarem. O passo a passo detalhado está no arquivo
+        <code>SETUP.md</code> do repositório.
+      </p>
+
+      <div class="aviso">
+        <div class="t">O projeto não abre sem isso</div>
+        Se você rodar sem o <code>.env</code>, aparece uma tela de erro pedindo as chaves.
+        <strong>Não é bug</strong> — é só a configuração faltando.
+      </div>
+
+      <h3>Passo 4 — Rodar</h3>
+      <pre><code>npm run dev</code></pre>
+      <p>
+        Abra <code>http://localhost:3000</code> no navegador, crie uma conta com o seu e-mail e
+        entre.
+      </p>
+
+      <div class="certo">
+        <div class="t">Sua conta vai começar vazia — e é de propósito</div>
+        Uma das entregas da Fase 2 são as mensagens de "você ainda não adicionou nada". Se a conta
+        já nascesse cheia, essas telas nunca apareceriam.
+      </div>
+    </section>
+
+    <!-- ================= 2 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">2.</span>As extensões do VS Code</h2>
+
+      <p>
+        Ao abrir o projeto, o VS Code mostra um aviso perguntando se você quer instalar as
+        extensões recomendadas. <strong>Clique em sim.</strong> Se o aviso não aparecer, aperte
+        <code>Ctrl+Shift+X</code> e digite <code>@recommended</code>.
+      </p>
+
+      <h3>Antes de tudo: o que é uma extensão?</h3>
+      <p>
+        É um complemento que você instala <strong>no seu editor</strong>, não no projeto. Ela
+        muda o jeito que o VS Code te ajuda enquanto você escreve — e só na sua máquina.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%"></th>
+            <th style="width: 39%">Extensão do VS Code</th>
+            <th>Biblioteca do projeto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">Onde mora</td>
+            <td>só no <strong>seu computador</strong></td>
+            <td>dentro do projeto, no <code>package.json</code></td>
+          </tr>
+          <tr>
+            <td class="n">Quem é afetado</td>
+            <td>só você</td>
+            <td><strong>as seis pessoas</strong></td>
+          </tr>
+          <tr>
+            <td class="n">Precisa avisar?</td>
+            <td>não, instale à vontade</td>
+            <td><strong>sim, sempre</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Por isso instalar extensão é livre e não causa conflito. Já
+        <code>npm install alguma-coisa</code> mexe num arquivo que é de todo mundo — esse precisa
+        de aviso no grupo antes.
+      </p>
+
+      <h3>As quatro recomendadas</h3>
+
+      <div class="ext">
+        <div class="cab">
+          <span class="nome">ESLint</span>
+          <span class="quem">todo mundo</span>
+        </div>
+        Aponta erro de padrão <strong>enquanto você digita</strong>, com um risquinho embaixo do
+        problema.
+        <div class="rot">Por que importa</div>
+        É exatamente a mesma checagem que roda quando você abre um Pull Request. Com a extensão,
+        você vê o problema na hora e corrige; sem ela, descobre depois, quando a verificação
+        automática reclamar e o seu PR ficar travado.
+      </div>
+
+      <div class="ext">
+        <div class="cab">
+          <span class="nome">Prettier</span>
+          <span class="quem">todo mundo</span>
+        </div>
+        Arruma a formatação do arquivo sozinha — espaçamento, quebra de linha, aspas.
+        <div class="rot">Por que importa</div>
+        O projeto tem um padrão de formatação, e a verificação automática cobra ele. Além disso,
+        formatação desalinhada polui o Pull Request: quem revisa perde tempo olhando mudança de
+        espaço em vez de olhar o que você realmente fez.
+      </div>
+
+      <div class="ext">
+        <div class="cab">
+          <span class="nome">Tailwind CSS IntelliSense</span>
+          <span class="quem">Lara e Esther, principalmente</span>
+        </div>
+        Completa os nomes das classes de estilo enquanto você escreve e mostra
+        <strong>a cor de cada token</strong> num quadradinho ao lado.
+        <div class="rot">Por que importa</div>
+        No Estudia é proibido escrever cor na mão — só se usa os nomes prontos
+        (<code>text-magenta</code>, <code>border-gold</code>…). Essa extensão mostra quais nomes
+        existem e que cor cada um é, então você acerta sem precisar decorar a lista.
+      </div>
+
+      <div class="ext">
+        <div class="cab">
+          <span class="nome">Error Lens</span>
+          <span class="quem">quem está começando</span>
+        </div>
+        Escreve o erro <strong>na própria linha</strong>, em vermelho, em vez de só sublinhar.
+        <div class="rot">Por que importa</div>
+        Sem ela, você precisa passar o mouse em cima do risquinho para ler a mensagem. Com ela, a
+        mensagem já está na tela. Para quem está aprendendo TypeScript, isso economiza muito
+        tempo.
+      </div>
+
+      <div class="aviso">
+        <div class="t">Elas não substituem a conferência final</div>
+        Antes de abrir o Pull Request, rode sempre os dois comandos:
+        <code>npx tsc --noEmit</code> e <code>npm run lint</code>. As extensões só fazem você
+        descobrir o problema mais cedo.
+      </div>
+    </section>
+
+    <!-- ================= 3 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">3.</span>O dia a dia</h2>
+
+      <h3>Ao começar</h3>
+      <pre><code>git checkout main
+git pull origin main
+git checkout -b p3-erika/progresso-materia</code></pre>
+      <p>
+        O nome da branch segue o formato
+        <code>p&lt;seu número&gt;-&lt;seu nome&gt;/&lt;o que faz&gt;</code>.
+      </p>
+
+      <h3>Enquanto trabalha</h3>
+      <pre><code>git add .
+git commit -m "Mostra progresso da matéria em porcentagem"</code></pre>
+      <div class="aviso">
+        <div class="t">Commit todo dia, mesmo inacabado</div>
+        Trabalho não commitado é a única coisa que o Git não consegue recuperar. Se o notebook
+        morrer, o que estava só na sua pasta se perde.
+      </div>
+
+      <h3>Ao terminar</h3>
+      <pre><code>git pull origin main
+npx tsc --noEmit
+npm run lint
+git push -u origin p3-erika/progresso-materia</code></pre>
+      <p>
+        Depois abra o Pull Request no GitHub e <strong>mande o link no grupo</strong>.
+      </p>
+
+      <h3>Regras que valem para todos</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td class="n" style="width: 6%">1</td>
+            <td>
+              <strong>Ninguém envia direto para a <code>main</code>.</strong> Tudo entra por Pull
+              Request.
+            </td>
+          </tr>
+          <tr>
+            <td class="n">2</td>
+            <td>
+              <strong>Nunca escreva cor na mão.</strong> Só os nomes prontos. Cor escrita na mão
+              não muda junto com o tema.
+            </td>
+          </tr>
+          <tr>
+            <td class="n">3</td>
+            <td>
+              <strong>Mexa só nos seus arquivos.</strong> A lista de cada pessoa está no
+              repositório, em <code>docs/DIVISAO-POR-PESSOA.md</code>.
+            </td>
+          </tr>
+          <tr>
+            <td class="n">4</td>
+            <td>
+              <strong>Pull Request pequeno.</strong> Um de 80 linhas passa na próxima janela de
+              revisão; um de 800 fica para a seguinte.
+            </td>
+          </tr>
+          <tr>
+            <td class="n">5</td>
+            <td>
+              <strong>Banco de dados: pare e chame a Esther.</strong> Ver a seção 5 deste guia.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================= 4 ================= -->
+    <section class="secao">
+      <h2><span class="num">4.</span>Revisão: quando e como</h2>
+
+      <p>
+        <strong>A Esther aprova todos os Pull Requests.</strong> O GitHub pede a revisão dela
+        automaticamente — você não precisa marcar ninguém.
+      </p>
+
+      <h3>As duas janelas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 32%">Quando</th>
+            <th>O quê</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">Terça, à noite</td>
+            <td>janela do meio da semana</td>
+          </tr>
+          <tr>
+            <td class="n">Sábado, de manhã</td>
+            <td>janela principal, a mais longa</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Tudo que estiver aberto até a janela é revisado nela. O que chegar depois fica para a
+        próxima. <strong>Não precisa cobrar</strong> — abra o PR, mande o link, e você já sabe
+        quando terá resposta.
+      </p>
+
+      <h3>O que acontece</h3>
+      <div class="fluxo">
+1. Você abre o Pull Request e manda o link no grupo
+2. A verificação automática confere tipos e padrão de código
+3. Na janela, a Esther revisa
+        │
+   ┌────┴────┐
+ está ok?   precisa mudar?
+   │            │
+ aprova      ela comenta o que mudar
+ e mergeia        │
+             VOCÊ corrige na sua branch
+                  │
+             volta na próxima janela</div>
+
+      <div class="certo">
+        <div class="t">Quem corrige é quem escreveu</div>
+        A Esther aponta o que precisa mudar, mas <strong>não mexe no seu código</strong>. O
+        trabalho continua sendo seu e aparece como seu no histórico do projeto — o que importa,
+        já que cada pessoa é avaliada pela própria contribuição.
+      </div>
+
+      <h3>Enquanto o seu PR espera, não pare</h3>
+      <p>Crie a próxima branch a partir da branch atual e continue trabalhando:</p>
+      <pre><code>git checkout -b p3-erika/proxima-parte</code></pre>
+      <p>
+        Quando o primeiro PR entrar, você atualiza a segunda com a <code>main</code> e segue.
+        Assim a fila não vira tempo parado.
+      </p>
+    </section>
+
+    <!-- ================= 5 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">5.</span>Banco de dados: pare e chame a Esther</h2>
+
+      <p>
+        Algumas tarefas precisam de uma coluna nova no banco. Quando chegar nessa hora, o seu
+        roteiro mostra um aviso de <strong>PARE</strong>.
+      </p>
+
+      <h3>Por que essa regra existe</h3>
+      <p>
+        O grupo usa <strong>um único banco compartilhado</strong>. Se você errar num arquivo de
+        código, quebra só a sua máquina e o Git desfaz. Se alguém aplicar um comando errado no
+        banco, quebra para <strong>as seis pessoas ao mesmo tempo</strong> — e o Git não desfaz
+        banco de dados.
+      </p>
+      <p>Não é desconfiança. É o mesmo motivo pelo qual só uma pessoa mexe no disjuntor.</p>
+
+      <h3>O que fazer</h3>
+      <ol>
+        <li>
+          <strong>Escreva o arquivo</strong> <code>.sql</code> com o nome já reservado para você —
+          o conteúdo sugerido está no seu roteiro, é só copiar.
+        </li>
+        <li>
+          <strong>Avise no grupo:</strong> <em>"escrevi minha migration, pode aplicar?"</em>
+        </li>
+        <li>A Esther confere, aplica e avisa quando estiver pronto.</li>
+        <li>Você roda <code>git pull</code> e continua.</li>
+      </ol>
+
+      <div class="aviso">
+        <div class="t">Não rode comando de banco por conta própria</div>
+        Nada de <code>supabase db push</code>, nem mexer em tabela pelo painel do Supabase.
+      </div>
+
+      <div class="certo">
+        <div class="t">Você não fica parado esperando</div>
+        Dá para adiantar quase tudo: montar a tela com dados de mentira escritos na mão, escrever
+        a lógica de cálculo e filtro, e deixar o Pull Request quase pronto. Só o trecho que lê ou
+        grava a coluna nova precisa esperar.
+      </div>
+
+      <p>
+        Quem tem esse ponto de parada: <strong>Lara</strong>, <strong>Érika</strong>,
+        <strong>Laysa</strong> e <strong>Gabi</strong>. Caio e Esther provavelmente não precisam.
+      </p>
+    </section>
+
+    <!-- ================= 6 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">6.</span>Prazos: quem entrega o quê, e quando</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 24%">Período</th>
+            <th style="width: 32%">Etapa</th>
+            <th>Quem entrega</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">29/09 – 04/10</td>
+            <td>1 · Identidade e aparência</td>
+            <td>Caio · Lara · Esther</td>
+          </tr>
+          <tr>
+            <td class="n">05/10 – 18/10</td>
+            <td>2 · Núcleo acadêmico e categorias</td>
+            <td>Érika · Laysa · Gabi</td>
+          </tr>
+          <tr>
+            <td class="n">19/10 – 25/10</td>
+            <td>3 · Experiência e acabamento</td>
+            <td>Esther</td>
+          </tr>
+          <tr>
+            <td class="n">26/10 – 31/10</td>
+            <td>4 · Testes</td>
+            <td>todos</td>
+          </tr>
+          <tr>
+            <td class="n">novembro, 1ª sem.</td>
+            <td>5 · Fechamento e documentação</td>
+            <td>todos</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="aviso">
+        <div class="t">A data que não pode escorregar é 04/10</div>
+        A Etapa 2 inteira depende dos temas da Lara. Se a Etapa 1 atrasar uma semana, atrasam três
+        pessoas de uma vez — e os testes não cabem mais em outubro.
+      </div>
+
+      <h3>A sua parte, em uma linha</h3>
+
+      <div class="pessoa">
+        <div class="cab">
+          <span class="nome">Caio</span>
+          <span class="area">Login e Cadastro</span>
+          <span class="prazo">até 04/10</span>
+        </div>
+        Telas de Login e Cadastro (nome, e-mail, senha) e o botão Sair funcionando.
+        <div class="rot">Boa notícia</div>
+        A parte de autenticação <strong>já existe pronta</strong> no projeto. O seu trabalho é a
+        interface — e o nome digitado no cadastro já vai para o perfil sozinho.
+      </div>
+
+      <div class="pessoa">
+        <div class="cab">
+          <span class="nome">Lara</span>
+          <span class="area">Temas e personalização</span>
+          <span class="prazo">até 04/10</span>
+        </div>
+        Os 5 temas de cor funcionando, o tema salvo no perfil, e o nome do usuário disponível.
+        <div class="rot">A sua entrega destrava três pessoas</div>
+        Érika, Laysa e Gabi só começam com segurança depois dos temas. Entregue a versão simples
+        primeiro e capriche depois — a roda de cores da pesquisa fica como extra, se sobrar tempo.
+      </div>
+
+      <div class="pessoa g2">
+        <div class="cab">
+          <span class="nome">Érika</span>
+          <span class="area">Aba Estudos</span>
+          <span class="prazo">até 18/10</span>
+        </div>
+        Curso e período, matérias criadas pelo usuário, os 6 tipos de conteúdo e o progresso por
+        matéria.
+        <div class="rot">Meia hora com a Laysa antes de programar</div>
+        Vocês duas usam as mesmas palavras (prova, trabalho, atividade). Combinem os nomes exatos
+        antes, senão o sistema fica com dois vocabulários. <strong>A sua mudança de banco entra
+        antes da dela.</strong>
+      </div>
+
+      <div class="pessoa g2">
+        <div class="cab">
+          <span class="nome">Laysa</span>
+          <span class="area">Tarefas e rotina acadêmica</span>
+          <span class="prazo">até 18/10</span>
+        </div>
+        Prazo, prioridade, status, filtro acadêmica × pessoal, e os dados para a página inicial
+        mostrar "Prova amanhã".
+        <div class="rot">A maior parte do seu trabalho não é visual</div>
+        Ordenação por prazo, cálculo de atraso, urgência e filtros são lógica. A tela vem depois.
+      </div>
+
+      <div class="pessoa g3">
+        <div class="cab">
+          <span class="nome">Gabi</span>
+          <span class="area">Hobbies, Treino, Mercado, Dieta, Financeiro</span>
+          <span class="prazo">até 18/10</span>
+        </div>
+        Os quatro itens de prioridade <strong>Alta</strong> do seu relatório: entrada no
+        Financeiro, progresso e metas em Hobbies, e treinos concluídos.
+        <div class="rot">Dois atalhos</div>
+        Treinos concluídos <strong>já tem a tabela pronta</strong> — falta só a tela. E a Dieta
+        você não precisa mexer: o seu próprio relatório concluiu que não havia melhoria notória, e
+        o grupo concordou.
+      </div>
+
+      <div class="pessoa g3">
+        <div class="cab">
+          <span class="nome">Esther</span>
+          <span class="area">UX/UI e Landing Page</span>
+          <span class="prazo">04/10 e 25/10</span>
+        </div>
+        Até 04/10: Landing Page e menu do celular. Até 25/10: página Início, estados vazios,
+        mensagens de sucesso e padronização visual.
+        <div class="rot">Também</div>
+        É quem aprova os Pull Requests e quem aplica as mudanças no banco.
+      </div>
+    </section>
+
+    <!-- ================= 7 ================= -->
+    <section class="secao quebra">
+      <h2><span class="num">7.</span>Deu problema?</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 34%">O que aparece</th>
+            <th style="width: 30%">O que é</th>
+            <th>O que fazer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Missing env vars</code></td>
+            <td>falta o arquivo <code>.env</code></td>
+            <td>peça as chaves no grupo</td>
+          </tr>
+          <tr>
+            <td><code>column "..." does not exist</code></td>
+            <td>alguém mudou o banco e você não atualizou</td>
+            <td><code>git pull</code></td>
+          </tr>
+          <tr>
+            <td>Conflito ao dar <code>git pull</code></td>
+            <td>duas pessoas mexeram perto</td>
+            <td>ver <code>docs/CONFLITOS.md</code></td>
+          </tr>
+          <tr>
+            <td>O Pull Request ficou vermelho</td>
+            <td>a verificação automática achou erro</td>
+            <td>rode <code>npx tsc --noEmit</code> e <code>npm run lint</code></td>
+          </tr>
+          <tr>
+            <td><code>npm install</code> falha</td>
+            <td>Node desatualizado</td>
+            <td>instale a versão 20 ou mais nova</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="aviso">
+        <div class="t">Conflito não é urgente, e nada foi perdido</div>
+        O Git guarda as duas versões. Para desfazer e voltar ao ponto anterior:
+        <code>git merge --abort</code>. Você volta exatamente para onde estava.
+        <br /><br />
+        <strong>E chame alguém antes de tentar comandos novos.</strong> A maior parte dos
+        trabalhos perdidos em projeto de faculdade acontece na tentativa de consertar sozinho,
+        com comando copiado da internet.
+      </div>
+
+      <h3>Onde procurar cada coisa no repositório</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td class="n"><code>SETUP.md</code></td>
+            <td>pôr o projeto para rodar</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/passo-a-passo/</code></td>
+            <td><strong>o seu roteiro</strong>, com os passos técnicos da sua parte</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/TECNOLOGIAS.md</code></td>
+            <td>que linguagem e biblioteca usar para cada coisa</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/ARQUITETURA.md</code></td>
+            <td>como o código funciona, em 10 minutos</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/GUIA-GIT.md</code></td>
+            <td>a rotina de branch, commit e Pull Request</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/CONFLITOS.md</code></td>
+            <td>receita para cada tipo de conflito</td>
+          </tr>
+          <tr>
+            <td class="n"><code>docs/BANCO-DE-DADOS.md</code></td>
+            <td>o procedimento da migration</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rodape">
+        Estudia &middot; Projeto Integrador II &middot; Fase 2 &middot; Guia de trabalho
+      </div>
+    </section>
+  </body>
+</html>
