@@ -222,12 +222,12 @@ ficou para a Fase 3 e o registro das decisões em [DECISOES.md](DECISOES.md).
 
 | Data                                          | Janela               |
 | --------------------------------------------- | -------------------- |
-| ter 29/09 · sáb 03/10                         | Etapa 1              |
-| ter 06/10 · sáb 10/10 · ter 13/10 · sáb 17/10 | Etapa 2              |
-| ter 20/10 · sáb 24/10                         | Etapa 3              |
-| ter 27/10 · sáb 31/10                         | correções dos testes |
+| qua 30/09 · sáb 03/10                         | Etapa 1              |
+| qua 07/10 · sáb 10/10 · qua 14/10 · sáb 17/10 | Etapa 2              |
+| qua 21/10 · sáb 24/10                         | Etapa 3              |
+| qua 28/10 · sáb 31/10                         | correções dos testes |
 
-**Terça à noite** e **sábado de manhã**. Tudo que estiver aberto até a janela é
+**Quarta à noite** e **sábado de manhã**. Tudo que estiver aberto até a janela é
 revisado nela; o que chegar depois fica para a próxima. Detalhes em
 [GUIA-GIT.md](GUIA-GIT.md), seção 5.
 

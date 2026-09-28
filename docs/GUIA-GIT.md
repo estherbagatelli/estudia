@@ -115,7 +115,7 @@ marcada**:
 
 | Quando               | O quê                           |
 | -------------------- | ------------------------------- |
-| **Terça, à noite**   | janela do meio da semana        |
+| **Quarta, à noite**  | janela do meio da semana        |
 | **Sábado, de manhã** | janela principal — a mais longa |
 
 Tudo que estiver aberto até a janela é revisado nela. O que chegar depois fica
