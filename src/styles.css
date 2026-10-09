@@ -1,22 +1,10 @@
-@import "tailwindcss" source(none);
-@source "../src";
+
+@import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@source "../src";
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -26,6 +14,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,12 +34,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -59,73 +49,227 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
   --color-gold: var(--gold);
   --color-magenta: var(--magenta);
   --color-wine: var(--wine);
   --color-darkred: var(--darkred);
   --color-silver: var(--silver);
   --color-pink: var(--pink);
-  --font-script: var(--font-script);
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
-}
 
-:root {
-  --radius: 0.75rem;
   --font-script: "Pinyon Script", "Great Vibes", cursive;
   --font-display: "Cormorant Garamond", serif;
   --font-sans: "Inter", system-ui, sans-serif;
+}
 
-  --background: oklch(0.08 0.005 30);
-  --foreground: oklch(0.96 0.005 80);
-  --card: oklch(0.11 0.008 30 / 70%);
-  --card-foreground: oklch(0.96 0.005 80);
-  --popover: oklch(0.1 0.008 30);
-  --popover-foreground: oklch(0.96 0.005 80);
-  --primary: oklch(0.55 0.22 5);
-  --primary-foreground: oklch(0.1 0.01 30);
-  --secondary: oklch(0.18 0.01 30);
-  --secondary-foreground: oklch(0.96 0.005 80);
-  --muted: oklch(0.15 0.008 30);
-  --muted-foreground: oklch(0.7 0.02 60);
-  --accent: oklch(0.65 0.27 5);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.24 15);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.55 0.22 5 / 25%);
-  --input: oklch(0.88 0.01 250 / 25%);
-  --ring: oklch(0.65 0.27 5 / 60%);
+/* ========================================
+   TEMA PADRÃO: FUNDO CLARO
+======================================== */
 
-  --gold: oklch(0.9 0.012 250);
-  --silver: oklch(0.9 0.012 250);
-  --wine: oklch(0.42 0.18 8);
-  --darkred: oklch(0.36 0.14 12);
-  --magenta: oklch(0.65 0.27 5);
-  --pink: oklch(0.58 0.24 5);
+:root {
+  color-scheme: light;
+  --radius: 0.75rem;
 
-  --sidebar: oklch(0.08 0.005 30);
-  --sidebar-foreground: oklch(0.96 0.005 80);
-  --sidebar-primary: oklch(0.65 0.27 5);
-  --sidebar-primary-foreground: oklch(0.1 0.01 30);
-  --sidebar-accent: oklch(0.15 0.008 30);
-  --sidebar-accent-foreground: oklch(0.96 0.005 80);
-  --sidebar-border: oklch(0.55 0.22 5 / 25%);
-  --sidebar-ring: oklch(0.65 0.27 5 / 60%);
+  --background: oklch(0.99 0.003 320);
+  --foreground: #000000;
+
+  --card: #ffffff;
+  --card-foreground: #000000;
+
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+
+  --primary: oklch(0.65 0.17 345);
+  --primary-foreground: #000000;
+
+  --secondary: oklch(0.96 0.025 340);
+  --secondary-foreground: #000000;
+
+  --muted: oklch(0.965 0.012 320);
+  --muted-foreground: #000000;
+
+  --accent: oklch(0.93 0.045 340);
+  --accent-foreground: #000000;
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: #000000;
+
+  --border: oklch(0.90 0.025 330);
+  --input: oklch(0.90 0.025 330);
+  --ring: oklch(0.72 0.16 345);
+
+  --gold: oklch(0.80 0.10 80);
+  --silver: oklch(0.88 0.015 300);
+  --wine: oklch(0.42 0.13 345);
+  --darkred: oklch(0.34 0.12 20);
+  --magenta: oklch(0.68 0.19 345);
+  --pink: oklch(0.80 0.12 345);
+
+  --sidebar: oklch(0.985 0.008 330);
+  --sidebar-foreground: #000000;
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: oklch(0.95 0.025 340);
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: oklch(0.90 0.025 330);
+  --sidebar-ring: var(--ring);
+
+  /* Sombras coloridas */
+  --shadow-pink: oklch(61.992% 0.25054 354.084 / 0.568);
+  --shadow-aqua: oklch(0.78 0.10 180 / 25%);
+  --shadow-purple: oklch(0.70 0.14 295 / 24%);
+
+  /* Gradientes suaves */
+  --glow-start: oklch(0.96 0.035 345 / 70%);
+  --glow-middle: oklch(0.94 0.045 180 / 55%);
+  --glow-end: oklch(0.94 0.045 295 / 60%);
+}
+
+/* ========================================
+   TEMA ROSA
+======================================== */
+
+:root[data-color-theme="rosa"] {
+  --primary: oklch(0.62 0.20 345);
+  --accent: oklch(0.90 0.06 345);
+  --magenta: oklch(0.66 0.20 345);
+  --pink: oklch(0.78 0.14 345);
+  --wine: oklch(0.43 0.15 345);
+  --darkred: oklch(47.711% 0.19552 347.793);
+
+  --ring: oklch(0.68 0.18 345 / 60%);
+  --border: oklch(0.86 0.055 345);
+  --input: oklch(0.88 0.045 345);
+
+  --sidebar-primary: var(--primary);
+  --sidebar-ring: var(--ring);
+  --sidebar-border: var(--border);
+}
+
+/* ========================================
+   TEMA VERDE-ÁGUA
+======================================== */
+
+:root[data-color-theme="verde-agua"] {
+  --primary: oklch(0.60 0.12 180);
+  --accent: oklch(0.91 0.055 180);
+  --magenta: oklch(0.64 0.12 180);
+  --pink: oklch(0.78 0.09 180);
+  --wine: oklch(0.43 0.09 180);
+  --darkred: oklch(0.35 0.07 180);
+
+  --ring: oklch(0.66 0.12 180 / 60%);
+  --border: oklch(0.85 0.055 180);
+  --input: oklch(0.87 0.045 180);
+
+  --sidebar-primary: var(--primary);
+  --sidebar-ring: var(--ring);
+  --sidebar-border: var(--border);
+}
+
+/* ========================================
+   TEMA ROXO
+======================================== */
+
+:root[data-color-theme="roxo"] {
+  --primary: oklch(0.57 0.19 295);
+  --accent: oklch(0.91 0.05 295);
+  --magenta: oklch(0.64 0.19 295);
+  --pink: oklch(0.78 0.13 295);
+  --wine: oklch(0.42 0.14 295);
+  --darkred: oklch(0.34 0.12 295);
+
+  --ring: oklch(0.66 0.18 295 / 60%);
+  --border: oklch(0.85 0.055 295);
+  --input: oklch(0.87 0.045 295);
+
+  --sidebar-primary: var(--primary);
+  --sidebar-ring: var(--ring);
+  --sidebar-border: var(--border);
+}
+
+/* ========================================
+   TEMA AZUL
+======================================== */
+
+:root[data-color-theme="azul"] {
+  --primary: oklch(0.55 0.17 250);
+  --accent: oklch(0.91 0.04 250);
+  --magenta: oklch(0.62 0.15 250);
+  --pink: oklch(0.76 0.11 250);
+  --wine: oklch(0.42 0.11 250);
+  --darkred: oklch(0.34 0.09 250);
+
+  --ring: oklch(0.65 0.15 250 / 60%);
+  --border: oklch(0.85 0.04 250);
+  --input: oklch(0.87 0.035 250);
+
+  --sidebar-primary: var(--primary);
+  --sidebar-ring: var(--ring);
+  --sidebar-border: var(--border);
+}
+
+/* ========================================
+   TEMA VERMELHO
+======================================== */
+
+:root[data-color-theme="vermelho"] {
+  --primary: oklch(0.53 0.20 25);
+  --accent: oklch(68.987% 0.17187 28.941);
+  --magenta: oklch(0.62 0.19 25);
+  --pink: oklch(62.104% 0.25132 28.913);
+  --wine: oklch(0.42 0.14 25);
+  --darkred: oklch(0.34 0.12 25);
+
+  --ring: oklch(0.65 0.19 25 / 60%);
+  --border: oklch(0.86 0.05 25);
+  --input: oklch(0.88 0.04 25);
+
+  --sidebar-primary: var(--primary);
+  --sidebar-ring: var(--ring);
+  --sidebar-border: var(--border);
+}
+
+/* ========================================
+   MODO ESCURO
+======================================== */
+
+:root[data-appearance="escuro"] {
+  color-scheme: dark;
+
+  --background: oklch(0% 0 0);
+  --foreground: #f5f5f5;
+
+  --card: oklch(9.431% 0.04336 328.352 / 0.308);
+  --card-foreground: #f5f5f5;
+
+  --popover: oklch(0.15 0.014 310);
+  --popover-foreground: #f5f5f5;
+
+  --primary-foreground: #ffffff;
+
+  --secondary: oklch(0.23 0.018 310);
+  --secondary-foreground: #f5f5f5;
+
+  --muted: oklch(0.21 0.015 310);
+  --muted-foreground: #c4c0cc;
+
+  --accent-foreground: #f5f5f5;
+  --destructive-foreground: #ffffff;
+
+  --border: oklch(0.40 0.035 310 / 60%);
+  --input: oklch(0.40 0.035 310 / 60%);
+
+  --sidebar: oklch(0.10 0.012 310);
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-accent: oklch(0.20 0.018 310);
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: oklch(0.40 0.035 310 / 60%);
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
-    /* App-like feel: no rubber-band / pull-to-refresh reload. */
-    overscroll-behavior-y: none;
-    -webkit-tap-highlight-color: transparent;
   }
 
   html,
@@ -134,7 +278,69 @@
     min-height: 100vh;
   }
 
-  /* When installed (standalone), push content below the status bar / notch. */
+  html {
+    background-color: var(--background);
+  }
+
+  body {
+    position: relative;
+    background-color: var(--background);
+
+    background-image:
+      radial-gradient(
+        ellipse at 0% 0%,
+        var(--glow-start),
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse at 100% 15%,
+        var(--glow-middle),
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 50% 100%,
+        var(--glow-end),
+        transparent 55%
+      );
+
+    background-attachment: fixed;
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Os textos comuns acompanham o modo escolhido */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label,
+  span,
+  li {
+    color: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
+  }
+
+  button {
+    color: inherit;
+  }
+
   @supports (padding: env(safe-area-inset-top)) {
     @media (display-mode: standalone) {
       body {
@@ -144,66 +350,98 @@
   }
 }
 
-@utility font-script {
+.shadow-theme {
+  box-shadow:
+    -8px 8px 24px var(--shadow-pink),
+    0 12px 32px var(--shadow-aqua),
+    8px 16px 40px var(--shadow-purple);
+}
+
+.glow-theme {
+  box-shadow:
+    0 0 18px var(--shadow-pink),
+    0 0 36px var(--shadow-aqua),
+    0 0 48px var(--shadow-purple);
+}
+
+.font-script {
   font-family: var(--font-script);
   font-weight: 400;
 }
-@utility font-display {
+
+.font-display {
   font-family: var(--font-display);
 }
-@utility text-gold {
+
+.text-gold {
   color: var(--color-gold);
 }
-@utility text-magenta {
+
+.text-magenta {
   color: var(--color-magenta);
 }
-@utility text-wine {
+
+.text-wine {
   color: var(--color-wine);
 }
-@utility text-darkred {
+
+.text-darkred {
   color: var(--color-darkred);
 }
-@utility text-silver {
+
+.text-silver {
   color: var(--color-silver);
 }
-@utility text-pink {
+
+.text-pink {
   color: var(--color-pink);
 }
-@utility bg-gold {
+
+.bg-gold {
   background-color: var(--color-gold);
 }
-@utility bg-magenta {
+
+.bg-magenta {
   background-color: var(--color-magenta);
 }
-@utility bg-wine {
+
+.bg-wine {
   background-color: var(--color-wine);
 }
-@utility bg-darkred {
+
+.bg-darkred {
   background-color: var(--color-darkred);
 }
-@utility bg-silver {
+
+.bg-silver {
   background-color: var(--color-silver);
 }
-@utility bg-pink {
+
+.bg-pink {
   background-color: var(--color-pink);
 }
-@utility border-gold {
+
+.border-gold {
   border-color: var(--color-gold);
 }
-@utility border-magenta {
+
+.border-magenta {
   border-color: var(--color-magenta);
 }
-@utility border-wine {
+
+.border-wine {
   border-color: var(--color-wine);
 }
-@utility border-silver {
+
+.border-silver {
   border-color: var(--color-silver);
 }
-@utility border-pink {
+
+.border-pink {
   border-color: var(--color-pink);
 }
 
-@utility gold-divider {
+.gold-divider {
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -216,9 +454,73 @@
   opacity: 0.65;
 }
 
-@utility glass-card {
-  background: linear-gradient(180deg, oklch(0.15 0.04 10 / 75%), oklch(0.08 0.015 10 / 80%));
-  border: 1px solid oklch(0.55 0.22 5 / 28%);
+.glass-card {
+  background: var(--card);
+  border: 1px solid var(--border);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 1rem;
+}
+
+:root:not([data-appearance="escuro"]) {
+  --foreground: #000000;
+  --card-foreground: #000000;
+  --popover-foreground: #000000;
+  --secondary-foreground: #000000;
+  --muted-foreground: #000000;
+  --accent-foreground: #000000;
+  --sidebar-foreground: #000000;
+  --sidebar-accent-foreground: #000000;
+}
+
+/* Textos cinzas no modo claro */
+:root:not([data-appearance="escuro"]) .text-muted-foreground,
+:root:not([data-appearance="escuro"]) .text-gray-400,
+:root:not([data-appearance="escuro"]) .text-gray-500,
+:root:not([data-appearance="escuro"]) .text-slate-400,
+:root:not([data-appearance="escuro"]) .text-slate-500 {
+  color: #000000 !important;
+}
+
+/* MODO ESCURO: textos prateados claros */
+:root[data-appearance="escuro"] .text-silver,
+:root[data-appearance="escuro"] [class*="text-silver/"] {
+  color: #f5f5f5 !important;
+}
+
+/* Textos secundários no modo escuro */
+:root[data-appearance="escuro"] .text-muted-foreground,
+:root[data-appearance="escuro"] .text-gray-400,
+:root[data-appearance="escuro"] .text-gray-500,
+:root[data-appearance="escuro"] .text-slate-400,
+:root[data-appearance="escuro"] .text-slate-500 {
+  color: #c4c0cc !important;
+}
+
+/* Placeholders no modo claro */
+:root:not([data-appearance="escuro"]) input::placeholder,
+:root:not([data-appearance="escuro"]) textarea::placeholder {
+  color: #000000;
+  opacity: 1;
+}
+
+/* Placeholders no modo escuro */
+:root[data-appearance="escuro"] input::placeholder,
+:root[data-appearance="escuro"] textarea::placeholder {
+  color: #c4c0cc;
+  opacity: 1;
+}
+
+/* Textos silver adaptados ao modo do site */
+
+/* Modo claro */
+:root:not([data-appearance="escuro"]) .text-silver,
+:root:not([data-appearance="escuro"]) [class*="text-silver/"] {
+  color: #000000 !important;
+}
+
+/* Modo escuro */
+:root[data-appearance="escuro"] .text-silver,
+:root[data-appearance="escuro"] [class*="text-silver/"] {
+  color: #f5f5f5 !important;
 }

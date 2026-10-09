@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { AuthScreen } from "./AuthScreen";
+import AuthScreen from "./AuthScreen";
 
 function Splash({ label }: { label: string }) {
   return (
