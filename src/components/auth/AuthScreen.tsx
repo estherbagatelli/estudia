@@ -1,34 +1,18 @@
-
 import { useState, type FormEvent } from "react";
-import {
-  Mail,
-  Lock,
-  User,
-  Loader2,
-  Eye,
-  EyeOff,
-  ArrowLeft,
-} from "lucide-react";
+import { Mail, Lock, User, Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
 
 type Mode = "login" | "signup";
 
 function friendlyError(error: unknown): string {
-  const msg =
-    error instanceof Error
-      ? error.message
-      : String(error);
+  const msg = error instanceof Error ? error.message : String(error);
 
-  if (
-    /rate|too many|seconds|over_request_rate_limit/i.test(msg)
-  ) {
+  if (/rate|too many|seconds|over_request_rate_limit/i.test(msg)) {
     return "Muitas tentativas. Aguarde alguns segundos.";
   }
 
-  if (
-    /invalid login credentials|invalid credentials/i.test(msg)
-  ) {
+  if (/invalid login credentials|invalid credentials/i.test(msg)) {
     return "E-mail ou senha incorretos.";
   }
 
@@ -44,10 +28,7 @@ function friendlyError(error: unknown): string {
     return "E-mail inválido.";
   }
 
-  if (
-    /password/i.test(msg) &&
-    /6|short|characters/i.test(msg)
-  ) {
+  if (/password/i.test(msg) && /6|short|characters/i.test(msg)) {
     return "A senha precisa de pelo menos 6 caracteres.";
   }
 
@@ -55,11 +36,7 @@ function friendlyError(error: unknown): string {
 }
 
 export function AuthScreen() {
-  const {
-    signInWithPassword,
-    signUp,
-    resetPassword,
-  } = useAuth();
+  const { signInWithPassword, signUp, resetPassword } = useAuth();
 
   const [mode, setMode] = useState<Mode>("login");
 
@@ -107,9 +84,7 @@ export function AuthScreen() {
       try {
         await resetPassword(cleanEmail);
 
-        setSuccess(
-          "Enviamos as instruções para redefinir sua senha. Confira seu e-mail.",
-        );
+        setSuccess("Enviamos as instruções para redefinir sua senha. Confira seu e-mail.");
       } catch (err) {
         console.error("Erro ao redefinir senha:", err);
         setError(friendlyError(err));
@@ -151,20 +126,12 @@ export function AuthScreen() {
       if (isLogin) {
         await signInWithPassword(cleanEmail, password);
       } else {
-        const user = await signUp(
-          cleanEmail,
-          password,
-          name.trim(),
-        );
+        const user = await signUp(cleanEmail, password, name.trim());
 
         if (user) {
-          setSuccess(
-            "Conta criada com sucesso! Você já pode entrar no Estudia.",
-          );
+          setSuccess("Conta criada com sucesso! Você já pode entrar no Estudia.");
         } else {
-          setSuccess(
-            "Cadastro realizado! Verifique seu e-mail para confirmar sua conta.",
-          );
+          setSuccess("Cadastro realizado! Verifique seu e-mail para confirmar sua conta.");
         }
 
         setMode("login");
@@ -193,9 +160,7 @@ export function AuthScreen() {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="font-script text-6xl leading-none text-foreground">
-            Estudia
-          </div>
+          <div className="font-script text-6xl leading-none text-foreground">Estudia</div>
 
           <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-2">
             Planner · 2026
@@ -205,11 +170,7 @@ export function AuthScreen() {
         <div className="glass-card p-8">
           <div className="mb-6">
             <h1 className="font-display text-2xl text-gold mb-1">
-              {forgotPassword
-                ? "Redefinir senha"
-                : isLogin
-                  ? "Entrar"
-                  : "Criar conta"}
+              {forgotPassword ? "Redefinir senha" : isLogin ? "Entrar" : "Criar conta"}
             </h1>
 
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
@@ -249,9 +210,7 @@ export function AuthScreen() {
                   required
                   autoComplete="name"
                   value={name}
-                  onChange={(event) =>
-                    setName(event.target.value)
-                  }
+                  onChange={(event) => setName(event.target.value)}
                   placeholder="Seu nome"
                   disabled={busy}
                   className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
@@ -268,9 +227,7 @@ export function AuthScreen() {
                 autoFocus
                 autoComplete="email"
                 value={email}
-                onChange={(event) =>
-                  setEmail(event.target.value)
-                }
+                onChange={(event) => setEmail(event.target.value)}
                 placeholder="seu@email.com"
                 disabled={busy}
                 className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
@@ -284,15 +241,9 @@ export function AuthScreen() {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  autoComplete={
-                    isLogin
-                      ? "current-password"
-                      : "new-password"
-                  }
+                  autoComplete={isLogin ? "current-password" : "new-password"}
                   value={password}
-                  onChange={(event) =>
-                    setPassword(event.target.value)
-                  }
+                  onChange={(event) => setPassword(event.target.value)}
                   placeholder="Sua senha"
                   disabled={busy}
                   className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
@@ -300,22 +251,12 @@ export function AuthScreen() {
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setShowPassword((value) => !value)
-                  }
+                  onClick={() => setShowPassword((value) => !value)}
                   disabled={busy}
                   className="text-muted-foreground hover:text-gold transition disabled:opacity-50"
-                  aria-label={
-                    showPassword
-                      ? "Ocultar senha"
-                      : "Mostrar senha"
-                  }
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             )}
@@ -329,9 +270,7 @@ export function AuthScreen() {
                   required
                   autoComplete="new-password"
                   value={confirmPassword}
-                  onChange={(event) =>
-                    setConfirmPassword(event.target.value)
-                  }
+                  onChange={(event) => setConfirmPassword(event.target.value)}
                   placeholder="Confirmar senha"
                   disabled={busy}
                   className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
@@ -360,9 +299,7 @@ export function AuthScreen() {
               disabled={busy}
               className="w-full rounded-md border border-gold/40 text-gold px-4 py-2.5 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              {busy && (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              )}
+              {busy && <Loader2 className="h-4 w-4 animate-spin" />}
 
               {busy
                 ? forgotPassword

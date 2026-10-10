@@ -1,16 +1,11 @@
 import { supabase } from "@/lib/supabase/client";
 
-import type {
-  Session,
-  User,
-} from "@supabase/supabase-js";
+import type { Session, User } from "@supabase/supabase-js";
 
 /**
  * Where OAuth / password-recovery links return the user.
  */
-function redirectTo(
-  path = "/auth/callback",
-): string | undefined {
+function redirectTo(path = "/auth/callback"): string | undefined {
   if (typeof window === "undefined") {
     return undefined;
   }
@@ -20,10 +15,7 @@ function redirectTo(
 
 export const authService = {
   async getSession(): Promise<Session | null> {
-    const {
-      data,
-      error,
-    } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
 
     if (error) {
       throw error;
@@ -32,30 +24,20 @@ export const authService = {
     return data.session;
   },
 
-  onAuthStateChange(
-    callback: (session: Session | null) => void,
-  ) {
+  onAuthStateChange(callback: (session: Session | null) => void) {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        callback(session);
-      },
-    );
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      callback(session);
+    });
 
     return () => {
       subscription.unsubscribe();
     };
   },
 
-  async signInWithPassword(
-    email: string,
-    password: string,
-  ): Promise<User> {
-    const {
-      data,
-      error,
-    } = await supabase.auth.signInWithPassword({
+  async signInWithPassword(email: string, password: string): Promise<User> {
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -67,15 +49,8 @@ export const authService = {
     return data.user;
   },
 
-  async signUp(
-    email: string,
-    password: string,
-    fullName?: string,
-  ): Promise<User | null> {
-    const {
-      data,
-      error,
-    } = await supabase.auth.signUp({
+  async signUp(email: string, password: string, fullName?: string): Promise<User | null> {
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -96,13 +71,12 @@ export const authService = {
   },
 
   async signInWithGoogle(): Promise<void> {
-    const { error } =
-      await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: redirectTo(),
-        },
-      });
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: redirectTo(),
+      },
+    });
 
     if (error) {
       throw error;
@@ -112,17 +86,14 @@ export const authService = {
   /**
    * Passwordless login via magic link.
    */
-  async sendMagicLink(
-    email: string,
-  ): Promise<void> {
-    const { error } =
-      await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: redirectTo("/"),
-        },
-      });
+  async sendMagicLink(email: string): Promise<void> {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: redirectTo("/"),
+      },
+    });
 
     if (error) {
       throw error;
@@ -130,8 +101,7 @@ export const authService = {
   },
 
   async signOut(): Promise<void> {
-    const { error } =
-      await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
 
     if (error) {
       throw error;
@@ -141,16 +111,10 @@ export const authService = {
   /**
    * Send a password-recovery email.
    */
-  async resetPassword(
-    email: string,
-  ): Promise<void> {
-    const { error } =
-      await supabase.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo: redirectTo("/auth/reset"),
-        },
-      );
+  async resetPassword(email: string): Promise<void> {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectTo("/auth/reset"),
+    });
 
     if (error) {
       throw error;
@@ -161,17 +125,13 @@ export const authService = {
    * Set a new password for the currently
    * authenticated recovery session.
    */
-  async updatePassword(
-    password: string,
-  ): Promise<void> {
-    const { error } =
-      await supabase.auth.updateUser({
-        password,
-      });
+  async updatePassword(password: string): Promise<void> {
+    const { error } = await supabase.auth.updateUser({
+      password,
+    });
 
     if (error) {
       throw error;
     }
   },
 };
-
