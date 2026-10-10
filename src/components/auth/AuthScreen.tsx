@@ -1,44 +1,179 @@
-import { useState } from "react";
-import { Mail, Loader2, MailCheck, ArrowLeft, Download, Share } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useInstallPrompt } from "@/hooks/useInstallPrompt";
 
-function friendlyError(e: unknown): string {
-  const msg = e instanceof Error ? e.message : String(e);
-  if (/rate|too many|seconds/i.test(msg))
-    return "Aguarde alguns segundos antes de pedir outro link.";
-  if (/email/i.test(msg) && /valid/i.test(msg)) return "E-mail inválido.";
-  return msg;
+import { useState, type FormEvent } from "react";
+import {
+  Mail,
+  Lock,
+  User,
+  Loader2,
+  Eye,
+  EyeOff,
+  ArrowLeft,
+} from "lucide-react";
+
+import { useAuth } from "@/contexts/AuthContext";
+
+type Mode = "login" | "signup";
+
+function friendlyError(error: unknown): string {
+  const msg =
+    error instanceof Error
+      ? error.message
+      : String(error);
+
+  if (
+    /rate|too many|seconds|over_request_rate_limit/i.test(msg)
+  ) {
+    return "Muitas tentativas. Aguarde alguns segundos.";
+  }
+
+  if (
+    /invalid login credentials|invalid credentials/i.test(msg)
+  ) {
+    return "E-mail ou senha incorretos.";
+  }
+
+  if (/email not confirmed|email.*confirm/i.test(msg)) {
+    return "Confirme seu e-mail antes de entrar.";
+  }
+
+  if (/user already registered/i.test(msg)) {
+    return 'Este e-mail já tem conta. Entre ou use "Esqueci minha senha".';
+  }
+
+  if (/email/i.test(msg) && /valid/i.test(msg)) {
+    return "E-mail inválido.";
+  }
+
+  if (
+    /password/i.test(msg) &&
+    /6|short|characters/i.test(msg)
+  ) {
+    return "A senha precisa de pelo menos 6 caracteres.";
+  }
+
+  return "Não foi possível concluir a operação. Tente novamente.";
 }
 
 export function AuthScreen() {
-  const { sendMagicLink } = useAuth();
-  const { canPrompt, installed, isIOS, promptInstall } = useInstallPrompt();
+  const {
+    signInWithPassword,
+    signUp,
+    resetPassword,
+  } = useAuth();
+
+  const [mode, setMode] = useState<Mode>("login");
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showInstallHelp, setShowInstallHelp] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  const install = async () => {
-    if (canPrompt) {
-      const res = await promptInstall();
-      if (res === "unavailable") setShowInstallHelp(true);
-      return;
-    }
-    // iOS Safari (and other cases without a native prompt): show instructions.
-    setShowInstallHelp(true);
+  const [forgotPassword, setForgotPassword] = useState(false);
+
+  const isLogin = mode === "login";
+
+  const changeMode = (nextMode: Mode) => {
+    setMode(nextMode);
+    setName("");
+    setPassword("");
+    setConfirmPassword("");
+    setError(null);
+    setSuccess(null);
+    setForgotPassword(false);
   };
 
-  const send = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!email.trim()) return;
+  const submit = async (event?: FormEvent) => {
+    event?.preventDefault();
+
     setError(null);
+    setSuccess(null);
+
+    const cleanEmail = email.trim();
+
+    if (!cleanEmail) {
+      setError("Digite seu e-mail.");
+      return;
+    }
+
+    if (forgotPassword) {
+      setBusy(true);
+
+      try {
+        await resetPassword(cleanEmail);
+
+        setSuccess(
+          "Enviamos as instruções para redefinir sua senha. Confira seu e-mail.",
+        );
+      } catch (err) {
+        console.error("Erro ao redefinir senha:", err);
+        setError(friendlyError(err));
+      } finally {
+        setBusy(false);
+      }
+
+      return;
+    }
+
+    if (!password) {
+      setError("Digite sua senha.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("A senha precisa de pelo menos 6 caracteres.");
+      return;
+    }
+
+    if (!isLogin && !name.trim()) {
+      setError("Digite seu nome.");
+      return;
+    }
+
+    if (!isLogin && !confirmPassword) {
+      setError("Confirme sua senha.");
+      return;
+    }
+
+    if (!isLogin && password !== confirmPassword) {
+      setError("As senhas não são iguais.");
+      return;
+    }
+
     setBusy(true);
+
     try {
-      await sendMagicLink(email.trim());
-      setSent(true);
+      if (isLogin) {
+        await signInWithPassword(cleanEmail, password);
+      } else {
+        const user = await signUp(
+          cleanEmail,
+          password,
+          name.trim(),
+        );
+
+        if (user) {
+          setSuccess(
+            "Conta criada com sucesso! Você já pode entrar no Estudia.",
+          );
+        } else {
+          setSuccess(
+            "Cadastro realizado! Verifique seu e-mail para confirmar sua conta.",
+          );
+        }
+
+        setMode("login");
+        setPassword("");
+        setConfirmPassword("");
+        setName("");
+      }
     } catch (err) {
+      console.error("Erro de autenticação:", err);
       setError(friendlyError(err));
     } finally {
       setBusy(false);
@@ -58,102 +193,230 @@ export function AuthScreen() {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="font-script text-6xl leading-none text-foreground">Estudia</div>
+          <div className="font-script text-6xl leading-none text-foreground">
+            Estudia
+          </div>
+
           <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-2">
             Planner · 2026
           </div>
         </div>
 
         <div className="glass-card p-8">
-          {sent ? (
-            <div className="text-center">
-              <MailCheck className="h-10 w-10 text-gold mx-auto mb-4" strokeWidth={1.25} />
-              <h1 className="font-display text-2xl text-gold mb-2">Confira seu e-mail</h1>
-              <p className="text-sm text-muted-foreground">
-                Enviamos um link de acesso para{" "}
-                <span className="text-foreground">{email.trim()}</span>. Abra o e-mail e clique em{" "}
-                <span className="text-gold">Entrar</span> para acessar o planner.
-              </p>
-              <p className="text-xs text-muted-foreground mt-3">
-                Não recebeu? Veja o spam ou peça outro link.
-              </p>
-              <div className="mt-6 flex flex-col gap-2 text-center text-xs text-muted-foreground">
-                <button
-                  onClick={() => send()}
-                  disabled={busy}
-                  className="hover:text-gold transition disabled:opacity-50"
-                >
-                  {busy ? "Reenviando…" : "Reenviar link"}
-                </button>
-                <button
-                  onClick={() => {
-                    setSent(false);
-                    setError(null);
-                  }}
-                  className="hover:text-gold transition flex items-center justify-center gap-1"
-                >
-                  <ArrowLeft className="h-3 w-3" /> Usar outro e-mail
-                </button>
-              </div>
+          <div className="mb-6">
+            <h1 className="font-display text-2xl text-gold mb-1">
+              {forgotPassword
+                ? "Redefinir senha"
+                : isLogin
+                  ? "Entrar"
+                  : "Criar conta"}
+            </h1>
+
+            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
+              {forgotPassword
+                ? "Receba um link para criar uma nova senha"
+                : isLogin
+                  ? "Acesse seu planner"
+                  : "Comece seu planejamento"}
+            </p>
+          </div>
+
+          {error && (
+            <div
+              role="alert"
+              className="mb-4 rounded-md border border-darkred/40 bg-darkred/10 px-3 py-2 text-xs text-darkred"
+            >
+              {error}
             </div>
-          ) : (
-            <>
-              <h1 className="font-display text-2xl text-gold mb-1">Entrar</h1>
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-6">
-                Digite seu e-mail e enviamos um link de acesso
-              </p>
-              <form onSubmit={send} className="space-y-3">
-                <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
-                  <input
-                    type="email"
-                    required
-                    autoFocus
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="seu@email.com"
-                    className="w-full bg-transparent outline-none text-sm py-2.5"
-                  />
-                </div>
-                {error && <p className="text-xs text-darkred">{error}</p>}
-                <button
-                  type="submit"
-                  disabled={busy}
-                  className="w-full rounded-md border border-gold/40 text-gold px-4 py-2.5 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  {busy && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Enviar link de acesso
-                </button>
-              </form>
-            </>
           )}
 
-          {!installed && (
-            <div className="mt-6 pt-5 border-t border-white/10">
-              <button
-                type="button"
-                onClick={install}
-                className="w-full flex items-center justify-center gap-2 rounded-md border border-magenta/40 text-silver px-4 py-2.5 text-sm hover:bg-magenta/15 transition"
-              >
-                <Download className="h-4 w-4" /> Instalar aplicativo
-              </button>
-              {showInstallHelp && (
-                <p className="mt-3 text-xs text-muted-foreground text-center leading-relaxed">
-                  {isIOS ? (
-                    <>
-                      No iPhone: toque em{" "}
-                      <Share className="inline h-3.5 w-3.5 mx-0.5 align-text-bottom" />
-                      <span className="text-foreground">Compartilhar</span> e depois em{" "}
-                      <span className="text-foreground">"Adicionar à Tela de Início"</span>.
-                    </>
+          {success && (
+            <div
+              role="status"
+              className="mb-4 rounded-md border border-gold/30 bg-gold/10 px-3 py-2 text-xs text-gold"
+            >
+              {success}
+            </div>
+          )}
+
+          <form onSubmit={submit} className="space-y-3">
+            {!isLogin && !forgotPassword && (
+              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+                <User className="h-4 w-4 text-muted-foreground" />
+
+                <input
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={name}
+                  onChange={(event) =>
+                    setName(event.target.value)
+                  }
+                  placeholder="Seu nome"
+                  disabled={busy}
+                  className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
+                />
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+              <Mail className="h-4 w-4 text-muted-foreground" />
+
+              <input
+                type="email"
+                required
+                autoFocus
+                autoComplete="email"
+                value={email}
+                onChange={(event) =>
+                  setEmail(event.target.value)
+                }
+                placeholder="seu@email.com"
+                disabled={busy}
+                className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
+              />
+            </div>
+
+            {!forgotPassword && (
+              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+                <Lock className="h-4 w-4 text-muted-foreground" />
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete={
+                    isLogin
+                      ? "current-password"
+                      : "new-password"
+                  }
+                  value={password}
+                  onChange={(event) =>
+                    setPassword(event.target.value)
+                  }
+                  placeholder="Sua senha"
+                  disabled={busy}
+                  className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowPassword((value) => !value)
+                  }
+                  disabled={busy}
+                  className="text-muted-foreground hover:text-gold transition disabled:opacity-50"
+                  aria-label={
+                    showPassword
+                      ? "Ocultar senha"
+                      : "Mostrar senha"
+                  }
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
                   ) : (
-                    <>
-                      Abra o menu do navegador e escolha{" "}
-                      <span className="text-foreground">"Instalar app"</span> ou{" "}
-                      <span className="text-foreground">"Adicionar à tela inicial"</span>.
-                    </>
+                    <Eye className="h-4 w-4" />
                   )}
-                </p>
+                </button>
+              </div>
+            )}
+
+            {!isLogin && !forgotPassword && (
+              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+                <Lock className="h-4 w-4 text-muted-foreground" />
+
+                <input
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  value={confirmPassword}
+                  onChange={(event) =>
+                    setConfirmPassword(event.target.value)
+                  }
+                  placeholder="Confirmar senha"
+                  disabled={busy}
+                  className="w-full bg-transparent outline-none text-sm py-2.5 disabled:opacity-50"
+                />
+              </div>
+            )}
+
+            {isLogin && !forgotPassword && (
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForgotPassword(true);
+                    setError(null);
+                    setSuccess(null);
+                  }}
+                  className="text-xs text-muted-foreground hover:text-gold transition"
+                >
+                  Esqueci minha senha
+                </button>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-md border border-gold/40 text-gold px-4 py-2.5 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {busy && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+
+              {busy
+                ? forgotPassword
+                  ? "Enviando..."
+                  : isLogin
+                    ? "Entrando..."
+                    : "Criando conta..."
+                : forgotPassword
+                  ? "Enviar link de recuperação"
+                  : isLogin
+                    ? "Entrar"
+                    : "Criar minha conta"}
+            </button>
+          </form>
+
+          {forgotPassword && (
+            <button
+              type="button"
+              onClick={() => {
+                setForgotPassword(false);
+                setError(null);
+                setSuccess(null);
+              }}
+              className="mt-4 w-full text-xs text-muted-foreground hover:text-gold transition flex items-center justify-center gap-1"
+            >
+              <ArrowLeft className="h-3 w-3" />
+              Voltar para o login
+            </button>
+          )}
+
+          {!forgotPassword && (
+            <div className="mt-6 text-center text-xs text-muted-foreground">
+              {isLogin ? (
+                <>
+                  Ainda não possui uma conta?{" "}
+                  <button
+                    type="button"
+                    onClick={() => changeMode("signup")}
+                    className="text-gold hover:underline"
+                  >
+                    Criar conta
+                  </button>
+                </>
+              ) : (
+                <>
+                  Já possui uma conta?{" "}
+                  <button
+                    type="button"
+                    onClick={() => changeMode("login")}
+                    className="text-gold hover:underline"
+                  >
+                    Entrar
+                  </button>
+                </>
               )}
             </div>
           )}
