@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Link } from "@tanstack/react-router";
 import { Mail, Lock, User, Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -35,10 +36,14 @@ function friendlyError(error: unknown): string {
   return "Não foi possível concluir a operação. Tente novamente.";
 }
 
-export function AuthScreen() {
+/**
+ * Tela única de acesso. `/entrar` abre no modo login e `/cadastro` no modo
+ * cadastro; a troca entre os dois é por link, para o endereço acompanhar a tela.
+ */
+export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
   const { signInWithPassword, signUp, resetPassword } = useAuth();
 
-  const [mode, setMode] = useState<Mode>("login");
+  const [mode, setMode] = useState<Mode>(initialMode);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -54,16 +59,6 @@ export function AuthScreen() {
   const [forgotPassword, setForgotPassword] = useState(false);
 
   const isLogin = mode === "login";
-
-  const changeMode = (nextMode: Mode) => {
-    setMode(nextMode);
-    setName("");
-    setPassword("");
-    setConfirmPassword("");
-    setError(null);
-    setSuccess(null);
-    setForgotPassword(false);
-  };
 
   const submit = async (event?: FormEvent) => {
     event?.preventDefault();
@@ -335,24 +330,16 @@ export function AuthScreen() {
               {isLogin ? (
                 <>
                   Ainda não possui uma conta?{" "}
-                  <button
-                    type="button"
-                    onClick={() => changeMode("signup")}
-                    className="text-gold hover:underline"
-                  >
+                  <Link to="/cadastro" className="text-gold hover:underline">
                     Criar conta
-                  </button>
+                  </Link>
                 </>
               ) : (
                 <>
                   Já possui uma conta?{" "}
-                  <button
-                    type="button"
-                    onClick={() => changeMode("login")}
-                    className="text-gold hover:underline"
-                  >
+                  <Link to="/entrar" className="text-gold hover:underline">
                     Entrar
-                  </button>
+                  </Link>
                 </>
               )}
             </div>

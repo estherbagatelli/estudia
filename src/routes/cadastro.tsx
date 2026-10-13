@@ -1,10 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { RegisterForm } from "@/components/auth/RegisterForm";
+
+import { AuthScreen } from "@/components/auth/AuthScreen";
+import { GuestOnly } from "@/components/auth/RequireAuth";
 
 export const Route = createFileRoute("/cadastro")({
   component: CadastroPage,
 });
 
 function CadastroPage() {
-  return <RegisterForm />;
+  return (
+    <GuestOnly>
+      <AuthScreen initialMode="signup" />
+    </GuestOnly>
+  );
 }

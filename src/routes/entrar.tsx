@@ -1,10 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LoginForm } from "@/components/auth/LoginForm";
+
+import { AuthScreen } from "@/components/auth/AuthScreen";
+import { GuestOnly } from "@/components/auth/RequireAuth";
 
 export const Route = createFileRoute("/entrar")({
   component: EntrarPage,
 });
 
 function EntrarPage() {
-  return <LoginForm />;
+  return (
+    <GuestOnly>
+      <AuthScreen initialMode="login" />
+    </GuestOnly>
+  );
 }
