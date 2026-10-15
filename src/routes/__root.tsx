@@ -129,10 +129,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Aplica o tema salvo antes da primeira pintura: sem isto a tela abre no tema
+// padrão e "pisca" para o escolhido, e o login nunca seguia a escolha da pessoa.
+// As chaves são as mesmas que o seletor do AppShell grava.
+const APPLY_SAVED_THEME = `try{var d=document.documentElement;d.dataset.colorTheme=localStorage.getItem("color-theme")||"rosa";d.dataset.appearance=localStorage.getItem("appearance")==="escuro"?"escuro":"claro"}catch(e){}`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
+    // suppressHydrationWarning: os data-* do <html> vêm do script acima, não do servidor.
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: APPLY_SAVED_THEME }} />
         <HeadContent />
       </head>
       <body>

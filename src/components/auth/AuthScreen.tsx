@@ -144,15 +144,6 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 text-foreground overflow-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(60% 40% at 15% 10%, oklch(0.34 0.10 15 / 0.18), transparent 60%), radial-gradient(50% 35% at 90% 85%, oklch(0.85 0.008 250 / 0.10), transparent 60%), linear-gradient(180deg, oklch(0.06 0.005 30), oklch(0.04 0.005 30))",
-        }}
-      />
-
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="font-script text-6xl leading-none text-foreground">Estudia</div>
@@ -164,7 +155,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
 
         <div className="glass-card p-8">
           <div className="mb-6">
-            <h1 className="font-display text-2xl text-gold mb-1">
+            <h1 className="font-display text-2xl text-primary mb-1">
               {forgotPassword ? "Redefinir senha" : isLogin ? "Entrar" : "Criar conta"}
             </h1>
 
@@ -189,7 +180,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
           {success && (
             <div
               role="status"
-              className="mb-4 rounded-md border border-gold/30 bg-gold/10 px-3 py-2 text-xs text-gold"
+              className="mb-4 rounded-md border border-primary/30 bg-primary/10 px-3 py-2 text-xs text-primary"
             >
               {success}
             </div>
@@ -197,7 +188,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
 
           <form onSubmit={submit} className="space-y-3">
             {!isLogin && !forgotPassword && (
-              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+              <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
                 <User className="h-4 w-4 text-muted-foreground" />
 
                 <input
@@ -213,7 +204,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
               </div>
             )}
 
-            <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+            <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
               <Mail className="h-4 w-4 text-muted-foreground" />
 
               <input
@@ -230,7 +221,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
             </div>
 
             {!forgotPassword && (
-              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+              <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
                 <Lock className="h-4 w-4 text-muted-foreground" />
 
                 <input
@@ -248,7 +239,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
                   disabled={busy}
-                  className="text-muted-foreground hover:text-gold transition disabled:opacity-50"
+                  className="text-muted-foreground hover:text-primary transition disabled:opacity-50"
                   aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -257,7 +248,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
             )}
 
             {!isLogin && !forgotPassword && (
-              <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+              <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
                 <Lock className="h-4 w-4 text-muted-foreground" />
 
                 <input
@@ -282,7 +273,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
                     setError(null);
                     setSuccess(null);
                   }}
-                  className="text-xs text-muted-foreground hover:text-gold transition"
+                  className="text-xs text-muted-foreground hover:text-primary transition"
                 >
                   Esqueci minha senha
                 </button>
@@ -292,7 +283,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-md border border-gold/40 text-gold px-4 py-2.5 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full rounded-md border border-primary/40 text-primary px-4 py-2.5 text-sm hover:bg-primary hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {busy && <Loader2 className="h-4 w-4 animate-spin" />}
 
@@ -318,7 +309,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
                 setError(null);
                 setSuccess(null);
               }}
-              className="mt-4 w-full text-xs text-muted-foreground hover:text-gold transition flex items-center justify-center gap-1"
+              className="mt-4 w-full text-xs text-muted-foreground hover:text-primary transition flex items-center justify-center gap-1"
             >
               <ArrowLeft className="h-3 w-3" />
               Voltar para o login
@@ -330,14 +321,14 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
               {isLogin ? (
                 <>
                   Ainda não possui uma conta?{" "}
-                  <Link to="/cadastro" className="text-gold hover:underline">
+                  <Link to="/cadastro" className="text-primary hover:underline">
                     Criar conta
                   </Link>
                 </>
               ) : (
                 <>
                   Já possui uma conta?{" "}
-                  <Link to="/entrar" className="text-gold hover:underline">
+                  <Link to="/entrar" className="text-primary hover:underline">
                     Entrar
                   </Link>
                 </>

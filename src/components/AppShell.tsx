@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home,
@@ -9,6 +10,10 @@ import {
   Wallet,
   CheckSquare,
   LogOut,
+  Palette,
+  Sun,
+  Moon,
+  Check,
 } from "lucide-react";
 import tigerAsset from "@/assets/tiger.png.asset.json";
 import type { ReactNode } from "react";
@@ -25,6 +30,37 @@ const NAV = [
   { to: "/tarefas", label: "Tarefas", icon: CheckSquare },
 ] as const;
 
+const THEMES = [
+  { id: "rosa", label: "Rosa", color: "#E84C91" },
+  { id: "verde-agua", label: "Verde-água", color: "#36B9A8" },
+  { id: "roxo", label: "Roxo", color: "#8B5CF6" },
+  { id: "azul", label: "Azul", color: "#3B82F6" },
+  { id: "vermelho", label: "Vermelho", color: "#EF4444" },
+] as const;
+
+type Theme = (typeof THEMES)[number]["id"];
+type Appearance = "claro" | "escuro";
+
+function getSavedTheme(): Theme {
+  try {
+    const saved = localStorage.getItem("color-theme");
+    if (THEMES.some((theme) => theme.id === saved)) {
+      return saved as Theme;
+    }
+  } catch {
+    // Usa o tema padrão se o armazenamento estiver indisponível.
+  }
+  return "rosa";
+}
+
+function getSavedAppearance(): Appearance {
+  try {
+    return localStorage.getItem("appearance") === "escuro" ? "escuro" : "claro";
+  } catch {
+    return "claro";
+  }
+}
+
 export function AppShell({
   title,
   subtitle,
@@ -34,63 +70,106 @@ export function AppShell({
   subtitle?: string;
   children: ReactNode;
 }) {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = useRouterState({
+    select: (s) => s.location.pathname,
+  });
+
   const { user, signOut } = useAuth();
 
+  const [theme, setTheme] = useState<Theme>(getSavedTheme);
+  const [appearance, setAppearance] = useState<Appearance>(getSavedAppearance);
+  const [showAppearance, setShowAppearance] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.dataset.colorTheme = theme;
+    document.documentElement.dataset.appearance = appearance;
+
+    try {
+      localStorage.setItem("color-theme", theme);
+      localStorage.setItem("appearance", appearance);
+    } catch {
+      // A aparência continua funcionando nesta sessão.
+    }
+  }, [theme, appearance]);
+
+  function toggleAppearance() {
+    setAppearance((current) => (current === "claro" ? "escuro" : "claro"));
+  }
+
   return (
-    <div className="relative min-h-screen text-foreground overflow-hidden">
-      {/* ambient background */}
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground transition-colors duration-300">
+      {/* Fundo decorativo com o tigre */}
       <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 opacity-[0.08]"
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 opacity-[0.06]"
         style={{
           backgroundImage: `url(${tigerAsset.url})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "saturate(0.6)",
+          filter: "saturate(0.7)",
         }}
       />
+
+      {/* Degradês coloridos */}
       <div
-        aria-hidden
+        aria-hidden="true"
         className="pointer-events-none fixed inset-0 -z-10"
         style={{
-          background:
-            "radial-gradient(60% 40% at 15% 10%, oklch(0.34 0.10 15 / 0.18), transparent 60%), radial-gradient(50% 35% at 90% 85%, oklch(0.85 0.008 250 / 0.10), transparent 60%), linear-gradient(180deg, oklch(0.06 0.005 30), oklch(0.04 0.005 30))",
+          background: `
+            radial-gradient(
+              ellipse at 10% 10%,
+              var(--glow-start, transparent),
+              transparent 55%
+            ),
+            radial-gradient(
+              ellipse at 90% 80%,
+              var(--glow-middle, transparent),
+              transparent 55%
+            ),
+            radial-gradient(
+              ellipse at 50% 100%,
+              var(--glow-end, transparent),
+              transparent 60%
+            )
+          `,
         }}
       />
 
       <div className="flex min-h-screen">
-        {/* Sidebar (desktop) */}
-        <aside className="hidden md:flex w-64 shrink-0 flex-col gap-2 border-r border-magenta/25 bg-black/50 backdrop-blur-md p-6">
+        {/* Menu lateral para computador */}
+        <aside className="hidden w-64 shrink-0 flex-col gap-2 border-r border-border bg-card/80 p-6 backdrop-blur-md md:flex">
           <div className="mb-6">
             <div className="font-script text-4xl leading-none text-foreground">Estudia</div>
-            <div className="font-display text-sm tracking-[0.4em] text-magenta uppercase mt-1">
+            <div className="mt-1 font-display text-sm uppercase tracking-[0.4em] text-primary">
               Planner · 2026
             </div>
           </div>
+
           <nav className="flex flex-col gap-1">
             {NAV.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.to;
+
               return (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
+                  className={`group flex items-center gap-3 rounded-lg border-l-2 px-3 py-2.5 text-sm transition-all ${
                     active
-                      ? "bg-gradient-to-r from-wine/50 via-magenta/20 to-transparent text-silver border-l-2 border-pink"
-                      : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : "border-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
-                  <Icon className="h-4 w-4" strokeWidth={1.25} />
+                  <Icon className="h-4 w-4" strokeWidth={1.5} />
                   <span className="font-display tracking-wider">{item.label}</span>
                 </Link>
               );
             })}
           </nav>
+
           <div className="mt-auto pt-6">
             {user && (
-              <div className="mb-4 flex items-center justify-between gap-2 rounded-lg border border-magenta/20 bg-black/30 px-3 py-2">
+              <div className="mb-4 flex items-center justify-between gap-2 rounded-lg border border-border bg-card/70 px-3 py-2">
                 <span
                   className="truncate text-xs text-muted-foreground"
                   title={user.email ?? undefined}
@@ -98,70 +177,164 @@ export function AppShell({
                   {user.email}
                 </span>
                 <button
+                  type="button"
                   onClick={() => signOut()}
                   aria-label="Sair"
-                  className="shrink-0 text-magenta/70 hover:text-magenta transition"
+                  className="shrink-0 text-primary transition hover:opacity-70"
                 >
                   <LogOut className="h-4 w-4" strokeWidth={1.5} />
                 </button>
               </div>
             )}
-            <div className="gold-divider mb-4" />
-            <p className="font-script text-2xl text-center text-foreground/80 leading-tight">
+
+            <div className="mb-4 h-px bg-border" />
+            <p className="text-center font-script text-2xl leading-tight text-foreground/80">
               All in God's Hands
             </p>
           </div>
         </aside>
 
-        {/* Main */}
-        <main className="flex-1 min-w-0 pb-24 md:pb-8">
-          <header className="px-6 md:px-10 pt-8 md:pt-10">
-            <div className="md:hidden mb-2 flex items-start justify-between">
+        {/* Conteúdo principal */}
+        <main className="min-w-0 flex-1 pb-24 md:pb-8">
+          <header className="px-6 pt-8 md:px-10 md:pt-10">
+            {/* Cabeçalho para celular */}
+            <div className="mb-2 flex items-start justify-between md:hidden">
               <div>
-                <div className="font-script text-3xl">Estudia</div>
-                <div className="text-[10px] tracking-[0.4em] text-magenta uppercase">
+                <div className="font-script text-3xl text-foreground">Estudia</div>
+                <div className="text-[10px] uppercase tracking-[0.4em] text-primary">
                   Planner · 2026
                 </div>
               </div>
+
               {user && (
                 <button
+                  type="button"
                   onClick={() => signOut()}
                   aria-label="Sair"
-                  className="mt-1 text-magenta/70 hover:text-magenta transition"
+                  className="mt-1 text-primary transition hover:opacity-70"
                 >
                   <LogOut className="h-5 w-5" strokeWidth={1.5} />
                 </button>
               )}
             </div>
-            <h1 className="font-script text-5xl md:text-6xl text-foreground">{title}</h1>
+
+            {/* Título e botão de aparência */}
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="min-w-0 font-script text-5xl text-foreground md:text-6xl">{title}</h1>
+
+              <div className="relative shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setShowAppearance((current) => !current)}
+                  aria-label="Personalizar aparência"
+                  aria-expanded={showAppearance}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card text-primary shadow-sm transition hover:bg-muted"
+                >
+                  <Palette className="h-5 w-5" />
+                </button>
+
+                {showAppearance && (
+                  <div className="absolute right-0 top-14 z-[60] w-64 rounded-2xl border border-border bg-card p-4 text-foreground shadow-xl">
+                    <div className="mb-3">
+                      <h2 className="font-display text-lg font-semibold">Aparência</h2>
+                      <p className="text-sm text-muted-foreground">Personalize seu planner.</p>
+                    </div>
+
+                    {/* Escolher cor */}
+                    <p className="mb-3 text-sm font-medium">Cor do tema</p>
+
+                    <div className="grid grid-cols-5 gap-2">
+                      {THEMES.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          title={item.label}
+                          aria-label={`Tema ${item.label}`}
+                          aria-pressed={theme === item.id}
+                          onClick={() => setTheme(item.id)}
+                          className="flex flex-col items-center gap-1.5"
+                        >
+                          <span
+                            className="flex h-9 w-9 items-center justify-center rounded-full border-2 transition"
+                            style={{
+                              backgroundColor: item.color,
+                              borderColor: theme === item.id ? "var(--foreground)" : "transparent",
+                            }}
+                          >
+                            {theme === item.id && <Check className="h-4 w-4 text-white" />}
+                          </span>
+                          <span className="text-[10px]">{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="my-4 h-px bg-border" />
+
+                    {/* Alternar modo claro e escuro */}
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-medium">Modo de exibição</p>
+                        <p className="text-xs text-muted-foreground">
+                          {appearance === "claro" ? "Modo claro" : "Modo escuro"}
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={toggleAppearance}
+                        aria-label="Alternar modo claro e escuro"
+                        aria-pressed={appearance === "escuro"}
+                        className="flex h-10 w-14 shrink-0 items-center rounded-full bg-muted p-1 transition"
+                      >
+                        <span
+                          className={`flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow transition-transform ${
+                            appearance === "escuro" ? "translate-x-4" : "translate-x-0"
+                          }`}
+                        >
+                          {appearance === "escuro" ? (
+                            <Moon className="h-4 w-4" />
+                          ) : (
+                            <Sun className="h-4 w-4" />
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {subtitle && (
-              <p className="mt-2 text-sm text-muted-foreground font-display tracking-wide">
+              <p className="mt-2 font-display text-sm tracking-wide text-muted-foreground">
                 {subtitle}
               </p>
             )}
-            <div className="gold-divider mt-6" />
+
+            <div className="mt-6 h-px bg-border" />
           </header>
-          <div className="px-6 md:px-10 mt-8">{children}</div>
+
+          <div className="mt-8 px-6 md:px-10">{children}</div>
         </main>
       </div>
 
-      {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 border-t border-magenta/30 bg-black/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
-        <div className="flex gap-1 overflow-x-auto px-3 py-2.5 scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* Menu inferior para celular */}
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
+        <div className="scrollbar-none flex gap-1 overflow-x-auto px-3 py-2.5 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.to;
+
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`shrink-0 flex flex-col items-center justify-center gap-1 min-w-[64px] py-1.5 px-2 rounded-lg text-[10px] tracking-[0.15em] transition ${
+                className={`flex min-w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-[10px] tracking-[0.15em] transition ${
                   active
-                    ? "text-silver bg-gradient-to-b from-wine/60 to-magenta/30 border border-pink/50"
-                    : "text-muted-foreground"
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={1.25} />
+                <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
                 <span className="uppercase">{item.label}</span>
               </Link>
             );
