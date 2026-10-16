@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { RequireAuth } from "@/components/auth/RequireAuth";
+import { PUBLIC_PATHS } from "@/lib/public-routes";
 import { Toaster } from "@/components/ui/sonner";
 import { registerServiceWorker } from "@/lib/pwa";
 
@@ -127,10 +129,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Aplica o tema salvo antes da primeira pintura: sem isto a tela abre no tema
+// padrão e "pisca" para o escolhido, e o login nunca seguia a escolha da pessoa.
+// As chaves são as mesmas que o seletor do AppShell grava.
+const APPLY_SAVED_THEME = `try{var d=document.documentElement;d.dataset.colorTheme=localStorage.getItem("color-theme")||"rosa";d.dataset.appearance=localStorage.getItem("appearance")==="escuro"?"escuro":"claro"}catch(e){}`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: os data-* do <html> vêm do script acima, não do servidor.
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: APPLY_SAVED_THEME }} />
         <HeadContent />
       </head>
       <body>
@@ -143,6 +152,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPublic = PUBLIC_PATHS.includes(pathname);
 
   useEffect(() => {
     registerServiceWorker();
@@ -151,10 +162,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RequireAuth>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        {isPublic ? (
           <Outlet />
-        </RequireAuth>
+        ) : (
+          <RequireAuth>
+            <Outlet />
+          </RequireAuth>
+        )}
       </AuthProvider>
       <Toaster />
     </QueryClientProvider>

@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as DietaRouteImport } from './routes/dieta'
+import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as EstudosRouteImport } from './routes/estudos'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as HobbiesRouteImport } from './routes/hobbies'
@@ -24,9 +26,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DietaRoute = DietaRouteImport.update({
   id: '/dieta',
   path: '/dieta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EstudosRoute = EstudosRouteImport.update({
@@ -67,7 +79,9 @@ const AuthResetRoute = AuthResetRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
   '/dieta': typeof DietaRoute
+  '/entrar': typeof EntrarRoute
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
@@ -78,7 +92,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
   '/dieta': typeof DietaRoute
+  '/entrar': typeof EntrarRoute
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
@@ -90,7 +106,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
   '/dieta': typeof DietaRoute
+  '/entrar': typeof EntrarRoute
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
@@ -103,7 +121,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cadastro'
     | '/dieta'
+    | '/entrar'
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
@@ -114,7 +134,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cadastro'
     | '/dieta'
+    | '/entrar'
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
@@ -125,7 +147,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cadastro'
     | '/dieta'
+    | '/entrar'
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
@@ -137,7 +161,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CadastroRoute: typeof CadastroRoute
   DietaRoute: typeof DietaRoute
+  EntrarRoute: typeof EntrarRoute
   EstudosRoute: typeof EstudosRoute
   FinanceiroRoute: typeof FinanceiroRoute
   HobbiesRoute: typeof HobbiesRoute
@@ -156,11 +182,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dieta': {
       id: '/dieta'
       path: '/dieta'
       fullPath: '/dieta'
       preLoaderRoute: typeof DietaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/estudos': {
@@ -217,7 +257,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CadastroRoute: CadastroRoute,
   DietaRoute: DietaRoute,
+  EntrarRoute: EntrarRoute,
   EstudosRoute: EstudosRoute,
   FinanceiroRoute: FinanceiroRoute,
   HobbiesRoute: HobbiesRoute,
