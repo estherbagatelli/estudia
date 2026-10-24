@@ -5,7 +5,7 @@ import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { Workout, WorkoutExercise, WorkoutSession } from "@/types/models";
-import { isThisMonth, parseISO } from "date-fns";
+import { format, isThisMonth, parseISO } from "date-fns";
 
 const workoutsRepo = repo("workouts");
 const exercisesRepo = repo("workout_exercises");
@@ -15,7 +15,7 @@ export type ExercisePatch = Partial<
   Pick<WorkoutExercise, "name" | "sets" | "reps" | "load_kg" | "rest_seconds">
 >;
 
-const hoje = () => new Date().toISOString().slice(0, 10);
+const hoje = () => format(new Date(), "yyyy-MM-dd");
 
 /** /treino — workouts + workout_exercises + workout_sessions (histórico e contador). */
 export function useTreino() {
