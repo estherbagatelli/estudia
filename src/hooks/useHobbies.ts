@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
-import type { HobbyItem, HobbyKind } from "@/types/models";
+import type { HobbyItem, HobbyKind, HobbyStatus } from "@/types/models";
 
 const hobbies = repo("hobby_items");
 
@@ -34,26 +34,78 @@ export function useHobbies() {
     qc.setQueryData<HobbyItem[]>(key, (p) => fn(p ?? []));
 
   const add = useMutation({
-    mutationFn: (v: { kind: HobbyKind; title: string }) =>
-      hobbies.insert({ kind: v.kind, title: v.title }),
+    mutationFn: (v: {
+      kind: HobbyKind;
+      title: string;
+      goalDate?: string | null;
+      genre?: string | null;
+      status?: HobbyStatus;
+    }) =>
+      hobbies.insert({
+        kind: v.kind,
+        title: v.title,
+        goal_date: v.goalDate ?? null,
+        genre: v.genre ?? null,
+        status: v.status ?? "nao_iniciado",
+        is_done: v.status === "concluido",
+      }),
     onSettled: settle,
   });
+
   const toggle = useMutation({
-    mutationFn: (it: HobbyItem) => hobbies.update(it.id, { is_done: !it.is_done }),
+    mutationFn: (it: HobbyItem) => {
+      const nextDone = !it.is_done;
+      const nextStatus: HobbyStatus = nextDone ? "concluido" : "nao_iniciado";
+      return hobbies.update(it.id, {
+        is_done: nextDone,
+        status: nextStatus,
+        completed_at: nextDone ? new Date().toISOString() : null,
+      });
+    },
     onMutate: async (it) => {
       await qc.cancelQueries({ queryKey: key });
       const prev = qc.getQueryData<HobbyItem[]>(key) ?? [];
-      patch((p) => p.map((x) => (x.id === it.id ? { ...x, is_done: !x.is_done } : x)));
+      const nextDone = !it.is_done;
+      const nextStatus: HobbyStatus = nextDone ? "concluido" : "nao_iniciado";
+      patch((p) =>
+        p.map((x) =>
+          x.id === it.id
+            ? {
+                ...x,
+                is_done: nextDone,
+                status: nextStatus,
+                completed_at: nextDone ? new Date().toISOString() : null,
+              }
+            : x,
+        ),
+      );
       return { prev };
     },
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(key, c.prev),
     onSettled: settle,
   });
+
+  const setStatus = useMutation({
+    mutationFn: (v: { id: string; status: HobbyStatus }) =>
+      hobbies.update(v.id, {
+        status: v.status,
+        is_done: v.status === "concluido",
+        completed_at: v.status === "concluido" ? new Date().toISOString() : null,
+      }),
+    onSettled: settle,
+  });
+
   const setProgress = useMutation({
     mutationFn: (v: { id: string; season: number | null; episode: number | null }) =>
       hobbies.update(v.id, { season: v.season, episode: v.episode }),
     onSettled: settle,
   });
+
+  const updateItem = useMutation({
+    mutationFn: (v: { id: string; patch: Partial<HobbyItem> }) => hobbies.update(v.id, v.patch),
+    onSettled: settle,
+  });
+
   const remove = useMutation({
     mutationFn: (id: string) => hobbies.remove(id),
     onMutate: async (id) => {
@@ -67,12 +119,21 @@ export function useHobbies() {
   });
 
   return {
+    items,
     isLoading: query.isLoading,
     itemsOf: (kind: HobbyKind) => items.filter((i) => i.kind === kind),
-    add: (kind: HobbyKind, title: string) => add.mutate({ kind, title }),
+    add: (v: {
+      kind: HobbyKind;
+      title: string;
+      goalDate?: string | null;
+      genre?: string | null;
+      status?: HobbyStatus;
+    }) => add.mutate(v),
     toggle: (it: HobbyItem) => toggle.mutate(it),
+    setStatus: (id: string, status: HobbyStatus) => setStatus.mutate({ id, status }),
     setProgress: (id: string, season: number | null, episode: number | null) =>
       setProgress.mutate({ id, season, episode }),
+    updateItem: (id: string, patch: Partial<HobbyItem>) => updateItem.mutate({ id, patch }),
     remove: (id: string) => remove.mutate(id),
   };
 }

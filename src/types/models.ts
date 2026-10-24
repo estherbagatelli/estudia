@@ -15,4 +15,4 @@ export type FinanceCategory = Tables<"finance_categories">;
 export type FinanceExpense = Tables<"finance_expenses">;
 export type Task = Tables<"tasks">;
 
-export type { HobbyKind, MealKind } from "./database.types";
+export type { ConteudoTipo, HobbyKind, MealKind, HobbyStatus } from "./database.types";

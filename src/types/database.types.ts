@@ -9,6 +9,8 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type HobbyKind = "filme" | "serie" | "anime" | "livro";
 export type MealKind =
   "cafe" | "lanche" | "pre_treino" | "almoco" | "lanche_tarde" | "janta" | "ceia";
+export type ConteudoTipo = "conteudo" | "estudo" | "revisao" | "atividade" | "trabalho" | "prova";
+export type HobbyStatus = "nao_iniciado" | "em_andamento" | "concluido";
 
 type Stamps = { created_at: string; updated_at: string };
 
@@ -27,6 +29,9 @@ type StudyTrackRow = {
   owner_id: string;
   name: string;
   subtitle: string | null;
+  course: string | null;
+  period: string | null;
+  color: string | null;
   position: number;
 } & Stamps;
 type StudyTopicRow = {
@@ -34,6 +39,7 @@ type StudyTopicRow = {
   owner_id: string;
   track_id: string;
   title: string;
+  kind: ConteudoTipo;
   is_done: boolean;
   completed_at: string | null;
   notes: string | null;
@@ -50,6 +56,9 @@ type HobbyItemRow = {
   season: number | null;
   episode: number | null;
   rating: number | null;
+  status: HobbyStatus;
+  goal_date: string | null;
+  genre: string | null;
   position: number;
 } & Stamps;
 type WorkoutRow = {
@@ -70,6 +79,7 @@ type WorkoutExerciseRow = {
   load_kg: number | null;
   is_done: boolean;
   notes: string | null;
+  rest_seconds: number | null;
   position: number;
 } & Stamps;
 type WorkoutSessionRow = {
@@ -88,6 +98,7 @@ type ShoppingItemRow = {
   quantity: number;
   unit: string | null;
   price: number | null;
+  category: string | null;
   is_checked: boolean;
   position: number;
 } & Stamps;
@@ -122,6 +133,7 @@ type FinanceExpenseRow = {
   description: string;
   amount: number;
   spent_on: string;
+  is_income: boolean;
 } & Stamps;
 type TaskRow = {
   id: string;
@@ -206,7 +218,7 @@ export interface Database {
       };
     };
     Functions: Record<string, never>;
-    Enums: { hobby_kind: HobbyKind; meal_kind: MealKind };
+    Enums: { hobby_kind: HobbyKind; meal_kind: MealKind; hobby_status: HobbyStatus };
     CompositeTypes: Record<string, never>;
   };
 }
