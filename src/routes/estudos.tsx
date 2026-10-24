@@ -5,7 +5,6 @@ import { ArrowLeftRight, Plus, Pencil, Trash2, Check, X, Loader2 } from "lucide-
 import { useEstudos } from "@/hooks/useEstudos";
 import type { StudyTrack, StudyTopic } from "@/types/models";
 
-
 const TIPOS = {
   conteudo: { rotulo: "Conteúdo", cor: "text-silver" },
   estudo: { rotulo: "Estudo", cor: "text-gold" },
@@ -33,21 +32,15 @@ function EstudosPage() {
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-
   const cadastrarMateria = () => {
     if (!nomeMateria.trim()) return;
 
-    estudos.addTrack(
-      nomeMateria.trim(),
-      curso.trim(),
-      periodo.trim()
-    );
+    estudos.addTrack(nomeMateria.trim(), curso.trim(), periodo.trim());
 
     setNomeMateria("");
     setCurso("");
     setPeriodo("");
   };
-
 
   const canSwap = tracks.length >= 2;
   const startPress = (id: string) => {
@@ -66,11 +59,8 @@ function EstudosPage() {
 
   return (
     <AppShell title="Estudos" subtitle="Conhecimento que se acumula em silêncio">
-
       <section className="glass-card p-6 mb-6">
-        <h2 className="text-xl font-display text-gold mb-4">
-          Cadastrar matéria
-        </h2>
+        <h2 className="text-xl font-display text-gold mb-4">Cadastrar matéria</h2>
 
         <div className="grid gap-3">
           <input
@@ -117,7 +107,6 @@ function EstudosPage() {
         </p>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
-
           {tracks.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-6">
               Você ainda não adicionou nenhuma matéria.
@@ -131,16 +120,13 @@ function EstudosPage() {
 
               onEditTrack={(name) => estudos.editTrack(track.id, name)}
 
-
               onDelete={() => estudos.removeTrack(track.id)}
 
               topics={estudos.topicsOf(track.id)}
               pressing={pressing === track.id}
               onPressStart={() => startPress(track.id)}
               onPressEnd={cancelPress}
-              onAdd={(title, kind) =>
-                estudos.addTopic(track.id, title, kind)
-              }
+              onAdd={(title, kind) => estudos.addTopic(track.id, title, kind)}
               onToggle={(t) => estudos.toggleTopic(t)}
               onEdit={(id, title) => estudos.editTopic(id, title)}
               onRemove={(id) => estudos.removeTopic(id)}
@@ -181,10 +167,7 @@ function TrackCard({
 }) {
   const [newItem, setNewItem] = useState("");
 
-  const [tipoConteudo, setTipoConteudo] =
-    useState<TipoConteudo>("conteudo");
-
-
+  const [tipoConteudo, setTipoConteudo] = useState<TipoConteudo>("conteudo");
 
   const [editandoMateria, setEditandoMateria] = useState(false);
   const [novoNomeMateria, setNovoNomeMateria] = useState(track.name);
@@ -193,10 +176,7 @@ function TrackCard({
   const [draft, setDraft] = useState("");
   const done = topics.filter((t) => t.is_done).length;
 
-  const progresso = topics.length
-    ? Math.round((done / topics.length) * 100)
-    : 0;
-
+  const progresso = topics.length ? Math.round((done / topics.length) * 100) : 0;
 
   const add = () => {
     if (!newItem.trim()) return;
@@ -269,11 +249,8 @@ function TrackCard({
           >
             <X className="h-5 w-5" />
           </button>
-
         </div>
       )}
-
-
 
       <button
         type="button"
@@ -291,7 +268,6 @@ function TrackCard({
       <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-5">
         {track.subtitle}
       </p>
-
 
       <div className="mb-5">
         <div className="flex justify-between text-sm mb-2">
@@ -311,7 +287,6 @@ function TrackCard({
         </p>
       </div>
 
-
       <div className="space-y-2">
         {topics.length > 0 && (
           <div className="flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-silver/70 mb-1">
@@ -325,10 +300,11 @@ function TrackCard({
           {topics.map((t) => (
             <li
               key={t.id}
-              className={`group flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${t.is_done
-                ? "border-wine/40 bg-wine/10"
-                : "border-[oklch(0.85_0.008_250/0.12)] bg-black/30"
-                }`}
+              className={`group flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${
+                t.is_done
+                  ? "border-wine/40 bg-wine/10"
+                  : "border-[oklch(0.85_0.008_250/0.12)] bg-black/30"
+              }`}
             >
               {editingId === t.id ? (
                 <>
@@ -351,8 +327,9 @@ function TrackCard({
                   <button
                     onClick={() => onToggle(t)}
                     aria-label="Marcar concluído"
-                    className={`h-4 w-4 shrink-0 rounded border flex items-center justify-center transition ${t.is_done ? "bg-darkred border-darkred" : "border-silver/40 hover:border-gold"
-                      }`}
+                    className={`h-4 w-4 shrink-0 rounded border flex items-center justify-center transition ${
+                      t.is_done ? "bg-darkred border-darkred" : "border-silver/40 hover:border-gold"
+                    }`}
                   >
                     {t.is_done && <Check className="h-3 w-3 text-silver" strokeWidth={2.5} />}
                   </button>
@@ -363,8 +340,9 @@ function TrackCard({
                   </span>
 
                   <span
-                    className={`text-xs rounded-md border px-2 py-1 ${TIPOS[t.kind ?? "conteudo"].cor
-                      }`}
+                    className={`text-xs rounded-md border px-2 py-1 ${
+                      TIPOS[t.kind ?? "conteudo"].cor
+                    }`}
                   >
                     {TIPOS[t.kind ?? "conteudo"].rotulo}
                   </span>
@@ -383,7 +361,6 @@ function TrackCard({
                     onClick={() => onRemove(t.id)}
                     className="opacity-60 group-hover:opacity-100 text-darkred transition"
                     aria-label="Remover"
-
                   >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>
@@ -404,9 +381,7 @@ function TrackCard({
 
           <select
             value={tipoConteudo}
-            onChange={(e) =>
-              setTipoConteudo(e.target.value as TipoConteudo)
-            }
+            onChange={(e) => setTipoConteudo(e.target.value as TipoConteudo)}
             aria-label="Tipo de conteúdo"
             className="rounded-md border border-gold/40 bg-background text-foreground px-3 py-2 text-sm"
           >
@@ -428,4 +403,3 @@ function TrackCard({
     </section>
   );
 }
-
