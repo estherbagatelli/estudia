@@ -11,6 +11,7 @@ import {
   CheckSquare,
   LogOut,
   Palette,
+  Menu,
   Sun,
   Moon,
   Check,
@@ -18,9 +19,17 @@ import {
 import tigerAsset from "@/assets/tiger.png.asset.json";
 import type { ReactNode } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const NAV = [
-  { to: "/", label: "Início", icon: Home },
+  { to: "/inicio", label: "Início", icon: Home },
   { to: "/estudos", label: "Estudos", icon: BookOpen },
   { to: "/hobbies", label: "Hobbies", icon: Heart },
   { to: "/treino", label: "Treino", icon: Dumbbell },
@@ -79,6 +88,7 @@ export function AppShell({
   const [theme, setTheme] = useState<Theme>(getSavedTheme);
   const [appearance, setAppearance] = useState<Appearance>(getSavedAppearance);
   const [showAppearance, setShowAppearance] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.colorTheme = theme;
@@ -199,10 +209,59 @@ export function AppShell({
           <header className="px-6 pt-8 md:px-10 md:pt-10">
             {/* Cabeçalho para celular */}
             <div className="mb-2 flex items-start justify-between md:hidden">
-              <div>
-                <div className="font-script text-3xl text-foreground">Estudia</div>
-                <div className="text-[10px] uppercase tracking-[0.4em] text-primary">
-                  Planner · 2026
+              <div className="flex items-start gap-3">
+                {/* Menu compacto — as 8 categorias, sem precisar arrastar de lado */}
+                <Sheet open={menuAberto} onOpenChange={setMenuAberto}>
+                  <SheetTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label="Abrir menu"
+                      className="mt-1 rounded-lg border border-border p-2 text-foreground transition hover:bg-accent"
+                    >
+                      <Menu className="h-5 w-5" strokeWidth={1.75} />
+                    </button>
+                  </SheetTrigger>
+
+                  <SheetContent side="left" className="w-72 bg-card p-0">
+                    <SheetHeader className="border-b border-border px-5 py-4 text-left">
+                      <SheetTitle className="font-script text-3xl font-normal text-foreground">
+                        Estudia
+                      </SheetTitle>
+                      <SheetDescription className="text-[10px] uppercase tracking-[0.4em] text-primary">
+                        Planner · 2026
+                      </SheetDescription>
+                    </SheetHeader>
+
+                    <nav className="flex flex-col gap-1 p-3">
+                      {NAV.map((item) => {
+                        const Icon = item.icon;
+                        const active = pathname === item.to;
+
+                        return (
+                          <Link
+                            key={item.to}
+                            to={item.to}
+                            onClick={() => setMenuAberto(false)}
+                            className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm transition ${
+                              active
+                                ? "bg-primary/10 font-medium text-primary"
+                                : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                            }`}
+                          >
+                            <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </nav>
+                  </SheetContent>
+                </Sheet>
+
+                <div>
+                  <div className="font-script text-3xl text-foreground">Estudia</div>
+                  <div className="text-[10px] uppercase tracking-[0.4em] text-primary">
+                    Planner · 2026
+                  </div>
                 </div>
               </div>
 
@@ -317,30 +376,7 @@ export function AppShell({
         </main>
       </div>
 
-      {/* Menu inferior para celular */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
-        <div className="scrollbar-none flex gap-1 overflow-x-auto px-3 py-2.5 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {NAV.map((item) => {
-            const Icon = item.icon;
-            const active = pathname === item.to;
-
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`flex min-w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-[10px] tracking-[0.15em] transition ${
-                  active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
-                <span className="uppercase">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
+      {/* A navegação do celular agora é o menu compacto do cabeçalho (botão ☰). */}
     </div>
   );
 }
