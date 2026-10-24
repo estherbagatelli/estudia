@@ -9,6 +9,7 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type HobbyKind = "filme" | "serie" | "anime" | "livro";
 export type MealKind =
   "cafe" | "lanche" | "pre_treino" | "almoco" | "lanche_tarde" | "janta" | "ceia";
+export type ConteudoTipo = "conteudo" | "estudo" | "revisao" | "atividade" | "trabalho" | "prova";
 
 type Stamps = { created_at: string; updated_at: string };
 
@@ -27,6 +28,9 @@ type StudyTrackRow = {
   owner_id: string;
   name: string;
   subtitle: string | null;
+  course: string | null;
+  period: string | null;
+  color: string | null;
   position: number;
 } & Stamps;
 type StudyTopicRow = {
@@ -34,6 +38,7 @@ type StudyTopicRow = {
   owner_id: string;
   track_id: string;
   title: string;
+  kind: ConteudoTipo;
   is_done: boolean;
   completed_at: string | null;
   notes: string | null;
