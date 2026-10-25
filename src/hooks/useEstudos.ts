@@ -35,14 +35,53 @@ export function useEstudos() {
   const patchTopics = (fn: (p: StudyTopic[]) => StudyTopic[]) =>
     qc.setQueryData<StudyTopic[]>(topicsKey, (p) => fn(p ?? []));
 
+  const addTrack = useMutation({
+    mutationFn: (v: { name: string; course?: string; period?: string }) => {
+      const tracks = tracksQuery.data ?? [];
+      const position = tracks.reduce((m, t) => Math.max(m, t.position), -1) + 1;
+
+      return tracksRepo.insert({
+        name: v.name,
+        course: v.course,
+        period: v.period,
+        position,
+      });
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: tracksKey }),
+  });
+
+  const removeTrack = useMutation({
+    mutationFn: (id: string) => tracksRepo.remove(id),
+
+    onSettled: () => qc.invalidateQueries({ queryKey: tracksKey }),
+  });
+
+  const editTrack = useMutation({
+    mutationFn: (v: { id: string; name: string }) => tracksRepo.update(v.id, { name: v.name }),
+
+    onSettled: () => qc.invalidateQueries({ queryKey: tracksKey }),
+  });
+
   const addTopic = useMutation({
-    mutationFn: (v: { trackId: string; title: string }) => {
+    mutationFn: (v: {
+      trackId: string;
+      title: string;
+      kind: "conteudo" | "estudo" | "revisao" | "atividade" | "trabalho" | "prova";
+    }) => {
       const siblings = topics.filter((t) => t.track_id === v.trackId);
+
       const position = siblings.reduce((m, t) => Math.max(m, t.position), -1) + 1;
-      return topicsRepo.insert({ track_id: v.trackId, title: v.title, position });
+
+      return topicsRepo.insert({
+        track_id: v.trackId,
+        title: v.title,
+        kind: v.kind,
+        position,
+      });
     },
     onSettled: settleTopics,
   });
+
   const toggleTopic = useMutation({
     mutationFn: (t: StudyTopic) => topicsRepo.update(t.id, { is_done: !t.is_done }),
     onMutate: async (t) => {
@@ -82,12 +121,50 @@ export function useEstudos() {
   return {
     tracks: tracksQuery.data ?? [],
     topics,
+
+    progressoDe: (trackId: string) => {
+      const lista = topics.filter((t) => t.track_id === trackId);
+      const feitos = lista.filter((t) => t.is_done).length;
+
+      return {
+        feitos,
+        total: lista.length,
+        pct: lista.length ? Math.round((feitos / lista.length) * 100) : 0,
+      };
+    },
+
+    addTrack: (name: string, course?: string, period?: string) =>
+      addTrack.mutate({ name, course, period }),
+    editTrack: (id: string, name: string) => editTrack.mutate({ id, name }),
+    removeTrack: (id: string) => removeTrack.mutate(id),
     isLoading: tracksQuery.isLoading || topicsQuery.isLoading,
     topicsOf: (trackId: string) => topics.filter((t) => t.track_id === trackId),
-    addTopic: (trackId: string, title: string) => addTopic.mutate({ trackId, title }),
+
+    addTopic: (
+      trackId: string,
+      title: string,
+      kind: "conteudo" | "estudo" | "revisao" | "atividade" | "trabalho" | "prova",
+    ) => addTopic.mutate({ trackId, title, kind }),
+
     toggleTopic: (t: StudyTopic) => toggleTopic.mutate(t),
     editTopic: (id: string, title: string) => editTopic.mutate({ id, title }),
     removeTopic: (id: string) => removeTopic.mutate(id),
     swapTracks: (a: StudyTrack, b: StudyTrack) => swapTracks.mutate({ a, b }),
   };
+}
+
+export function useResumoEstudos() {
+  const { tracks, topicsOf } = useEstudos();
+
+  return tracks.map((t) => {
+    const lista = topicsOf(t.id);
+    const feitos = lista.filter((x) => x.is_done).length;
+
+    return {
+      materia: t.name,
+      feitos,
+      total: lista.length,
+      pct: lista.length ? Math.round((feitos / lista.length) * 100) : 0,
+    };
+  });
 }

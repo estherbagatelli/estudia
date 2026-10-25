@@ -16,6 +16,7 @@ import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as EstudosRouteImport } from './routes/estudos'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as HobbiesRouteImport } from './routes/hobbies'
+import { Route as InicioRouteImport } from './routes/inicio'
 import { Route as MercadoRouteImport } from './routes/mercado'
 import { Route as TarefasRouteImport } from './routes/tarefas'
 import { Route as TreinoRouteImport } from './routes/treino'
@@ -56,6 +57,11 @@ const HobbiesRoute = HobbiesRouteImport.update({
   path: '/hobbies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InicioRoute = InicioRouteImport.update({
+  id: '/inicio',
+  path: '/inicio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MercadoRoute = MercadoRouteImport.update({
   id: '/mercado',
   path: '/mercado',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
+  '/inicio': typeof InicioRoute
   '/mercado': typeof MercadoRoute
   '/tarefas': typeof TarefasRoute
   '/treino': typeof TreinoRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
+  '/inicio': typeof InicioRoute
   '/mercado': typeof MercadoRoute
   '/tarefas': typeof TarefasRoute
   '/treino': typeof TreinoRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/estudos': typeof EstudosRoute
   '/financeiro': typeof FinanceiroRoute
   '/hobbies': typeof HobbiesRoute
+  '/inicio': typeof InicioRoute
   '/mercado': typeof MercadoRoute
   '/tarefas': typeof TarefasRoute
   '/treino': typeof TreinoRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
+    | '/inicio'
     | '/mercado'
     | '/tarefas'
     | '/treino'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
+    | '/inicio'
     | '/mercado'
     | '/tarefas'
     | '/treino'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/estudos'
     | '/financeiro'
     | '/hobbies'
+    | '/inicio'
     | '/mercado'
     | '/tarefas'
     | '/treino'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   EstudosRoute: typeof EstudosRoute
   FinanceiroRoute: typeof FinanceiroRoute
   HobbiesRoute: typeof HobbiesRoute
+  InicioRoute: typeof InicioRoute
   MercadoRoute: typeof MercadoRoute
   TarefasRoute: typeof TarefasRoute
   TreinoRoute: typeof TreinoRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HobbiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inicio': {
+      id: '/inicio'
+      path: '/inicio'
+      fullPath: '/inicio'
+      preLoaderRoute: typeof InicioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mercado': {
       id: '/mercado'
       path: '/mercado'
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstudosRoute: EstudosRoute,
   FinanceiroRoute: FinanceiroRoute,
   HobbiesRoute: HobbiesRoute,
+  InicioRoute: InicioRoute,
   MercadoRoute: MercadoRoute,
   TarefasRoute: TarefasRoute,
   TreinoRoute: TreinoRoute,

@@ -7,7 +7,7 @@ import type { ShoppingItem } from "@/types/models";
 
 const items = repo("shopping_items");
 
-/** /mercado — relational, optimistic, realtime. */
+/** /mercado — relational, optimistic, realtime, com categorias criadas pelo usuário. */
 export function useShopping() {
   const { user } = useAuth();
   const userId = user?.id;
@@ -27,10 +27,15 @@ export function useShopping() {
   const settle = () => qc.invalidateQueries({ queryKey: key });
 
   const add = useMutation({
-    mutationFn: (v: { name: string; quantity: number }) =>
-      items.insert({ name: v.name, quantity: v.quantity }),
+    mutationFn: (v: { name: string; quantity: number; category?: string | null }) =>
+      items.insert({
+        name: v.name,
+        quantity: v.quantity,
+        category: v.category?.trim() || null,
+      }),
     onSettled: settle,
   });
+
   const toggle = useMutation({
     mutationFn: (it: ShoppingItem) => items.update(it.id, { is_checked: !it.is_checked }),
     onMutate: async (it) => {
@@ -42,6 +47,7 @@ export function useShopping() {
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(key, c.prev),
     onSettled: settle,
   });
+
   const remove = useMutation({
     mutationFn: (id: string) => items.remove(id),
     onMutate: async (id) => {
@@ -54,10 +60,17 @@ export function useShopping() {
     onSettled: settle,
   });
 
+  const allItems = query.data ?? [];
+  const categoriasUsadas = [
+    ...new Set(allItems.map((i) => i.category).filter(Boolean)),
+  ] as string[];
+
   return {
-    items: query.data ?? [],
+    items: allItems,
+    categoriasUsadas,
     isLoading: query.isLoading,
-    add: (name: string, quantity: number) => add.mutate({ name, quantity }),
+    add: (name: string, quantity: number, category?: string | null) =>
+      add.mutate({ name, quantity, category }),
     toggle: (it: ShoppingItem) => toggle.mutate(it),
     remove: (id: string) => remove.mutate(id),
   };

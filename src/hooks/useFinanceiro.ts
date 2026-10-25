@@ -53,11 +53,17 @@ export function useFinanceiro() {
     },
   });
   const addExpense = useMutation({
-    mutationFn: (v: { categoryId: string; description: string; amount: number }) =>
+    mutationFn: (v: {
+      categoryId: string;
+      description: string;
+      amount: number;
+      isIncome?: boolean;
+    }) =>
       expensesRepo.insert({
         category_id: v.categoryId,
         description: v.description,
         amount: v.amount,
+        is_income: v.isIncome ?? false,
       }),
     onSettled: settleE,
   });
@@ -67,20 +73,30 @@ export function useFinanceiro() {
   });
 
   const totalBy = (categoryId: string) =>
-    expenses.filter((e) => e.category_id === categoryId).reduce((s, e) => s + Number(e.amount), 0);
+    expenses
+      .filter((e) => e.category_id === categoryId && !e.is_income)
+      .reduce((s, e) => s + Number(e.amount), 0);
+
+  const entradas = expenses.filter((l) => l.is_income).reduce((s, l) => s + Number(l.amount), 0);
+  const gastos = expenses.filter((l) => !l.is_income).reduce((s, l) => s + Number(l.amount), 0);
+  const saldo = entradas - gastos;
 
   return {
     categories: catsQuery.data ?? [],
+    expenses,
     isLoading: catsQuery.isLoading || expensesQuery.isLoading,
     expensesOf: (categoryId: string): FinanceExpense[] =>
       expenses.filter((e) => e.category_id === categoryId),
     totalBy,
+    entradas,
+    gastos,
+    saldo,
     addCategory: (name: string) =>
       addCategory.mutate({ name, position: (catsQuery.data ?? []).length }),
     editCategory: (id: string, patch: CategoryPatch) => editCategory.mutate({ id, patch }),
     removeCategory: (id: string) => removeCategory.mutate(id),
-    addExpense: (categoryId: string, description: string, amount: number) =>
-      addExpense.mutate({ categoryId, description, amount }),
+    addExpense: (categoryId: string, description: string, amount: number, isIncome = false) =>
+      addExpense.mutate({ categoryId, description, amount, isIncome }),
     removeExpense: (id: string) => removeExpense.mutate(id),
   };
 }

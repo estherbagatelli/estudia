@@ -1,324 +1,91 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Dumbbell, Apple, CheckSquare, Sparkles } from "lucide-react";
-import { AppShell } from "@/components/AppShell";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { repo } from "@/repositories/base.repository";
-import { queryKeys } from "@/lib/query-keys";
-import { useTasks } from "@/hooks/useTasks";
-import { useTreino } from "@/hooks/useTreino";
-import { useDieta } from "@/hooks/useDieta";
-import { mealLabel } from "@/hooks/useDieta";
-import { SEED_QUOTES } from "@/lib/seed-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Estudia — Seu semestre, no seu ritmo." },
-      { name: "description", content: "Seu semestre, no seu ritmo." },
+      {
+        name: "description",
+        content: "Organize seus estudos e sua rotina em um só lugar.",
+      },
     ],
   }),
-  component: Index,
+  component: Landing,
 });
 
-function Index() {
-  const { user } = useAuth();
-  const [i, setI] = useState(0);
-  const [now, setNow] = useState<Date | null>(null);
+/**
+ * Landing Page — a primeira tela de quem ainda não tem conta.
+ *
+ * É pública: `/` está em PUBLIC_PATHS (src/lib/public-routes.ts), então ela
+ * abre sem login. O planner fica em `/inicio`, atrás da autenticação.
+ *
+ * O conteúdo é o definido no relatório de UX/UI: nome, uma frase, e dois
+ * botões. Sem depoimentos, sem preços, sem explicação longa.
+ */
+function Landing() {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
-  const quotesQuery = useQuery({
-    queryKey: queryKeys.quotes(user?.id ?? "anon"),
-    queryFn: () => repo("quotes").list("position", true),
-    enabled: !!user,
-  });
-  const quotes = (quotesQuery.data ?? []).filter((q) => q.is_active).map((q) => q.text);
-  const QUOTES = quotes.length ? quotes : SEED_QUOTES;
-
+  // Quem já está logado não precisa ver a apresentação do produto.
   useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setI((v) => (v + 1) % Math.max(1, QUOTES.length)), 6000);
-    return () => clearInterval(id);
-  }, [QUOTES.length]);
-
-  const today = now
-    ? now.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })
-    : "";
-  const isBirthday = !!now && now.getMonth() === 6 && now.getDate() === 3;
-  const dow = now ? now.getDay() : -1;
-
-  const { tasks } = useTasks();
-  const treino = useTreino();
-  const dieta = useDieta();
-
-  const treinoHoje = treino.workouts.find((w) => w.weekday === dow) ?? null;
-  const treinoExs = treinoHoje ? treino.exercisesOf(treinoHoje.id) : [];
-  const dietaHoje = dieta.days.find((d) => d.weekday === dow) ?? null;
-  const dietaMeals = dietaHoje ? dieta.mealsOf(dietaHoje.id) : [];
-
-  const pendentes = tasks.filter((t) => !t.is_done);
-  const doneCount = tasks.length - pendentes.length;
-  const progress = tasks.length > 0 ? Math.round((doneCount / tasks.length) * 100) : 0;
-
-  const quote = QUOTES[i % QUOTES.length];
+    if (!loading && user) navigate({ to: "/inicio", replace: true });
+  }, [loading, user, navigate]);
 
   return (
-    <AppShell title="Olá!" subtitle={today.charAt(0).toUpperCase() + today.slice(1)}>
-      <div className="space-y-6">
-        <div className="glass-card relative overflow-hidden p-6 md:p-10">
-          <div
-            aria-hidden
-            className="absolute -top-24 -right-16 h-72 w-72 rounded-full opacity-50 blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--magenta), transparent 70%)" }}
-          />
-          <div
-            aria-hidden
-            className="absolute -bottom-32 -left-10 h-72 w-72 rounded-full opacity-30 blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--wine), transparent 70%)" }}
-          />
-          <div className="relative">
-            {isBirthday ? (
-              <div className="space-y-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-magenta/60 bg-magenta/15 px-3 py-1 text-[10px] tracking-[0.3em] uppercase text-silver">
-                  <Sparkles className="h-3 w-3" strokeWidth={1.5} /> Hoje
-                </span>
-                <h2 className="font-script text-5xl md:text-7xl text-foreground leading-none">
-                  Feliz aniversário!
-                </h2>
-                <p className="font-display text-lg md:text-xl text-silver/90">
-                  Seu dia vai ser perfeito.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-magenta/60 bg-magenta/15 px-3 py-1 text-[10px] tracking-[0.3em] uppercase text-silver">
-                  <Sparkles className="h-3 w-3" strokeWidth={1.5} /> Frase do dia
-                </span>
-                <p
-                  key={i}
-                  className="font-script text-4xl md:text-6xl leading-tight text-foreground animate-in fade-in duration-700 max-w-2xl"
-                >
-                  {quote}
-                </p>
-                <div className="flex gap-2 pt-1">
-                  {QUOTES.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setI(idx)}
-                      className={`h-1 rounded-full transition-all ${idx === i % QUOTES.length ? "w-8 bg-magenta" : "w-2 bg-silver/20"}`}
-                      aria-label={`Frase ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
+    <div className="relative flex min-h-screen flex-col overflow-hidden">
+      {/* Fundo ambiente — usa as variáveis de tema, então acompanha o tema escolhido */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(70% 50% at 15% 0%, var(--wine), transparent 60%)," +
+            "radial-gradient(60% 45% at 95% 100%, var(--pink), transparent 60%)",
+          opacity: 0.22,
+        }}
+      />
 
-            <div className="mt-8 pt-6 border-t border-magenta/20">
-              <div className="flex items-baseline justify-between mb-2">
-                <span className="text-[11px] tracking-[0.3em] uppercase text-silver/70">
-                  Tarefas do dia
-                </span>
-                <span className="font-display text-lg text-pink">{progress}%</span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-black/50 overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all"
-                  style={{
-                    width: `${progress}%`,
-                    background: "linear-gradient(90deg, var(--wine), var(--magenta), var(--pink))",
-                  }}
-                />
-              </div>
-              <div className="flex justify-between text-[10px] tracking-widest uppercase text-silver/50 mt-2">
-                <span>{doneCount} concluídas</span>
-                <span className="text-silver/80">{pendentes.length} pendentes</span>
-                <span>{tasks.length} total</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-6 py-16 text-center">
+        <p className="text-muted-foreground mb-4 text-[10px] tracking-[0.4em] uppercase">
+          Planner de rotina e estudos
+        </p>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatTile
-            to="/treino"
-            icon={<Dumbbell className="h-4 w-4" strokeWidth={1.5} />}
-            label="Treino"
-            value={treinoHoje ? (treinoHoje.focus ?? "Treino") : "Descanso"}
-            hint={treinoHoje ? `${treinoExs.length} exercícios` : "Respire"}
-          />
-          <StatTile
-            to="/dieta"
-            icon={<Apple className="h-4 w-4" strokeWidth={1.5} />}
-            label="Dieta"
-            value={dietaHoje ? `${dietaMeals.length}` : "—"}
-            hint={dietaHoje ? "refeições" : "sem cardápio"}
-          />
-          <StatTile
-            to="/tarefas"
-            icon={<CheckSquare className="h-4 w-4" strokeWidth={1.5} />}
-            label="Pendentes"
-            value={String(pendentes.length)}
-            hint={pendentes.length === 0 ? "tudo em ordem" : "a fazer"}
-          />
-          {now && (
-            <div className="glass-card p-4 relative overflow-hidden">
-              <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-magenta mb-2">
-                <Sparkles className="h-3.5 w-3.5" strokeWidth={1.5} /> Hoje
-              </div>
-              <div className="font-display text-3xl text-foreground leading-none">
-                {now.getDate()}
-              </div>
-              <div className="text-xs text-silver/70 mt-1 capitalize">
-                {now.toLocaleDateString("pt-BR", { month: "long" })}
-              </div>
-            </div>
-          )}
-        </div>
+        <h1 className="font-script text-foreground text-6xl leading-none sm:text-7xl">Estudia</h1>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <Link to="/treino" className="glass-card p-6 hover:border-magenta/60 transition group">
-            <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase mb-3">
-              <Dumbbell className="h-3.5 w-3.5" strokeWidth={1.5} /> Treino de hoje
-            </div>
-            {treinoHoje ? (
-              <>
-                <div className="font-display text-2xl text-foreground">{treinoHoje.focus}</div>
-                <p className="text-[10px] text-silver/70 mt-1 mb-3 tracking-widest uppercase">
-                  {treinoHoje.name} · {treinoExs.length} exercícios
-                </p>
-                <ul className="space-y-1 text-sm text-foreground/85">
-                  {treinoExs.slice(0, 4).map((e) => (
-                    <li key={e.id} className="flex gap-2">
-                      <span className="text-pink text-xs font-mono w-12 shrink-0">
-                        {e.sets ?? "-"}×{(e.reps ?? "").split(" ")[0]}
-                      </span>
-                      <span className="truncate">{e.name}</span>
-                    </li>
-                  ))}
-                  {treinoExs.length > 4 && (
-                    <li className="text-xs text-magenta/80 italic pt-1">
-                      + {treinoExs.length - 4} a fazer
-                    </li>
-                  )}
-                </ul>
-              </>
-            ) : (
-              <p className="font-script text-3xl text-silver/80">Descanso · respire</p>
-            )}
+        <div className="from-magenta via-gold to-magenta mx-auto my-7 h-px w-32 bg-gradient-to-r opacity-70" />
+
+        <p className="font-display text-foreground max-w-md text-2xl leading-snug sm:text-3xl">
+          Seu semestre, no seu ritmo.
+        </p>
+
+        <p className="text-muted-foreground mt-4 max-w-sm text-base">
+          Organize seus estudos e sua rotina em um só lugar.
+        </p>
+
+        <div className="mt-10 flex w-full max-w-xs flex-col gap-3">
+          <Link
+            to="/cadastro"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition"
+          >
+            Criar minha conta
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
           </Link>
 
-          <Link to="/dieta" className="glass-card p-6 hover:border-magenta/60 transition">
-            <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase mb-3">
-              <Apple className="h-3.5 w-3.5" strokeWidth={1.5} /> Dieta de hoje
-            </div>
-            {dietaHoje && dietaMeals.length ? (
-              <ul className="space-y-2 text-sm">
-                {dietaMeals.slice(0, 5).map((m) => (
-                  <li key={m.id}>
-                    <div className="text-[10px] tracking-[0.2em] uppercase text-pink">
-                      {mealLabel(m.kind)}
-                    </div>
-                    <div className="text-foreground/90 truncate">{m.description}</div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-silver/60">Sem cardápio.</p>
-            )}
+          <Link
+            to="/entrar"
+            className="border-border text-foreground hover:bg-accent w-full rounded-lg border px-5 py-3 text-sm font-medium transition"
+          >
+            Entrar
           </Link>
-
-          {now && <MiniCalendar now={now} />}
         </div>
-      </div>
-    </AppShell>
-  );
-}
+      </main>
 
-function StatTile({
-  to,
-  icon,
-  label,
-  value,
-  hint,
-}: {
-  to: string;
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  hint: string;
-}) {
-  return (
-    <Link
-      to={to}
-      className="glass-card p-4 hover:border-magenta/60 transition relative overflow-hidden block"
-    >
-      <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-magenta mb-2">
-        <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-wine/40 border border-magenta/40 text-silver">
-          {icon}
-        </span>
-        {label}
-      </div>
-      <div className="font-display text-2xl text-foreground truncate">{value}</div>
-      <div className="text-[11px] text-silver/60 mt-0.5">{hint}</div>
-    </Link>
-  );
-}
-
-function MiniCalendar({ now }: { now: Date }) {
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const todayDate = now.getDate();
-  const monthName = now.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-
-  const grid = useMemo(() => {
-    const first = new Date(year, month, 1);
-    const startWeekday = first.getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const cells: (number | null)[] = [];
-    for (let i = 0; i < startWeekday; i++) cells.push(null);
-    for (let d = 1; d <= daysInMonth; d++) cells.push(d);
-    while (cells.length % 7 !== 0) cells.push(null);
-    return cells;
-  }, [year, month]);
-
-  const isBirthdayMonth = month === 6;
-
-  return (
-    <div className="glass-card p-5">
-      <div className="flex items-baseline justify-between mb-3">
-        <div className="font-display text-lg text-silver capitalize">{monthName}</div>
-        <div className="font-script text-xl text-magenta">2026</div>
-      </div>
-      <div className="grid grid-cols-7 gap-1 text-center text-[10px] tracking-widest uppercase text-silver/50 mb-1">
-        {["D", "S", "T", "Q", "Q", "S", "S"].map((d, i) => (
-          <div key={i}>{d}</div>
-        ))}
-      </div>
-      <div className="grid grid-cols-7 gap-1 text-center text-sm">
-        {grid.map((d, i) => {
-          if (d === null) return <div key={i} />;
-          const isToday = d === todayDate;
-          const isBday = isBirthdayMonth && d === 3;
-          return (
-            <div
-              key={i}
-              className={`aspect-square flex items-center justify-center rounded-md transition ${
-                isToday
-                  ? "text-silver font-display border border-magenta bg-wine/30"
-                  : isBday
-                    ? "bg-magenta/30 text-silver border border-pink/70 font-display"
-                    : "text-foreground/70 hover:bg-white/5"
-              }`}
-              title={isBday ? "Feliz aniversário!" : undefined}
-            >
-              {d}
-            </div>
-          );
-        })}
-      </div>
-      <div className="gold-divider my-4" />
-      <p className="font-script text-xl text-center text-silver/80">All in God's Hands</p>
+      <footer className="text-muted-foreground pb-8 text-center text-xs">
+        Projeto Integrador II · 2026
+      </footer>
     </div>
   );
 }
