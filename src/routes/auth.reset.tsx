@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Lock, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { ManchasDeCor } from "@/components/ManchasDeCor";
 
 export const Route = createFileRoute("/auth/reset")({
   head: () => ({ meta: [{ title: "Nova senha — Estudia" }] }),
@@ -35,7 +36,9 @@ function ResetPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 text-foreground">
+    <div className="relative isolate min-h-screen flex items-center justify-center px-4 bg-background text-foreground overflow-hidden">
+      {/* As mesmas manchas de cor da Landing, no pé da tela */}
+      <ManchasDeCor className="manchas-planner fixed inset-x-0 bottom-0 -z-10 h-[60%]" />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="font-script text-5xl">Estudia</div>
@@ -49,7 +52,7 @@ function ResetPage() {
             Escolha uma senha segura
           </p>
           <form onSubmit={submit} className="space-y-3">
-            <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+            <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
               <Lock className="h-4 w-4 text-muted-foreground" />
               <input
                 type="password"
@@ -65,7 +68,7 @@ function ResetPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-md border border-gold/40 text-gold px-4 py-2.5 text-sm hover:bg-gold hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full rounded-full bg-primary text-primary-foreground px-4 py-3 text-sm font-medium hover:bg-primary/90 transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {busy && <Loader2 className="h-4 w-4 animate-spin" />}
               Salvar senha

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { THEMES } from "@/lib/temas";
+import { ManchasDeCor } from "@/components/ManchasDeCor";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,7 +40,7 @@ const DESTAQUES = [
     icone: ChartColumn,
     titulo: "Organize",
     texto: "Sua rotina de forma simples e visual.",
-    cor: "bg-gold/15 text-gold",
+    cor: "bg-laranja/15 text-laranja",
   },
   {
     icone: Check,
@@ -107,21 +108,7 @@ function Landing() {
       {/* ---------- Primeira tela ---------- */}
       <section id="inicio" className="relative flex min-h-screen flex-col">
         {/* Manchas de cor desfocadas no pé da tela */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[65%] overflow-hidden"
-        >
-          <div className="bg-magenta absolute -bottom-24 -left-40 h-[26rem] w-[34rem] rounded-full opacity-90 blur-[90px]" />
-          <div className="bg-wine absolute -bottom-56 left-[12%] h-[24rem] w-[30rem] rounded-full opacity-90 blur-[90px]" />
-          <div
-            className="absolute -bottom-40 left-[38%] h-[22rem] w-[30rem] rounded-full blur-[90px]"
-            style={{ background: "var(--glow-middle)" }}
-          />
-          <div className="bg-gold absolute -bottom-28 right-[8%] h-[26rem] w-[32rem] rounded-full opacity-90 blur-[90px]" />
-          <div className="bg-pink absolute -right-40 bottom-0 h-[24rem] w-[28rem] rounded-full opacity-80 blur-[90px]" />
-          {/* Some suavemente no fim da primeira tela, para não fazer uma linha reta com a seção Sobre */}
-          <div className="from-background absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t to-transparent" />
-        </div>
+        <ManchasDeCor className="absolute inset-x-0 bottom-0 -z-10 h-[65%]" suavizarFim />
 
         <header className="mx-auto flex w-full max-w-6xl items-center justify-end gap-8 px-6 py-6">
           <nav className="hidden items-center gap-8 text-sm sm:flex">
