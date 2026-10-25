@@ -40,6 +40,7 @@ const NAV = [
 ] as const;
 
 const THEMES = [
+  { id: "estudia", label: "Estudia", color: "linear-gradient(135deg, #D6249F, #F7853B, #0F9488)" },
   { id: "rosa", label: "Rosa", color: "#E84C91" },
   { id: "verde-agua", label: "Verde-água", color: "#36B9A8" },
   { id: "roxo", label: "Roxo", color: "#8B5CF6" },
@@ -59,7 +60,7 @@ function getSavedTheme(): Theme {
   } catch {
     // Usa o tema padrão se o armazenamento estiver indisponível.
   }
-  return "rosa";
+  return "estudia";
 }
 
 function getSavedAppearance(): Appearance {
@@ -302,7 +303,7 @@ export function AppShell({
                     {/* Escolher cor */}
                     <p className="mb-3 text-sm font-medium">Cor do tema</p>
 
-                    <div className="grid grid-cols-5 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       {THEMES.map((item) => (
                         <button
                           key={item.id}
@@ -316,7 +317,7 @@ export function AppShell({
                           <span
                             className="flex h-9 w-9 items-center justify-center rounded-full border-2 transition"
                             style={{
-                              backgroundColor: item.color,
+                              background: item.color,
                               borderColor: theme === item.id ? "var(--foreground)" : "transparent",
                             }}
                           >
