@@ -134,7 +134,8 @@
 :root[data-color-theme="estudia"] {
   --background: oklch(0.99 0.002 90);
 
-  --primary: oklch(0.597 0.234 344.7);
+  /* Botões pretos, como na Landing; a cor fica nos detalhes (magenta, laranja, verde-azulado) */
+  --primary: #14141c;
   --primary-foreground: #ffffff;
   --secondary: oklch(0.965 0.008 285);
   --muted: oklch(0.965 0.006 285);
@@ -306,6 +307,13 @@
   --glow-start: oklch(0.597 0.234 344.7 / 10%);
   --glow-middle: oklch(0.731 0.163 50.2 / 8%);
   --glow-end: oklch(0.6 0.103 184.7 / 10%);
+}
+
+/* Estudia no modo escuro: o botão preto vira claro, senão some no fundo preto */
+:root[data-appearance="escuro"]:not([data-color-theme]),
+:root[data-appearance="escuro"][data-color-theme="estudia"] {
+  --primary: #f5f5f5;
+  --primary-foreground: #14141c;
 }
 
 @layer base {
