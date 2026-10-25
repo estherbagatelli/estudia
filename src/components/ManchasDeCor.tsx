@@ -5,8 +5,9 @@
  * acompanham o tema escolhido. Quem usa decide a posição pelo `className`.
  *
  * - `rodape` (Landing e telas de acesso): todas juntas no pé da tela.
- * - `cantos` (planner): magenta e verde-água no canto de cima à esquerda,
- *   laranja e rosa no canto de baixo à direita.
+ * - `cantos` (planner): magenta e verde-água no canto de cima à direita,
+ *   laranja e rosa no canto de baixo à esquerda (o canto de cima à esquerda fica
+ *   livre para os títulos das abas).
  */
 export function ManchasDeCor({
   className = "",
@@ -21,14 +22,15 @@ export function ManchasDeCor({
   if (arranjo === "cantos") {
     return (
       <div aria-hidden className={`pointer-events-none overflow-hidden ${className}`}>
-        <div className="bg-magenta absolute -top-48 -left-40 h-[28rem] w-[34rem] rounded-full opacity-80 blur-[100px]" />
-        <div className="bg-wine absolute -top-56 left-[4%] h-[24rem] w-[30rem] rounded-full opacity-60 blur-[100px]" />
+        {/* No celular as manchas são menores, senão cobrem a tela inteira */}
+        <div className="bg-magenta absolute -top-32 -right-28 h-[16rem] w-[18rem] rounded-full opacity-70 blur-[60px] md:-top-48 md:-right-40 md:h-[28rem] md:w-[34rem] md:opacity-80 md:blur-[100px]" />
+        <div className="bg-wine absolute -top-36 right-[10%] h-[13rem] w-[16rem] rounded-full opacity-50 blur-[60px] md:-top-56 md:right-[4%] md:h-[24rem] md:w-[30rem] md:opacity-60 md:blur-[100px]" />
         <div
-          className="absolute right-[14%] -bottom-48 h-[22rem] w-[28rem] rounded-full blur-[100px]"
+          className="absolute -bottom-32 left-[20%] h-[12rem] w-[15rem] rounded-full blur-[60px] md:-bottom-48 md:left-[14%] md:h-[22rem] md:w-[28rem] md:blur-[100px]"
           style={{ background: "var(--glow-middle)" }}
         />
-        <div className="bg-laranja absolute -right-24 -bottom-40 h-[28rem] w-[34rem] rounded-full opacity-80 blur-[100px]" />
-        <div className="bg-pink absolute right-[18%] -bottom-56 h-[24rem] w-[30rem] rounded-full opacity-80 blur-[100px]" />
+        <div className="bg-laranja absolute -bottom-28 -left-24 h-[16rem] w-[18rem] rounded-full opacity-70 blur-[60px] md:-bottom-40 md:-left-24 md:h-[28rem] md:w-[34rem] md:opacity-80 md:blur-[100px]" />
+        <div className="bg-pink absolute -bottom-36 left-[10%] h-[13rem] w-[16rem] rounded-full opacity-70 blur-[60px] md:-bottom-56 md:left-[18%] md:h-[24rem] md:w-[30rem] md:opacity-80 md:blur-[100px]" />
       </div>
     );
   }
