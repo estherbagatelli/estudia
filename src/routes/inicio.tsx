@@ -172,12 +172,17 @@ function Index() {
         <div className="glass-card relative overflow-hidden p-6 md:p-10">
           <div
             aria-hidden
-            className="absolute -top-24 -right-16 h-72 w-72 rounded-full opacity-50 blur-3xl"
+            className="absolute -top-24 -right-16 h-80 w-80 rounded-full opacity-90 blur-3xl"
             style={{ background: "radial-gradient(circle, var(--magenta), transparent 70%)" }}
           />
           <div
             aria-hidden
-            className="absolute -bottom-32 -left-10 h-72 w-72 rounded-full opacity-30 blur-3xl"
+            className="absolute -right-10 -bottom-28 h-72 w-72 rounded-full opacity-80 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--gold), transparent 70%)" }}
+          />
+          <div
+            aria-hidden
+            className="absolute -bottom-32 -left-10 h-80 w-80 rounded-full opacity-80 blur-3xl"
             style={{ background: "radial-gradient(circle, var(--wine), transparent 70%)" }}
           />
           <div className="relative">

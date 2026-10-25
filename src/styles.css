@@ -562,3 +562,9 @@
 :root[data-appearance="escuro"] [class*="text-silver/"] {
   color: #f5f5f5 !important;
 }
+
+/* Manchas de cor do fundo do planner: mais fracas no modo escuro, para os
+   cartões translúcidos continuarem legíveis */
+:root[data-appearance="escuro"] .manchas-planner {
+  opacity: 0.45;
+}

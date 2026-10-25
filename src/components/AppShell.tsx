@@ -16,7 +16,7 @@ import {
   Moon,
   Check,
 } from "lucide-react";
-import tigerAsset from "@/assets/tiger.png.asset.json";
+import { ManchasDeCor } from "@/components/ManchasDeCor";
 import type { ReactNode } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -107,43 +107,9 @@ export function AppShell({
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground transition-colors duration-300">
-      {/* Fundo decorativo com o tigre */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 opacity-[0.06]"
-        style={{
-          backgroundImage: `url(${tigerAsset.url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "saturate(0.7)",
-        }}
-      />
-
-      {/* Degradês coloridos */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background: `
-            radial-gradient(
-              ellipse at 10% 10%,
-              var(--glow-start, transparent),
-              transparent 55%
-            ),
-            radial-gradient(
-              ellipse at 90% 80%,
-              var(--glow-middle, transparent),
-              transparent 55%
-            ),
-            radial-gradient(
-              ellipse at 50% 100%,
-              var(--glow-end, transparent),
-              transparent 60%
-            )
-          `,
-        }}
-      />
+    <div className="relative isolate min-h-screen overflow-hidden bg-background text-foreground transition-colors duration-300">
+      {/* Manchas de cor no pé da tela, as mesmas da Landing (mais fracas no modo escuro) */}
+      <ManchasDeCor className="manchas-planner fixed inset-x-0 bottom-0 -z-10 h-[60%]" />
 
       <div className="flex min-h-screen">
         {/* Menu lateral para computador */}
