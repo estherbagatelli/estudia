@@ -7,7 +7,7 @@
  *   - Same-origin static assets (JS/CSS/img/fonts): stale-while-revalidate.
  *   - Everything else: passthrough.
  */
-const VERSION = "v1";
+const VERSION = "v2"; // suba a versão quando trocar ícones ou o visual, para limpar o cache antigo
 const RUNTIME = `ep-runtime-${VERSION}`;
 const SHELL = `ep-shell-${VERSION}`;
 const OFFLINE_URL = "/";
