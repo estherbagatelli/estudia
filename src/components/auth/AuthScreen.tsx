@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, Lock, User, Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { ManchasDeCor } from "@/components/ManchasDeCor";
 
 type Mode = "login" | "signup";
 
@@ -143,7 +144,9 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 text-foreground overflow-hidden">
+    <div className="relative isolate min-h-screen flex items-center justify-center px-4 bg-background text-foreground overflow-hidden">
+      {/* As mesmas manchas de cor da Landing, no pé da tela */}
+      <ManchasDeCor className="manchas-planner fixed inset-x-0 bottom-0 -z-10 h-[60%]" />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="font-script text-6xl leading-none text-foreground">Estudia</div>
@@ -283,7 +286,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-md border border-primary/40 text-primary px-4 py-2.5 text-sm hover:bg-primary hover:text-primary-foreground transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full rounded-full bg-primary text-primary-foreground px-4 py-3 text-sm font-medium hover:bg-primary/90 transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {busy && <Loader2 className="h-4 w-4 animate-spin" />}
 
