@@ -13,7 +13,16 @@ export function ManchasDeCor({
   suavizarFim?: boolean;
 }) {
   return (
-    <div aria-hidden className={`pointer-events-none overflow-hidden ${className}`}>
+    <div
+      aria-hidden
+      className={`pointer-events-none overflow-hidden ${className}`}
+      // O topo some aos poucos: sem isso, em telas mais baixas (ou com zoom) as
+      // manchas batem na borda de cima e fica uma linha reta entre branco e cor.
+      style={{
+        maskImage: "linear-gradient(to bottom, transparent, black 45%)",
+        WebkitMaskImage: "linear-gradient(to bottom, transparent, black 45%)",
+      }}
+    >
       <div className="bg-magenta absolute -bottom-24 -left-40 h-[26rem] w-[34rem] rounded-full opacity-90 blur-[90px]" />
       <div className="bg-wine absolute -bottom-56 left-[12%] h-[24rem] w-[30rem] rounded-full opacity-90 blur-[90px]" />
       <div
