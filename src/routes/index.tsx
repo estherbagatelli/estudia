@@ -40,7 +40,7 @@ const DESTAQUES = [
     icone: ChartColumn,
     titulo: "Organize",
     texto: "Sua rotina de forma simples e visual.",
-    cor: "bg-gold/15 text-gold",
+    cor: "bg-laranja/15 text-laranja",
   },
   {
     icone: Check,

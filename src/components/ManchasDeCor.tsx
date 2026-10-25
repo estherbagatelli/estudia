@@ -29,7 +29,7 @@ export function ManchasDeCor({
         className="absolute -bottom-40 left-[38%] h-[22rem] w-[30rem] rounded-full blur-[90px]"
         style={{ background: "var(--glow-middle)" }}
       />
-      <div className="bg-gold absolute right-[8%] -bottom-28 h-[26rem] w-[32rem] rounded-full opacity-90 blur-[90px]" />
+      <div className="bg-laranja absolute right-[8%] -bottom-28 h-[26rem] w-[32rem] rounded-full opacity-90 blur-[90px]" />
       <div className="bg-pink absolute -right-40 bottom-0 h-[24rem] w-[28rem] rounded-full opacity-80 blur-[90px]" />
       {suavizarFim && (
         <div className="from-background absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t to-transparent" />

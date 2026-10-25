@@ -52,7 +52,7 @@ function ResetPage() {
             Escolha uma senha segura
           </p>
           <form onSubmit={submit} className="space-y-3">
-            <div className="flex items-center gap-2 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 focus-within:border-gold transition">
+            <div className="flex items-center gap-2 rounded-md bg-background/70 border border-input px-3 focus-within:border-primary transition">
               <Lock className="h-4 w-4 text-muted-foreground" />
               <input
                 type="password"

@@ -178,7 +178,7 @@ function Index() {
           <div
             aria-hidden
             className="absolute -right-10 -bottom-28 h-72 w-72 rounded-full opacity-80 blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--gold), transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, var(--laranja), transparent 70%)" }}
           />
           <div
             aria-hidden
