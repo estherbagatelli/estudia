@@ -101,8 +101,11 @@ function Index() {
     <AppShell title={saudacao} subtitle={today.charAt(0).toUpperCase() + today.slice(1)}>
       <div className="space-y-6">
         <div className="grid gap-6 lg:grid-cols-2">
-          <Link to="/tarefas" className="glass-card p-6 hover:border-magenta/60 transition block">
-            <div className="flex items-center justify-between gap-3 mb-4">
+          <Link
+            to="/tarefas"
+            className="glass-card min-w-0 p-6 hover:border-magenta/60 transition block"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4">
               <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase">
                 <CalendarClock className="h-3.5 w-3.5" strokeWidth={1.5} /> Próximos prazos
               </div>
@@ -138,7 +141,10 @@ function Index() {
             )}
           </Link>
 
-          <Link to="/estudos" className="glass-card p-6 hover:border-magenta/60 transition block">
+          <Link
+            to="/estudos"
+            className="glass-card min-w-0 p-6 hover:border-magenta/60 transition block"
+          >
             <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase mb-4">
               <BookOpen className="h-3.5 w-3.5" strokeWidth={1.5} /> Estudos
             </div>
@@ -147,7 +153,7 @@ function Index() {
                 {resumoEstudos.slice(0, 4).map((m, idx) => (
                   <li key={`${m.materia}-${idx}`}>
                     <div className="flex justify-between gap-3 text-sm mb-1.5">
-                      <span className="truncate text-foreground">{m.materia}</span>
+                      <span className="min-w-0 truncate text-foreground">{m.materia}</span>
                       <span className="text-muted-foreground shrink-0">
                         {m.feitos}/{m.total} conteúdos — {m.pct}%
                       </span>

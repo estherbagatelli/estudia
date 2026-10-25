@@ -21,14 +21,14 @@ function DietaPage() {
   };
 
   return (
-    <AppShell title="Dieta" subtitle="Cardápio semanal · zero lactose">
+    <AppShell title="Dieta" subtitle="Cardápio da semana, refeição por refeição">
       <div className="glass-card p-4 mb-6 flex flex-col md:flex-row gap-2">
         <input
           value={newDayName}
           onChange={(e) => setNewDayName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && addDay()}
           placeholder="Nova dieta (ex: Domingo livre)"
-          className="flex-1 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold"
+          className="flex-1 rounded-md bg-background/70 border border-input px-3 py-2 text-sm outline-none focus:border-gold"
         />
         <button
           onClick={addDay}
@@ -72,10 +72,7 @@ function DietaPage() {
             { l: "Carboidratos", v: "140–180 g" },
             { l: "Gorduras boas", v: "40–50 g" },
           ].map((s) => (
-            <div
-              key={s.l}
-              className="border border-[oklch(0.85_0.008_250/0.2)] rounded-lg p-4 bg-black/30"
-            >
+            <div key={s.l} className="border border-border rounded-lg p-4 bg-card/60">
               <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
                 {s.l}
               </div>
@@ -145,7 +142,7 @@ function DayCard({
         <select
           value={draft.kind}
           onChange={(e) => setDraft({ ...draft, kind: e.target.value as MealKind })}
-          className="flex-1 bg-black/40 border border-gold/30 rounded px-2 py-1 text-xs outline-none focus:border-gold"
+          className="flex-1 bg-background/70 border border-input rounded px-2 py-1 text-xs outline-none focus:border-gold"
         >
           {MEAL_KINDS.map((m) => (
             <option key={m.kind} value={m.kind}>
@@ -158,14 +155,14 @@ function DayCard({
           onChange={(e) => setDraft({ ...draft, calories: e.target.value.replace(/\D/g, "") })}
           placeholder="kcal"
           inputMode="numeric"
-          className="w-20 bg-black/40 border border-gold/30 rounded px-2 py-1 text-xs outline-none focus:border-gold"
+          className="w-20 bg-background/70 border border-input rounded px-2 py-1 text-xs outline-none focus:border-gold"
         />
       </div>
       <textarea
         value={draft.description}
         onChange={(e) => setDraft({ ...draft, description: e.target.value })}
         placeholder="Descrição"
-        className="w-full bg-black/40 border border-gold/30 rounded px-2 py-1 text-sm outline-none focus:border-gold"
+        className="w-full bg-background/70 border border-input rounded px-2 py-1 text-sm outline-none focus:border-gold"
         rows={2}
       />
       <div className="flex justify-end gap-2">
@@ -193,10 +190,7 @@ function DayCard({
       </div>
       <ul className="space-y-3">
         {meals.map((m) => (
-          <li
-            key={m.id}
-            className="text-sm group border-b border-[oklch(0.85_0.008_250/0.08)] pb-2 last:border-0"
-          >
+          <li key={m.id} className="text-sm group border-b border-border pb-2 last:border-0">
             {editingId === m.id ? (
               <Form onSave={saveEdit} onCancel={() => setEditingId(null)} />
             ) : (
