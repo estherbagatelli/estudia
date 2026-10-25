@@ -4,6 +4,7 @@ import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { DietMeal, MealKind } from "@/types/models";
+import { avisar } from "@/lib/feedback";
 
 const daysRepo = repo("diet_days");
 const mealsRepo = repo("diet_meals");
@@ -50,10 +51,12 @@ export function useDieta() {
   const addDay = useMutation({
     mutationFn: (v: { name: string; position: number }) =>
       daysRepo.insert({ name: v.name, position: v.position }),
+    onSuccess: avisar.adicionado,
     onSettled: settleD,
   });
   const removeDay = useMutation({
     mutationFn: (id: string) => daysRepo.remove(id),
+    onSuccess: avisar.removido,
     onSettled: () => {
       settleD();
       settleM();
@@ -74,6 +77,7 @@ export function useDieta() {
         calories: v.calories,
         position: v.position,
       }),
+    onSuccess: avisar.adicionado,
     onSettled: settleM,
   });
   const editMeal = useMutation({
@@ -82,6 +86,7 @@ export function useDieta() {
   });
   const removeMeal = useMutation({
     mutationFn: (id: string) => mealsRepo.remove(id),
+    onSuccess: avisar.removido,
     onSettled: settleM,
   });
 

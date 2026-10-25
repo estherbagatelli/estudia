@@ -4,6 +4,7 @@ import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { HobbyItem, HobbyKind, HobbyStatus } from "@/types/models";
+import { avisar } from "@/lib/feedback";
 
 const hobbies = repo("hobby_items");
 
@@ -49,6 +50,7 @@ export function useHobbies() {
         status: v.status ?? "nao_iniciado",
         is_done: v.status === "concluido",
       }),
+    onSuccess: avisar.adicionado,
     onSettled: settle,
   });
 
@@ -115,6 +117,7 @@ export function useHobbies() {
       return { prev };
     },
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(key, c.prev),
+    onSuccess: avisar.removido,
     onSettled: settle,
   });
 

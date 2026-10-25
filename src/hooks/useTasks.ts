@@ -5,6 +5,7 @@ import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { Task } from "@/types/models";
 import type { TarefaCategoria, TarefaPrioridade, TarefaStatus } from "@/lib/tasks-utils";
+import { avisar } from "@/lib/feedback";
 
 const tasksRepo = repo("tasks");
 
@@ -58,6 +59,7 @@ export function useTasks() {
         is_done: dados.status === "concluida",
         completed_at: dados.status === "concluida" ? new Date().toISOString() : null,
       }),
+    onSuccess: avisar.adicionado,
     onSettled: atualizarServidor,
   });
 
@@ -139,6 +141,9 @@ export function useTasks() {
         queryClient.setQueryData(key, contexto.anteriores);
       }
     },
+    onSuccess: (_r, tarefa) => {
+      if (tarefa.status !== "concluida") avisar.tarefaConcluida();
+    },
     onSettled: atualizarServidor,
   });
 
@@ -158,6 +163,7 @@ export function useTasks() {
         queryClient.setQueryData(key, contexto.anteriores);
       }
     },
+    onSuccess: avisar.removido,
     onSettled: atualizarServidor,
   });
 

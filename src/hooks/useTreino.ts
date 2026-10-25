@@ -6,6 +6,7 @@ import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { Workout, WorkoutExercise, WorkoutSession } from "@/types/models";
 import { format, isThisMonth, parseISO } from "date-fns";
+import { avisar } from "@/lib/feedback";
 
 const workoutsRepo = repo("workouts");
 const exercisesRepo = repo("workout_exercises");
@@ -59,11 +60,13 @@ export function useTreino() {
   const addWorkout = useMutation({
     mutationFn: (v: { name: string; focus: string; position: number }) =>
       workoutsRepo.insert({ name: v.name, focus: v.focus, position: v.position }),
+    onSuccess: avisar.adicionado,
     onSettled: settleW,
   });
 
   const removeWorkout = useMutation({
     mutationFn: (id: string) => workoutsRepo.remove(id),
+    onSuccess: avisar.removido,
     onSettled: () => {
       settleW();
       settleE();
@@ -86,6 +89,7 @@ export function useTreino() {
         rest_seconds: v.restSeconds ?? 60,
         position: v.position,
       }),
+    onSuccess: avisar.adicionado,
     onSettled: settleE,
   });
 
@@ -115,6 +119,7 @@ export function useTreino() {
       return { prev };
     },
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(eKey, c.prev),
+    onSuccess: avisar.removido,
     onSettled: settleE,
   });
 
@@ -134,6 +139,7 @@ export function useTreino() {
       );
       if (error) throw error;
     },
+    onSuccess: avisar.treinoRegistrado,
     onSettled: settleS,
   });
 
