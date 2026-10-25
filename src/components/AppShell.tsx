@@ -108,8 +108,8 @@ export function AppShell({
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-background text-foreground transition-colors duration-300">
-      {/* Manchas de cor no pé da tela, as mesmas da Landing (mais fracas no modo escuro) */}
-      <ManchasDeCor className="manchas-planner fixed inset-x-0 bottom-0 -z-10 h-[60%]" />
+      {/* Manchas de cor nos cantos: magenta e verde-água em cima à esquerda, laranja e rosa embaixo à direita (mais fracas no modo escuro) */}
+      <ManchasDeCor arranjo="cantos" className="manchas-planner fixed inset-0 -z-10" />
 
       <div className="flex min-h-screen">
         {/* Menu lateral para computador */}

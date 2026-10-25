@@ -1,17 +1,38 @@
 /**
  * As manchas de cor desfocadas da Landing, reaproveitadas no fundo do planner.
  *
- * Usam as variáveis do tema (magenta, wine, gold, pink e --glow-middle), então
+ * Usam as variáveis do tema (magenta, wine, laranja, pink e --glow-middle), então
  * acompanham o tema escolhido. Quem usa decide a posição pelo `className`.
+ *
+ * - `rodape` (Landing e telas de acesso): todas juntas no pé da tela.
+ * - `cantos` (planner): magenta e verde-água no canto de cima à esquerda,
+ *   laranja e rosa no canto de baixo à direita.
  */
 export function ManchasDeCor({
   className = "",
+  arranjo = "rodape",
   suavizarFim = false,
 }: {
   className?: string;
+  arranjo?: "rodape" | "cantos";
   /** Some em degradê no fim, para não fazer uma linha reta com o que vem embaixo. */
   suavizarFim?: boolean;
 }) {
+  if (arranjo === "cantos") {
+    return (
+      <div aria-hidden className={`pointer-events-none overflow-hidden ${className}`}>
+        <div className="bg-magenta absolute -top-48 -left-40 h-[28rem] w-[34rem] rounded-full opacity-80 blur-[100px]" />
+        <div className="bg-wine absolute -top-56 left-[4%] h-[24rem] w-[30rem] rounded-full opacity-60 blur-[100px]" />
+        <div
+          className="absolute right-[14%] -bottom-48 h-[22rem] w-[28rem] rounded-full blur-[100px]"
+          style={{ background: "var(--glow-middle)" }}
+        />
+        <div className="bg-laranja absolute -right-24 -bottom-40 h-[28rem] w-[34rem] rounded-full opacity-80 blur-[100px]" />
+        <div className="bg-pink absolute right-[18%] -bottom-56 h-[24rem] w-[30rem] rounded-full opacity-80 blur-[100px]" />
+      </div>
+    );
+  }
+
   return (
     <div
       aria-hidden
