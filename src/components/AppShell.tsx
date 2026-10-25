@@ -28,6 +28,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { avisar } from "@/lib/feedback";
+import { THEMES, type Theme } from "@/lib/temas";
 
 const NAV = [
   { to: "/inicio", label: "Início", icon: Home },
@@ -40,16 +41,6 @@ const NAV = [
   { to: "/tarefas", label: "Tarefas", icon: CheckSquare },
 ] as const;
 
-const THEMES = [
-  { id: "estudia", label: "Estudia", color: "linear-gradient(135deg, #D6249F, #F7853B, #0F9488)" },
-  { id: "rosa", label: "Rosa", color: "#E84C91" },
-  { id: "verde-agua", label: "Verde-água", color: "#36B9A8" },
-  { id: "roxo", label: "Roxo", color: "#8B5CF6" },
-  { id: "azul", label: "Azul", color: "#3B82F6" },
-  { id: "vermelho", label: "Vermelho", color: "#EF4444" },
-] as const;
-
-type Theme = (typeof THEMES)[number]["id"];
 type Appearance = "claro" | "escuro";
 
 function getSavedTheme(): Theme {
