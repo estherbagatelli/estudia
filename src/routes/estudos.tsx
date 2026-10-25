@@ -35,7 +35,7 @@ function EstudosPage() {
   const cadastrarMateria = () => {
     if (!nomeMateria.trim()) return;
 
-    estudos.addTrack(nomeMateria.trim(), curso.trim(), periodo.trim());
+    estudos.addTrack(nomeMateria.trim(), curso.trim() || undefined, periodo.trim() || undefined);
 
     setNomeMateria("");
     setCurso("");
@@ -123,6 +123,7 @@ function EstudosPage() {
               onDelete={() => estudos.removeTrack(track.id)}
 
               topics={estudos.topicsOf(track.id)}
+              progresso={estudos.progressoDe(track.id)}
               pressing={pressing === track.id}
               onPressStart={() => startPress(track.id)}
               onPressEnd={cancelPress}
@@ -143,6 +144,7 @@ function TrackCard({
   onDelete,
   onEditTrack,
   topics,
+  progresso,
   pressing,
   onPressStart,
   onPressEnd,
@@ -153,6 +155,7 @@ function TrackCard({
 }: {
   track: StudyTrack;
   topics: StudyTopic[];
+  progresso: { feitos: number; total: number; pct: number };
   onDelete: () => void;
   onEditTrack: (name: string) => void;
   pressing: boolean;
@@ -174,9 +177,7 @@ function TrackCard({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
-  const done = topics.filter((t) => t.is_done).length;
-
-  const progresso = topics.length ? Math.round((done / topics.length) * 100) : 0;
+  const cursoEPeriodo = [track.course, track.period].filter(Boolean).join(" · ");
 
   const add = () => {
     if (!newItem.trim()) return;
@@ -265,45 +266,35 @@ function TrackCard({
         <Trash2 className="h-4 w-4" />
       </button>
 
-      <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-5">
-        {track.subtitle}
-      </p>
+      {(cursoEPeriodo || track.subtitle) && (
+        <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-5">
+          {cursoEPeriodo || track.subtitle}
+        </p>
+      )}
 
       <div className="mb-5">
         <div className="flex justify-between text-sm mb-2">
-          <span>Progresso da matéria</span>
-          <span>{progresso}%</span>
+          <span>
+            {progresso.feitos}/{progresso.total} conteúdos
+          </span>
+          <span className="text-gold">{progresso.pct}%</span>
         </div>
 
         <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
           <div
             className="h-full bg-gold rounded-full transition-all"
-            style={{ width: `${progresso}%` }}
+            style={{ width: `${progresso.pct}%` }}
           />
         </div>
-
-        <p className="text-xs text-muted-foreground mt-2">
-          {done} de {topics.length} conteúdos concluídos
-        </p>
       </div>
 
       <div className="space-y-2">
-        {topics.length > 0 && (
-          <div className="flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-silver/70 mb-1">
-            <span>Progresso</span>
-            <span className="text-gold">
-              {done}/{topics.length}
-            </span>
-          </div>
-        )}
         <ul className="space-y-1.5">
           {topics.map((t) => (
             <li
               key={t.id}
               className={`group flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${
-                t.is_done
-                  ? "border-wine/40 bg-wine/10"
-                  : "border-[oklch(0.85_0.008_250/0.12)] bg-black/30"
+                t.is_done ? "border-wine/40 bg-wine/10" : "border-border bg-card/60"
               }`}
             >
               {editingId === t.id ? (
@@ -376,7 +367,7 @@ function TrackCard({
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && add()}
             placeholder="Novo tópico"
-            className="flex-1 min-w-0 rounded-md bg-black/40 border border-[oklch(0.85_0.008_250/0.2)] px-3 py-2 text-sm outline-none focus:border-gold"
+            className="flex-1 min-w-0 rounded-md bg-background/70 border border-input px-3 py-2 text-sm outline-none focus:border-gold"
           />
 
           <select

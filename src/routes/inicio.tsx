@@ -2,12 +2,21 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Dumbbell, Apple, CheckSquare, Sparkles } from "lucide-react";
+import { differenceInCalendarDays, parseISO, startOfDay } from "date-fns";
+import { Dumbbell, Apple, CheckSquare, Sparkles, CalendarClock, BookOpen } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/contexts/AuthContext";
 import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useTasks } from "@/hooks/useTasks";
+import { useEstudos, useResumoEstudos } from "@/hooks/useEstudos";
+import {
+  contarPendentes,
+  formatarPrazo,
+  frasePrazo,
+  ordenarTarefas,
+  urgencia,
+} from "@/lib/tasks-utils";
 import { useTreino } from "@/hooks/useTreino";
 import { useDieta } from "@/hooks/useDieta";
 import { mealLabel } from "@/hooks/useDieta";
@@ -71,11 +80,95 @@ function Index() {
   const doneCount = tasks.length - pendentes.length;
   const progress = tasks.length > 0 ? Math.round((doneCount / tasks.length) * 100) : 0;
 
+  // 1º Próximos prazos: os 3 mais urgentes, já com a frase pronta ("Prova amanhã").
+  // Calculado só no navegador (depois de `now`), para a data ser a do aparelho.
+  const { tracks } = useEstudos();
+  const resumoEstudos = useResumoEstudos();
+  const proximosPrazos = now
+    ? ordenarTarefas(tasks.filter((t) => t.status !== "concluida" && t.due_date))
+        .slice(0, 3)
+        .map((tarefa) => ({
+          tarefa,
+          dias: differenceInCalendarDays(parseISO(tarefa.due_date!), startOfDay(now)),
+          materia: tracks.find((m) => m.id === tarefa.track_id)?.name,
+        }))
+    : [];
+  const totalPendentes = contarPendentes(tasks);
+
   const quote = QUOTES[i % QUOTES.length];
 
   return (
     <AppShell title={saudacao} subtitle={today.charAt(0).toUpperCase() + today.slice(1)}>
       <div className="space-y-6">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Link to="/tarefas" className="glass-card p-6 hover:border-magenta/60 transition block">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase">
+                <CalendarClock className="h-3.5 w-3.5" strokeWidth={1.5} /> Próximos prazos
+              </div>
+              <span className="text-xs text-muted-foreground">
+                {totalPendentes === 0
+                  ? "Nenhuma tarefa pendente"
+                  : `${totalPendentes} ${totalPendentes === 1 ? "tarefa pendente" : "tarefas pendentes"}`}
+              </span>
+            </div>
+            {proximosPrazos.length ? (
+              <ul className="space-y-3">
+                {proximosPrazos.map(({ tarefa, dias, materia }) => (
+                  <li key={tarefa.id} className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div
+                        className={`font-display text-xl leading-tight ${COR_URGENCIA[urgencia(tarefa.due_date)]}`}
+                      >
+                        {frasePrazo(tarefa.kind, dias)}
+                      </div>
+                      <div className="text-sm text-foreground/85 truncate">
+                        {tarefa.title}
+                        {materia && <span className="text-muted-foreground"> · {materia}</span>}
+                      </div>
+                    </div>
+                    <span className="text-xs text-muted-foreground shrink-0 pt-1">
+                      {formatarPrazo(tarefa.due_date)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">Nenhum prazo pela frente. Aproveite!</p>
+            )}
+          </Link>
+
+          <Link to="/estudos" className="glass-card p-6 hover:border-magenta/60 transition block">
+            <div className="flex items-center gap-2 text-[11px] tracking-[0.3em] text-magenta uppercase mb-4">
+              <BookOpen className="h-3.5 w-3.5" strokeWidth={1.5} /> Estudos
+            </div>
+            {resumoEstudos.length ? (
+              <ul className="space-y-4">
+                {resumoEstudos.slice(0, 4).map((m, idx) => (
+                  <li key={`${m.materia}-${idx}`}>
+                    <div className="flex justify-between gap-3 text-sm mb-1.5">
+                      <span className="truncate text-foreground">{m.materia}</span>
+                      <span className="text-muted-foreground shrink-0">
+                        {m.feitos}/{m.total} conteúdos — {m.pct}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gold transition-all"
+                        style={{ width: `${m.pct}%` }}
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Você ainda não adicionou nenhuma matéria.
+              </p>
+            )}
+          </Link>
+        </div>
+
         <div className="glass-card relative overflow-hidden p-6 md:p-10">
           <div
             aria-hidden
@@ -131,7 +224,7 @@ function Index() {
                 </span>
                 <span className="font-display text-lg text-pink">{progress}%</span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-black/50 overflow-hidden">
+              <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -245,6 +338,14 @@ function Index() {
   );
 }
 
+// Mesma regra de cor da aba Tarefas: atrasada, hoje/amanhã, até 7 dias, depois.
+const COR_URGENCIA: Record<ReturnType<typeof urgencia>, string> = {
+  atrasada: "text-darkred",
+  urgente: "text-magenta",
+  proxima: "text-gold",
+  neutro: "text-foreground",
+};
+
 function StatTile({
   to,
   icon,
@@ -318,7 +419,7 @@ function MiniCalendar({ now }: { now: Date }) {
                   ? "text-silver font-display border border-magenta bg-wine/30"
                   : isBday
                     ? "bg-magenta/30 text-silver border border-pink/70 font-display"
-                    : "text-foreground/70 hover:bg-white/5"
+                    : "text-foreground/70 hover:bg-muted"
               }`}
               title={isBday ? "Feliz aniversário!" : undefined}
             >

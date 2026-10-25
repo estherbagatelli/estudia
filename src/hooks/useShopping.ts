@@ -4,6 +4,7 @@ import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { ShoppingItem } from "@/types/models";
+import { avisar } from "@/lib/feedback";
 
 const items = repo("shopping_items");
 
@@ -33,6 +34,7 @@ export function useShopping() {
         quantity: v.quantity,
         category: v.category?.trim() || null,
       }),
+    onSuccess: avisar.adicionado,
     onSettled: settle,
   });
 
@@ -57,6 +59,7 @@ export function useShopping() {
       return { prev };
     },
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(key, c.prev),
+    onSuccess: avisar.removido,
     onSettled: settle,
   });
 

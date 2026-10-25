@@ -109,10 +109,21 @@ export function filtrarTarefas<T extends TarefaPlanejada>(
   return ordenarTarefas(filtradas);
 }
 
-export function frasePrazo(tipo: TarefaCategoria | null, dias: number): string {
-  const nome = nomeCategoria(tipo);
+const FEMININO: Record<TarefaCategoria, boolean> = {
+  conteudo: false,
+  estudo: false,
+  revisao: true,
+  atividade: true,
+  trabalho: false,
+  prova: true,
+};
 
-  if (dias < 0) return `${nome} atrasada`;
+export function frasePrazo(tipo: TarefaCategoria | null, dias: number): string {
+  // Sem categoria, a frase fala de "Tarefa" ("Tarefa amanhã").
+  const nome = tipo ? nomeCategoria(tipo) : "Tarefa";
+  const atrasada = !tipo || FEMININO[tipo] ? "atrasada" : "atrasado";
+
+  if (dias < 0) return `${nome} ${atrasada}`;
   if (dias === 0) return `${nome} hoje`;
   if (dias === 1) return `${nome} amanhã`;
 

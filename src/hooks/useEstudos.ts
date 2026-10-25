@@ -4,6 +4,7 @@ import { repo } from "@/repositories/base.repository";
 import { queryKeys } from "@/lib/query-keys";
 import { useRealtimeTable } from "./useRealtimeTable";
 import type { StudyTopic, StudyTrack } from "@/types/models";
+import { avisar } from "@/lib/feedback";
 
 const tracksRepo = repo("study_tracks");
 const topicsRepo = repo("study_topics");
@@ -47,12 +48,14 @@ export function useEstudos() {
         position,
       });
     },
+    onSuccess: avisar.adicionado,
     onSettled: () => qc.invalidateQueries({ queryKey: tracksKey }),
   });
 
   const removeTrack = useMutation({
     mutationFn: (id: string) => tracksRepo.remove(id),
 
+    onSuccess: avisar.removido,
     onSettled: () => qc.invalidateQueries({ queryKey: tracksKey }),
   });
 
@@ -79,6 +82,7 @@ export function useEstudos() {
         position,
       });
     },
+    onSuccess: avisar.adicionado,
     onSettled: settleTopics,
   });
 
@@ -106,6 +110,7 @@ export function useEstudos() {
       return { prev };
     },
     onError: (_e, _v, c) => c?.prev && qc.setQueryData(topicsKey, c.prev),
+    onSuccess: avisar.removido,
     onSettled: settleTopics,
   });
 

@@ -27,6 +27,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { avisar } from "@/lib/feedback";
 
 const NAV = [
   { to: "/inicio", label: "Início", icon: Home },
@@ -105,6 +106,13 @@ export function AppShell({
 
   function toggleAppearance() {
     setAppearance((current) => (current === "claro" ? "escuro" : "claro"));
+    avisar.temaAtualizado();
+  }
+
+  function escolherTema(novo: Theme) {
+    if (novo === theme) return;
+    setTheme(novo);
+    avisar.temaAtualizado();
   }
 
   return (
@@ -311,7 +319,7 @@ export function AppShell({
                           title={item.label}
                           aria-label={`Tema ${item.label}`}
                           aria-pressed={theme === item.id}
-                          onClick={() => setTheme(item.id)}
+                          onClick={() => escolherTema(item.id)}
                           className="flex flex-col items-center gap-1.5"
                         >
                           <span
