@@ -11,6 +11,8 @@ export type MealKind =
   "cafe" | "lanche" | "pre_treino" | "almoco" | "lanche_tarde" | "janta" | "ceia";
 export type ConteudoTipo = "conteudo" | "estudo" | "revisao" | "atividade" | "trabalho" | "prova";
 export type HobbyStatus = "nao_iniciado" | "em_andamento" | "concluido";
+export type TarefaPrioridade = "baixa" | "media" | "alta";
+export type TarefaStatus = "pendente" | "em_andamento" | "concluida";
 
 type Stamps = { created_at: string; updated_at: string };
 
@@ -141,7 +143,12 @@ type TaskRow = {
   title: string;
   is_done: boolean;
   completed_at: string | null;
-  due_date: string;
+  due_date: string | null;
+  priority: TarefaPrioridade;
+  status: TarefaStatus;
+  kind: ConteudoTipo | null;
+  is_academic: boolean;
+  track_id: string | null;
   position: number;
 } & Stamps;
 
@@ -218,7 +225,14 @@ export interface Database {
       };
     };
     Functions: Record<string, never>;
-    Enums: { hobby_kind: HobbyKind; meal_kind: MealKind; hobby_status: HobbyStatus };
+    Enums: {
+      hobby_kind: HobbyKind;
+      meal_kind: MealKind;
+      hobby_status: HobbyStatus;
+      conteudo_tipo: ConteudoTipo;
+      tarefa_prioridade: TarefaPrioridade;
+      tarefa_status: TarefaStatus;
+    };
     CompositeTypes: Record<string, never>;
   };
 }
