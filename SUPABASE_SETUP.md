@@ -84,8 +84,8 @@ supabase db reset                 # aplica migrations + seed no banco LOCAL
 ## 4. [PAINEL] Configure a autenticação
 
 1. **Authentication → URL Configuration**
-   - **Site URL**: a URL onde o app roda (dev: `http://localhost:3000`).
-   - **Redirect URLs**: adicione `http://localhost:3000/**` e a URL de produção.
+   - **Site URL**: a URL onde o app roda (dev: `http://localhost:8080`).
+   - **Redirect URLs**: adicione `http://localhost:8080/**` e a URL de produção.
 2. **Login por e-mail** já vem habilitado. Para testes rápidos, em
    **Authentication → Providers → Email**, você pode **desligar "Confirm email"**
    (assim o cadastro entra direto sem verificar o e-mail).
@@ -117,7 +117,7 @@ npm run gen:types                 # supabase gen types typescript --linked > src
 ## 6. Rode e valide
 
 ```bash
-npm run dev                       # http://localhost:3000
+npm run dev                       # http://localhost:8080
 ```
 
 Checklist de validação da persistência:

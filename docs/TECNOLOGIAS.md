@@ -135,7 +135,7 @@ O `/20` no fim é transparência (20%). Muito usado para fundo suave.
 | Comando            | Quando usar                                         |
 | ------------------ | --------------------------------------------------- |
 | `npm install`      | uma vez, ao clonar, e quando avisarem que mudou     |
-| `npm run dev`      | sempre que for trabalhar — abre em `localhost:3000` |
+| `npm run dev`      | sempre que for trabalhar — abre em `localhost:8080` |
 | `npx tsc --noEmit` | **antes de todo Pull Request**                      |
 | `npm run lint`     | **antes de todo Pull Request**                      |
 | `npm run format`   | arruma a formatação sozinho                         |
