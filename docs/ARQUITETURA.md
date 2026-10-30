@@ -207,7 +207,7 @@ toast.error("Não foi possível salvar.");
 
 | Comando                | O que faz                                 |
 | ---------------------- | ----------------------------------------- |
-| `npm run dev`          | sobe o projeto em `http://localhost:3000` |
+| `npm run dev`          | sobe o projeto em `http://localhost:8080` |
 | `npx tsc --noEmit`     | confere se o TypeScript está sem erro     |
 | `npm run lint`         | confere o padrão de código                |
 | `npm run format`       | arruma a formatação sozinho               |

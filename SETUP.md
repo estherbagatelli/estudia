@@ -8,8 +8,11 @@ Tempo estimado: 15 minutos na primeira vez.
 
 Você precisa de:
 
-- **Node.js 20 ou mais novo** — confira com `node -v`. Baixe em
-  [nodejs.org](https://nodejs.org).
+- **Node.js 22.12 ou mais novo** — confira com `node -v`. Se aparecer `v20...`
+  ou `v22.11` para baixo, baixe a versão **LTS** em
+  [nodejs.org](https://nodejs.org), instale e **feche e abra o terminal** (e o VS
+  Code) antes de continuar. Com Node antigo o projeto não abre: no 20 toda
+  página dá erro 500, no 22.11 o `npm run dev` nem sobe.
 - **Git** — confira com `git --version`.
 - Uma conta no **GitHub**, com acesso a este repositório.
 
@@ -74,6 +77,9 @@ feita para ficar no navegador.
 cp .env.example .env
 ```
 
+(No Prompt de Comando do Windows, o `cp` não existe: use
+`copy .env.example .env`.)
+
 Abra o `.env` e preencha:
 
 ```
@@ -100,7 +106,10 @@ Pronto — você não precisa rodar migration nenhuma.
 npm run dev
 ```
 
-Abra `http://localhost:3000`. Crie uma conta com o seu e-mail e entre.
+Abra `http://localhost:8080`. Crie uma conta com o seu e-mail e entre.
+
+Se a porta 8080 já estiver ocupada, o projeto sobe na seguinte (8081, 8082…).
+Use sempre o endereço que aparece no terminal, na linha `Local:`.
 
 > **Sua conta começa vazia, e isso é de propósito** — os estados vazios da
 > Fase 2 dependem disso. Ver [docs/DECISOES.md](docs/DECISOES.md), decisão 4.
@@ -120,14 +129,18 @@ Se esses dois passam e o site abre no navegador, você está pronta para começa
 
 ## Deu problema?
 
-| Sintoma                             | Causa provável                            | Solução                                    |
-| ----------------------------------- | ----------------------------------------- | ------------------------------------------ |
-| `[supabase] Missing env vars`       | `.env` não existe ou está vazio           | passo 3                                    |
-| `Invalid API key`                   | chave copiada pela metade                 | copie de novo, inteira                     |
-| `column "..." does not exist`       | alguém subiu migration e você não aplicou | `git pull` e depois `npx supabase db push` |
-| O e-mail de confirmação não chega   | confirmação de e-mail ligada              | desligue em Authentication → Providers     |
-| Erro de tipo numa coluna que existe | tipos desatualizados                      | `npm run gen:types`                        |
-| `npm install` falha                 | Node antigo                               | atualize para a versão 20 ou mais nova     |
+| Sintoma                                                                  | Causa provável                        | Solução                                                     |
+| ------------------------------------------------------------------------ | ------------------------------------- | ----------------------------------------------------------- |
+| `O Estudia precisa do Node 22.12 ou mais novo`                           | Node antigo                           | siga os passos que a mensagem mostra                        |
+| Toda página dá erro 500 e o terminal mostra `native WebSocket not found` | Node 20                               | instale o Node LTS (passo 1) e rode `npm install`           |
+| `ERR_REQUIRE_ESM` ao rodar `npm run dev`                                 | Node 22.11 ou mais antigo             | instale o Node LTS (passo 1) e rode `npm install`           |
+| O navegador diz que não conseguiu acessar `localhost:3000`               | porta errada                          | o endereço é `localhost:8080` (ou o que o terminal mostrar) |
+| `Port 8080 is in use, trying another one...`                             | outro programa usando a 8080          | normal: use o endereço da linha `Local:`                    |
+| `[supabase] Missing env vars`                                            | `.env` não existe ou está vazio       | passo 3                                                     |
+| `Invalid API key`                                                        | chave copiada pela metade             | copie de novo, inteira                                      |
+| `column "..." does not exist`                                            | migration ainda não aplicada no banco | avise a Esther no grupo                                     |
+| Erro de tipo numa coluna que existe                                      | tipos desatualizados                  | `git pull` (os tipos vêm junto com o PR da migration)       |
+| Erro estranho depois de um `git pull`                                    | dependências desatualizadas           | rode `npm install` e depois `npm run dev`                   |
 
 Continua travada? Pergunte no grupo **antes** de tentar comandos novos —
 descrevendo a mensagem de erro inteira.

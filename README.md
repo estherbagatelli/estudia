@@ -66,7 +66,8 @@ cp .env.example .env     # preencha com as chaves do Supabase — ver SETUP.md
 npm run dev
 ```
 
-Abre em `http://localhost:3000`.
+Abre em `http://localhost:8080` (ou na porta que o terminal mostrar). Precisa do
+**Node 22.12 ou mais novo** — ver [SETUP.md](SETUP.md).
 
 > Sem o `.env` preenchido, o projeto **não abre** — ele para com uma mensagem
 > pedindo as chaves. Ver [SETUP.md](SETUP.md).
