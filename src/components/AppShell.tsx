@@ -27,8 +27,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { avisar } from "@/lib/feedback";
 import { THEMES, type Theme } from "@/lib/temas";
+import { repo } from "@/repositories/base.repository";
+import type { Appearance } from "@/types/database.types";
 
 const NAV = [
   { to: "/inicio", label: "Início", icon: Home },
@@ -40,8 +43,6 @@ const NAV = [
   { to: "/financeiro", label: "Financeiro", icon: Wallet },
   { to: "/tarefas", label: "Tarefas", icon: CheckSquare },
 ] as const;
-
-type Appearance = "claro" | "escuro";
 
 function getSavedTheme(): Theme {
   try {
@@ -95,14 +96,55 @@ export function AppShell({
     }
   }, [theme, appearance]);
 
+  // ---------------------------------------------------------------------------
+  // A escolha de tema mora no banco, em `profiles` — assim ela segue a CONTA e
+  // não o aparelho: escolhe no notebook, abre no celular, veio junto.
+  //
+  // O localStorage continua, mas só como cache: é ele que o script do
+  // __root.tsx lê antes da primeira pintura, para a tela não piscar no tema
+  // errado enquanto o banco responde.
+  // ---------------------------------------------------------------------------
+  const perfilQuery = useQuery({
+    queryKey: ["profiles", "tema", user?.id ?? "anon"],
+    queryFn: async () => (await repo("profiles").list("created_at", true))[0] ?? null,
+    enabled: !!user,
+  });
+
+  const perfil = perfilQuery.data;
+
+  // Quando o perfil chega, a escolha salva na conta vence a do aparelho.
+  useEffect(() => {
+    if (!perfil) return;
+    if (THEMES.some((item) => item.id === perfil.theme)) {
+      setTheme(perfil.theme as Theme);
+    }
+    if (perfil.appearance === "claro" || perfil.appearance === "escuro") {
+      setAppearance(perfil.appearance);
+    }
+  }, [perfil]);
+
+  const salvarPreferencia = useMutation({
+    mutationFn: (patch: { theme?: Theme; appearance?: Appearance }) => {
+      if (!perfil) throw new Error("perfil ainda não carregado");
+      return repo("profiles").update(perfil.id, patch);
+    },
+    onError: () => avisar.temaNaoSalvo(),
+  });
+
+  // A tela muda na hora e a gravação vai atrás. Se a gravação falhar, o aviso
+  // diz que valeu só neste aparelho — melhor do que travar o seletor esperando
+  // a rede responder.
   function toggleAppearance() {
-    setAppearance((current) => (current === "claro" ? "escuro" : "claro"));
+    const proxima: Appearance = appearance === "claro" ? "escuro" : "claro";
+    setAppearance(proxima);
+    if (perfil) salvarPreferencia.mutate({ appearance: proxima });
     avisar.temaAtualizado();
   }
 
   function escolherTema(novo: Theme) {
     if (novo === theme) return;
     setTheme(novo);
+    if (perfil) salvarPreferencia.mutate({ theme: novo });
     avisar.temaAtualizado();
   }
 

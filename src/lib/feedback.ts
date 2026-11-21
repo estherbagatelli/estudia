@@ -10,4 +10,5 @@ export const avisar = {
   tarefaConcluida: () => toast.success("Tarefa concluída!"),
   treinoRegistrado: () => toast.success("Treino registrado!"),
   temaAtualizado: () => toast.success("Tema atualizado."),
+  temaNaoSalvo: () => toast("Tema aplicado só neste aparelho — não deu para salvar na conta."),
 };

@@ -13,11 +13,24 @@ export type ConteudoTipo = "conteudo" | "estudo" | "revisao" | "atividade" | "tr
 export type HobbyStatus = "nao_iniciado" | "em_andamento" | "concluido";
 export type TarefaPrioridade = "baixa" | "media" | "alta";
 export type TarefaStatus = "pendente" | "em_andamento" | "concluida";
+/** Modo de exibição. O banco trava estes dois valores (profiles_appearance_check). */
+export type Appearance = "claro" | "escuro";
 
 type Stamps = { created_at: string; updated_at: string };
 
 // Row shapes -----------------------------------------------------------------
-type ProfileRow = { id: string; display_name: string; avatar_url: string | null } & Stamps;
+// `theme`, `appearance` e `preferences` entraram na migration
+// 20261121120000_esther_tema_preferencias.sql: a personalização passou a seguir
+// a CONTA, não o aparelho. `theme` é texto livre de propósito — a lista de temas
+// válidos vive em src/lib/temas.ts, e acrescentar um não deve exigir migration.
+type ProfileRow = {
+  id: string;
+  display_name: string;
+  avatar_url: string | null;
+  theme: string;
+  appearance: Appearance;
+  preferences: Json;
+} & Stamps;
 type QuoteRow = {
   id: string;
   owner_id: string;
